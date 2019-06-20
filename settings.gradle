@@ -1,0 +1,9 @@
+rootProject.name = 'axon-demo'
+include 'infrastructure'
+include 'query'
+include 'schedule'
+include 'web'
+include 'user'
+include 'user-api'
+include 'test'
+
