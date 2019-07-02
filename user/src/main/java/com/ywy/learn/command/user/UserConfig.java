@@ -1,4 +1,4 @@
-package com.ywy.command.user;
+package com.ywy.learn.command.user;
 
 import org.axonframework.commandhandling.model.Repository;
 import org.axonframework.common.caching.JCacheAdapter;

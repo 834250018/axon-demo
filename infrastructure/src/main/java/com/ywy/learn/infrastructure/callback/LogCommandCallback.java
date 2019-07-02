@@ -33,10 +33,10 @@ public class LogCommandCallback implements CommandCallback {
         // commandGateway.send(new ErrorLogCreateCommand(null, commandMessage, cause), null);
         log.error(commandMessage.toString(), cause);
         throw new RuntimeException();
-//        if (cause instanceof YnacErrorException) {
-//            throw (YnacErrorException) cause;
+//        if (cause instanceof BusinessException) {
+//            throw (BusinessException) cause;
 //        } else {
-//            throw new YnacErrorException(cause.toString());
+//            throw new BusinessException(cause.toString());
 //        }
     }
 }

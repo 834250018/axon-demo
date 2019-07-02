@@ -6,4 +6,6 @@ include 'web'
 include 'user'
 include 'user-api'
 include 'test'
+include 'common-api'
+include 'common'
 

@@ -1,4 +1,4 @@
-package com.ywy.command.user.api.event;
+package com.ywy.learn.command.user.api.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserUpdatedEvent {
+public class UserRemovedEvent {
     private String userId;
 }

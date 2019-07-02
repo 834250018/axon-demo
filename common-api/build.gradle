@@ -1,0 +1,41 @@
+buildscript {
+    ext {
+        springBootVersion = SPRING_BOOT_VERSION
+        springCloudVersion = SPRING_CLOUD_VERSION
+        axonFrameworkVersion = AXON_FRAMEWORK_VERSION
+    }
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+//        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+
+group = PROJECT_GROUP
+version = PROJECT_VERSION
+sourceCompatibility = PROJECT_SOURCE_COMPATIBILITY
+targetCompatibility = PROJECT_TARGET_COMPATIBILITY
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: "${SPRINGFOX_VERSION}"
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: "${SPRINGFOX_VERSION}"
+}

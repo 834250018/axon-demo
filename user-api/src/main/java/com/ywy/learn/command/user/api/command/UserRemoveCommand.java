@@ -1,4 +1,4 @@
-package com.ywy.command.user.api.command;
+package com.ywy.learn.command.user.api.command;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +12,7 @@ import org.axonframework.commandhandling.TargetAggregateIdentifier;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserCreateCommand {
+public class UserRemoveCommand {
     @TargetAggregateIdentifier
     private String userId;
 }

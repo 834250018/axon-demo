@@ -1,5 +1,6 @@
 package com.ywy.learn.query.entry;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,10 @@ public class UserEntry implements Serializable {
 
     @Id
     private String userId;
+
+    @ApiModelProperty(value = "姓名")
     private String name;
-    private String age;
+
+    @ApiModelProperty(value = "年龄")
+    private int age;
 }

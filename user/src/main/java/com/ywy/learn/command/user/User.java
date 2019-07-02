@@ -1,11 +1,11 @@
-package com.ywy.command.user;
+package com.ywy.learn.command.user;
 
-import com.ywy.command.user.api.command.UserCreateCommand;
-import com.ywy.command.user.api.command.UserRemoveCommand;
-import com.ywy.command.user.api.command.UserUpdateCommand;
-import com.ywy.command.user.api.event.UserCreatedEvent;
-import com.ywy.command.user.api.event.UserRemovedEvent;
-import com.ywy.command.user.api.event.UserUpdatedEvent;
+import com.ywy.learn.command.user.api.command.UserCreateCommand;
+import com.ywy.learn.command.user.api.command.UserRemoveCommand;
+import com.ywy.learn.command.user.api.command.UserUpdateCommand;
+import com.ywy.learn.command.user.api.event.UserCreatedEvent;
+import com.ywy.learn.command.user.api.event.UserRemovedEvent;
+import com.ywy.learn.command.user.api.event.UserUpdatedEvent;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -34,6 +34,10 @@ public class User implements Serializable {
     @AggregateIdentifier
     private String userId;
 
+    private String name;
+
+    private int age;
+
     public User(UserCreateCommand command, MetaData metaData) {
         if (StringUtils.isBlank(command.getUserId())) {
             command.setUserId(IdentifierFactory.getInstance().generateIdentifier());
@@ -46,7 +50,9 @@ public class User implements Serializable {
 
     public void update(UserUpdateCommand command, MetaData metaData) {
         UserUpdatedEvent event = new UserUpdatedEvent();
-        BeanUtils.copyProperties(this, event);
+        event.setUserId(userId);
+        event.setAge(command.getAge() == 0 ? age : command.getAge());
+        event.setName(StringUtils.isBlank(command.getName()) ? name : command.getName());
         apply(event, metaData);
     }
 

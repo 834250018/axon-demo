@@ -1,8 +1,8 @@
-package com.ywy.command.user;
+package com.ywy.learn.command.user;
 
-import com.ywy.command.user.api.command.UserCreateCommand;
-import com.ywy.command.user.api.command.UserRemoveCommand;
-import com.ywy.command.user.api.command.UserUpdateCommand;
+import com.ywy.learn.command.user.api.command.UserCreateCommand;
+import com.ywy.learn.command.user.api.command.UserRemoveCommand;
+import com.ywy.learn.command.user.api.command.UserUpdateCommand;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.Aggregate;
 import org.axonframework.commandhandling.model.Repository;

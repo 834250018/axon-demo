@@ -52,9 +52,9 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("stady project")
-                .description("")
-                .contact(new Contact("aaa", "http://aaa", "834250018@qq.com"))
+                .title("axon-demo")
+                .description("cqrs ddd es")
+                .contact(new Contact("ve", "https://github.com/834250018/axon-demo", "834250018@qq.com"))
                 .version("1.0")
                 .build();
     }
