@@ -17,5 +17,5 @@ public class UserCreatedEvent {
 
     private String name;
 
-    private int age;
+    private Integer age;
 }

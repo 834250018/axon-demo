@@ -28,5 +28,5 @@ public class UserCreateCommand {
 
     @ApiModelProperty(value = "年龄", required = true)
     @NotNull
-    private int age;
+    private Integer age;
 }

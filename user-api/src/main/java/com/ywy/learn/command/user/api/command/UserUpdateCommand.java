@@ -24,5 +24,5 @@ public class UserUpdateCommand {
     private String name;
 
     @ApiModelProperty(value = "年龄")
-    private int age;
+    private Integer age;
 }

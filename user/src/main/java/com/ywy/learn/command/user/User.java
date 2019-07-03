@@ -36,7 +36,7 @@ public class User implements Serializable {
 
     private String name;
 
-    private int age;
+    private Integer age;
 
     public User(UserCreateCommand command, MetaData metaData) {
         if (StringUtils.isBlank(command.getUserId())) {

@@ -28,5 +28,5 @@ public class UserEntry implements Serializable {
     private String name;
 
     @ApiModelProperty(value = "年龄")
-    private int age;
+    private Integer age;
 }
