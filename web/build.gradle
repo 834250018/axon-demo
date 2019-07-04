@@ -16,7 +16,9 @@ buildscript {
     }
 }
 repositories {
+    mavenLocal()
     mavenCentral()
+    jcenter()
 }
 
 apply plugin: 'java'
@@ -34,5 +36,12 @@ dependencies {
 // https://mvnrepository.com/artifact/org.msgpack/msgpack
     compile group: 'org.msgpack', name: 'msgpack', version: '0.6.12'
 
+    // https://mvnrepository.com/artifact/com.umeng.message/push
+    compile group: 'com.umeng.message', name: 'push', version: '0.1.0'
+
+    // quartz
+    compile group: 'org.quartz-scheduler', name: 'quartz', version: '2.3.0'
+// https://mvnrepository.com/artifact/com.novemberain/quartz-mongodb
+    compile group: 'com.novemberain', name: 'quartz-mongodb', version: '2.1.0'
 
 }
