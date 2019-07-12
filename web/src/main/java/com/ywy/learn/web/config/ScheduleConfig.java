@@ -25,6 +25,7 @@ public class ScheduleConfig {
     @Bean
     public Scheduler initScheduler() throws SchedulerException {
         StdSchedulerFactory stdSchedulerFactory = new StdSchedulerFactory();
+        // 初始化配置,可传入配置文件路径,不传入则自动匹配项目中的quartz.properties
         stdSchedulerFactory.initialize();
         return stdSchedulerFactory.getScheduler();
     }
