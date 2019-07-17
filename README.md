@@ -10,4 +10,8 @@ axon框架demo
 
 里面还有一个别人的netty源码,可以直接使用
 
-2019/7/17 加入sonarQube配置 4bug,10Vulnerabilities,106CodeSmells
+2019/7/17 加入sonarQube配置 4bugs,10Vulnerabilities,106CodeSmells
+
+加入https协议,同时支持http
+
+生成本地测试用证书keytool -genkey -alias tomcat -keypass 123456 -keyalg RSA -keysize 1024 -validity 365 -keystore e:/tomcat.keystore -storepass 123456
