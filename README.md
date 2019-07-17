@@ -9,3 +9,5 @@ axon框架demo
 使用了lombok插件
 
 里面还有一个别人的netty源码,可以直接使用
+
+2019/7/17 加入sonarQube配置 4bug,10Vulnerabilities,106CodeSmells

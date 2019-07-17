@@ -13,4 +13,10 @@ spring:
   profiles:
     active: local
 server:
-  port: 8080
+  port: 8443
+  ssl:
+    protocol: TLS
+    key-store: classpath:https.keystore
+    key-store-password: yuweiye
+    key-store-type: JKS
+    key-alias: https
