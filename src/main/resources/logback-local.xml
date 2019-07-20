@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" debug="true">
-    <timestamp key="byDate" datePattern="yyyy-MM-dd"></timestamp>
-    <property name="PROJECT_NAME" value="axon-demo"/>
-    <property name="LOG_PATH" value="."/>
-    <contextName>${PROJECT_NAME}</contextName>
+    <property name="LOG_PATH" value="./log/"/>
+    <contextName>axon-demo</contextName>
     <!-- 控制台日志 -->
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -39,7 +37,7 @@
             </pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_PATH}${file.separator}error.%d{yyyy-MM-dd}.%i.log
+            <fileNamePattern>${LOG_PATH}${file.separator}%d{yyyy-MM-dd}.%i.error.log
             </fileNamePattern>
             <maxHistory>30</maxHistory>
             <maxFileSize>100MB</maxFileSize>
