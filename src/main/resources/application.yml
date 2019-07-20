@@ -12,3 +12,5 @@ spring:
         password:
   profiles:
     active: local
+logging:
+  config: classpath:logback-${spring.profiles.active}.xml

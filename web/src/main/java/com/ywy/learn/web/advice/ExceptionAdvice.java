@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 
 /**
+ * 异常切面,restful接口异常不记录,程序内业务异常记录
  * @author ve
  * @date 2019/7/2 18:10
  */
@@ -32,6 +33,7 @@ public class ExceptionAdvice {
     @ResponseBody
     public ResponseVO handleYnacErrorException(BusinessException e, HttpServletRequest request, HttpServletResponse response) {
         String str[] = e.getMessage().split("#");
+        log.error(str[1], e);
         return new ResponseVO(str[0], str[1]);
     }
 

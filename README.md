@@ -15,3 +15,5 @@ axon框架demo
 加入https协议,同时支持http
 
 生成本地测试用证书keytool -genkey -alias tomcat -keypass 123456 -keyalg RSA -keysize 1024 -validity 365 -keystore e:/tomcat.keystore -storepass 123456
+
+2019/7/20 引入logback框架,对日志跟异常切面调整
