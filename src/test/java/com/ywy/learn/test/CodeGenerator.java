@@ -18,56 +18,6 @@ import java.util.Map;
  */
 public class CodeGenerator {
 
-    public static final String ENCODING = "UTF-8";
-
-    private String targetPath = "src/test/java/com/ywy/learn/test/result/";
-    private static String resourcePath = "src/test/resources/";
-    private static String javaPath = "src/main/java/";
-    private static String projectPath = "com/ywy/learn/";
-
-    /**
-     * 定制方法,在输出文件夹中输出文件,名称为:params.get("aggregate")首字母大写 + 模板名称去掉结尾.ftl
-     *
-     * @param moduleName 模板名称
-     * @param targetPath 输出文件路径
-     * @param params     参数
-     * @throws TemplateException
-     * @throws IOException
-     */
-    public static void writeJava(String moduleName, String targetPath, Map<String, String> params) throws TemplateException, IOException {
-        File target = new File(targetPath, up(params.get("aggregate")) + moduleName.replace(".ftl", ""));
-        Template temp = getFreeMarkerConfig().getTemplate(moduleName);
-        target.getParentFile().mkdirs();
-        Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(target), ENCODING));
-        temp.process(params, writer);
-        writer.close();
-    }
-
-    /**
-     * 渲染数据
-     *
-     * @param moduleName 模板名称
-     * @param target     输出文件
-     * @param params     参数
-     * @throws TemplateException
-     * @throws IOException
-     */
-    public static void write(String moduleName, File target, Map<String, String> params) throws TemplateException, IOException {
-        Template temp = getFreeMarkerConfig().getTemplate(moduleName);
-        target.getParentFile().mkdirs();
-        Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(target), ENCODING));
-        temp.process(params, writer);
-        writer.close();
-    }
-
-    public static Configuration getFreeMarkerConfig() throws IOException {
-        Configuration cfg = new Configuration(Configuration.VERSION_2_3_19);
-        cfg.setDefaultEncoding(ENCODING);
-        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-        cfg.setDirectoryForTemplateLoading(new File(resourcePath));
-        return cfg;
-    }
-
     /**
      * 测试生成article相关
      */
@@ -87,6 +37,61 @@ public class CodeGenerator {
                 e.printStackTrace();
             }
         });
+    }
+
+    public static final String ENCODING = "UTF-8";
+
+    private static String resourcePath = "src/test/resources/";
+    private static String javaPath = "src/main/java/";
+    private static String projectPath = "com/ywy/learn/";
+
+    /**
+     * 定制方法,在输出文件夹中输出文件,名称为:params.get("aggregate")首字母大写 + 模板名称去掉结尾.ftl
+     *
+     * @param moduleName 模板名称
+     * @param targetPath 输出文件路径
+     * @param params     参数
+     * @throws TemplateException
+     * @throws IOException
+     */
+    public static void writeJava(String moduleName, String targetPath, Map<String, String> params) throws TemplateException, IOException {
+        File target = new File(targetPath, up(params.get("aggregate")) + moduleName.replace(".ftl", ""));
+        if (target.exists() && target.isFile()) {
+            throw new RuntimeException("已存在文件,不允许覆盖!!! " + target.getAbsolutePath());
+        }
+        Template temp = getFreeMarkerConfig().getTemplate(moduleName);
+        target.getParentFile().mkdirs();
+        Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(target), ENCODING));
+        temp.process(params, writer);
+        writer.close();
+    }
+
+    /**
+     * 渲染数据
+     *
+     * @param moduleName 模板名称
+     * @param target     输出文件
+     * @param params     参数
+     * @throws TemplateException
+     * @throws IOException
+     */
+    public static void write(String moduleName, File target, Map<String, String> params) throws TemplateException, IOException {
+        if (target.exists() && target.isFile()) {
+            throw new RuntimeException("已存在文件!!! " + target.getAbsolutePath());
+        }
+        Template temp = getFreeMarkerConfig().getTemplate(moduleName);
+        target.getParentFile().mkdirs();
+        Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(target), ENCODING));
+        temp.process(params, writer);
+        writer.close();
+    }
+
+    public static Configuration getFreeMarkerConfig() throws IOException {
+        Configuration cfg = new Configuration(Configuration.VERSION_2_3_19);
+        cfg.setDefaultEncoding(ENCODING);
+        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+        cfg.setDirectoryForTemplateLoading(new File(resourcePath));
+        return cfg;
     }
 
     public static String up(String str) {
@@ -116,7 +121,10 @@ public class CodeGenerator {
         writeJava("Config.java.ftl", aggregateRoot, map);
         writeJava("Handle.java.ftl", aggregateRoot, map);
 
-        write("build.gradle.ftl", new File(module, "build.gradle"), map);
+        File gradle = new File(module, "build.gradle");
+        if (!gradle.exists() && !!gradle.isFile()) {
+            write("build.gradle.ftl", gradle, map);
+        }
 
         // 命令
         String commandRoot = module + "-api/" + javaPath + projectPath + "command/" + aggregate + "/api/command/";
@@ -129,7 +137,10 @@ public class CodeGenerator {
         writeJava("UpdatedEvent.java.ftl", eventRoot, map);
         writeJava("RemovedEvent.java.ftl", eventRoot, map);
 
-        write("api.build.gradle.ftl", new File(module + "-api/", "build.gradle"), map);
+        File gradle1 = new File(module + "-api/", "build.gradle");
+        if (!gradle1.exists() && !!gradle1.isFile()) {
+            write("api.build.gradle.ftl", gradle1, map);
+        }
 
         // 查询侧
         String entryRoot = "query/" + javaPath + projectPath + "query/" + "/entry/";

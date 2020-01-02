@@ -1,11 +1,11 @@
-package com.ywy.learn.command.${aggregate};
+package com.ywy.learn.command.article;
 
-import com.ywy.learn.command.${aggregate?uncap_first}.api.command.${aggregate?cap_first}CreateCommand;
-import com.ywy.learn.command.${aggregate?uncap_first}.api.command.${aggregate?cap_first}RemoveCommand;
-import com.ywy.learn.command.${aggregate?uncap_first}.api.command.${aggregate?cap_first}UpdateCommand;
-import com.ywy.learn.command.${aggregate?uncap_first}.api.event.${aggregate?cap_first}CreatedEvent;
-import com.ywy.learn.command.${aggregate?uncap_first}.api.event.${aggregate?cap_first}RemovedEvent;
-import com.ywy.learn.command.${aggregate?uncap_first}.api.event.${aggregate?cap_first}UpdatedEvent;
+import com.ywy.learn.command.article.api.command.ArticleCreateCommand;
+import com.ywy.learn.command.article.api.command.ArticleRemoveCommand;
+import com.ywy.learn.command.article.api.command.ArticleUpdateCommand;
+import com.ywy.learn.command.article.api.event.ArticleCreatedEvent;
+import com.ywy.learn.command.article.api.event.ArticleRemovedEvent;
+import com.ywy.learn.command.article.api.event.ArticleUpdatedEvent;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -28,7 +28,7 @@ import static org.axonframework.commandhandling.model.AggregateLifecycle.markDel
 @Aggregate
 @NoArgsConstructor
 @Data
-public class ${aggregate?cap_first} implements Serializable {
+public class Article implements Serializable {
 
 @AggregateIdentifier
 private String id;
@@ -37,26 +37,26 @@ private String name;
 
 private Integer age;
 
-public ${aggregate?cap_first}(${aggregate?cap_first}CreateCommand command, MetaData metaData) {
+public Article(ArticleCreateCommand command, MetaData metaData) {
 if (StringUtils.isBlank(command.getId())) {
 command.setId(IdentifierFactory.getInstance().generateIdentifier());
 }
-${aggregate?cap_first}CreatedEvent event = new ${aggregate?cap_first}CreatedEvent();
+ArticleCreatedEvent event = new ArticleCreatedEvent();
 BeanUtils.copyProperties(command, event);
 apply(event, metaData);
 }
 
 
-public void update(${aggregate?cap_first}UpdateCommand command, MetaData metaData) {
-${aggregate?cap_first}UpdatedEvent event = new ${aggregate?cap_first}UpdatedEvent();
+public void update(ArticleUpdateCommand command, MetaData metaData) {
+ArticleUpdatedEvent event = new ArticleUpdatedEvent();
 event.setId(id);
 event.setAge(command.getAge() == 0 ? age : command.getAge());
 event.setName(StringUtils.isBlank(command.getName()) ? name : command.getName());
 apply(event, metaData);
 }
 
-public void remove(${aggregate?cap_first}RemoveCommand command, MetaData metaData) {
-${aggregate?cap_first}RemovedEvent event = new ${aggregate?cap_first}RemovedEvent();
+public void remove(ArticleRemoveCommand command, MetaData metaData) {
+ArticleRemovedEvent event = new ArticleRemovedEvent();
 BeanUtils.copyProperties(command, event);
 apply(event, metaData);
 }
@@ -64,20 +64,20 @@ apply(event, metaData);
 // ----------------------------------------------------
 
 @EventSourcingHandler
-public void on(${aggregate?cap_first}CreatedEvent event, MetaData metaData) {
+public void on(ArticleCreatedEvent event, MetaData metaData) {
 BeanUtils.copyProperties(event, this);
 }
 
 @EventSourcingHandler
 //    @Override
-public void on(${aggregate?cap_first}UpdatedEvent event, MetaData metaData) {
+public void on(ArticleUpdatedEvent event, MetaData metaData) {
 BeanUtils.copyProperties(event, this);
 }
 
 
 @EventSourcingHandler
 //    @Override
-public void on(${aggregate?cap_first}RemovedEvent event, MetaData metaData) {
+public void on(ArticleRemovedEvent event, MetaData metaData) {
 markDeleted();
 }
 }

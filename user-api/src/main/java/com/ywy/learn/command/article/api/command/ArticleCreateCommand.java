@@ -1,4 +1,4 @@
-package com.ywy.learn.command.${aggregate?uncap_first}.api.command;
+package com.ywy.learn.command.article.api.command;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -16,10 +16,10 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ${aggregate?cap_first}CreateCommand {
+public class ArticleCreateCommand {
 
 @TargetAggregateIdentifier
-@ApiModelProperty(value = "${aggregate?uncap_first}Id", hidden = true)
+@ApiModelProperty(value = "articleId", hidden = true)
 private String id;
 
 @ApiModelProperty(value = "姓名", required = true)

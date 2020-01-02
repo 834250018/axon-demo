@@ -1,4 +1,4 @@
-package com.ywy.learn.command.${aggregate};
+package com.ywy.learn.command.article;
 
 import org.axonframework.commandhandling.model.Repository;
 import org.axonframework.common.caching.JCacheAdapter;
@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Scope;
 * @date 2019/4/3 14:32
 */
 @Configuration
-public class ${aggregate?cap_first}Config {
+public class ArticleConfig {
 
 @Autowired
 private EventStore eventStore;
@@ -28,22 +28,22 @@ private Snapshotter snapshotter;
 
 @Bean
 @Scope("prototype")
-public ${aggregate?cap_first} ${aggregate?uncap_first}() {
-return new ${aggregate?cap_first}();
+public Article article() {
+return new Article();
 }
 
 @Bean
-public AggregateFactory<${aggregate?cap_first}> ${aggregate?uncap_first}AggregateFactory() {
-    SpringPrototypeAggregateFactory<${aggregate?cap_first}> springPrototypeAggregateFactory = new SpringPrototypeAggregateFactory<>();
-        springPrototypeAggregateFactory.setPrototypeBeanName("${aggregate?uncap_first}");
+public AggregateFactory<Article> articleAggregateFactory() {
+    SpringPrototypeAggregateFactory<Article> springPrototypeAggregateFactory = new SpringPrototypeAggregateFactory<>();
+        springPrototypeAggregateFactory.setPrototypeBeanName("article");
         return springPrototypeAggregateFactory;
         }
 
         @Bean
-        public Repository<${aggregate?cap_first}> ${aggregate?uncap_first}Repository(AggregateFactory<${aggregate?cap_first}> factory, JCacheAdapter cacheAdapter) {
+        public Repository<Article> articleRepository(AggregateFactory<Article> factory, JCacheAdapter cacheAdapter) {
                 EventCountSnapshotTriggerDefinition snapshotTriggerDefinition = new EventCountSnapshotTriggerDefinition(snapshotter, 1);
 
-                CachingEventSourcingRepository<${aggregate?cap_first}> repository = new CachingEventSourcingRepository<>(factory, eventStore, cacheAdapter, snapshotTriggerDefinition);
+                CachingEventSourcingRepository<Article> repository = new CachingEventSourcingRepository<>(factory, eventStore, cacheAdapter, snapshotTriggerDefinition);
 
                     return repository;
                     }

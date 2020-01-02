@@ -1,4 +1,4 @@
-package com.ywy.learn.command.${aggregate?uncap_first}.api.command;
+package com.ywy.learn.command.article.api.command;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +12,7 @@ import org.axonframework.commandhandling.TargetAggregateIdentifier;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ${aggregate?cap_first}RemoveCommand {
+public class ArticleRemoveCommand {
 @TargetAggregateIdentifier
 private String id;
 }

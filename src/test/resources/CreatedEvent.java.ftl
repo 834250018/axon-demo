@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ${aggregate}CreatedEvent {
+public class ${aggregate?cap_first}CreatedEvent {
 
 private String id;
 

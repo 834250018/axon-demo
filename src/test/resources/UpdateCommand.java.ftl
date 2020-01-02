@@ -14,7 +14,7 @@ import org.hibernate.validator.constraints.NotBlank;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ${aggregate}UpdateCommand {
+public class ${aggregate?cap_first}UpdateCommand {
 @TargetAggregateIdentifier
 @ApiModelProperty(value = "id", required = true)
 @NotBlank

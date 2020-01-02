@@ -19,7 +19,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldNameConstants
-public class ${aggregate?cap_first}Entry implements Serializable {
+public class ArticleEntry implements Serializable {
 
     @Id
     private String id;

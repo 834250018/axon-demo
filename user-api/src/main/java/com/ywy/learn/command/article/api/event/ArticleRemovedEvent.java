@@ -1,4 +1,4 @@
-package com.ywy.learn.command.${aggregate?uncap_first}.api.event;
+package com.ywy.learn.command.article.api.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,11 +11,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ${aggregate?cap_first}UpdatedEvent {
-
+public class ArticleRemovedEvent {
 private String id;
-
-private String name;
-
-private Integer age;
 }
