@@ -8,20 +8,24 @@ import io.netty.channel.Channel;
 /**
  * @author ve
  * @date 2019/4/22 14:07
+ * <p>
+ * tcp协议
+ * <p>
+ * websocket协议
  *//*
 
 public class ChannelWraper {
 
     */
 /**
-     * tcp协议
-     *//*
+ * tcp协议
+ *//*
 
     public static final String PROTOCOL_TCP = "TCP";
     */
 /**
-     * websocket协议
-     *//*
+ * websocket协议
+ *//*
 
     public static final String PROTOCOL_WS = "WS";
 

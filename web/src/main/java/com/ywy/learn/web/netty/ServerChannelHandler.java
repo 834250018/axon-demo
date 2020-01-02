@@ -30,6 +30,32 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 /**
  * @author ve
  * @date 2019/4/22 14:11
+ * <p>
+ * 处理MessagePack解码后的Value
+ * @param value
+ * @throws IOException
+ * <p>
+ * 处理HTTP请求，如果是websocket请求，构造握手响应
+ * @param ctx
+ * @param req
+ * @throws Exception
+ * <p>
+ * 处理WebSocketFrame
+ * @param ctx
+ * @param frame
+ * @throws IOException
+ * <p>
+ * 统一处理Event，为了让TCP和Websocket的处理逻辑统一，封装了该方法,两种协议的对象采用不同序列化方案
+ * @param value
+ * @param text
+ * @throws IOException
+ * <p>
+ * 将指定的event发送给所有在线终端
+ * @param testEvent
+ * <p>
+ * 获取channel的id
+ * @param channel
+ * @return
  *//*
 
 public class ServerChannelHandler extends SimpleChannelInboundHandler<Object> {
@@ -73,11 +99,11 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<Object> {
 
     */
 /**
-     * 处理MessagePack解码后的Value
-     *
-     * @param value
-     * @throws IOException
-     *//*
+ * 处理MessagePack解码后的Value
+ *
+ * @param value
+ * @throws IOException
+ *//*
 
     private void handleValue(ChannelHandlerContext ctx, ArrayValue value) throws Exception {
         // 获取EventType,BaseEvent的第一个字段是EventType，这是约定好的
@@ -86,12 +112,12 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<Object> {
 
     */
 /**
-     * 处理HTTP请求，如果是websocket请求，构造握手响应
-     *
-     * @param ctx
-     * @param req
-     * @throws Exception
-     *//*
+ * 处理HTTP请求，如果是websocket请求，构造握手响应
+ *
+ * @param ctx
+ * @param req
+ * @throws Exception
+ *//*
 
     @SuppressWarnings("deprecation")
     private void handleHttpRequest(ChannelHandlerContext ctx, FullHttpRequest req) throws Exception {
@@ -113,12 +139,12 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<Object> {
 
     */
 /**
-     * 处理WebSocketFrame
-     *
-     * @param ctx
-     * @param frame
-     * @throws IOException
-     *//*
+ * 处理WebSocketFrame
+ *
+ * @param ctx
+ * @param frame
+ * @throws IOException
+ *//*
 
     private void handleWebSocketFrame(ChannelHandlerContext ctx, WebSocketFrame frame) throws IOException {
         // 判断是否是关闭链路的指令
@@ -170,12 +196,12 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<Object> {
 
     */
 /**
-     * 统一处理Event，为了让TCP和Websocket的处理逻辑统一，封装了该方法,两种协议的对象采用不同序列化方案
-     *
-     * @param value
-     * @param text
-     * @throws IOException
-     *//*
+ * 统一处理Event，为了让TCP和Websocket的处理逻辑统一，封装了该方法,两种协议的对象采用不同序列化方案
+ *
+ * @param value
+ * @param text
+ * @throws IOException
+ *//*
 
     private void handleEvent(String channelId, Value value, String text) throws IOException {
 
@@ -195,10 +221,10 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<Object> {
 
     */
 /**
-     * 将指定的event发送给所有在线终端
-     *
-     * @param testEvent
-     *//*
+ * 将指定的event发送给所有在线终端
+ *
+ * @param testEvent
+ *//*
 
     private void sendEventToAll(AuctionDTO auctionDTO) {
         // 查出订阅的channel
@@ -269,11 +295,11 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<Object> {
 
     */
 /**
-     * 获取channel的id
-     *
-     * @param channel
-     * @return
-     *//*
+ * 获取channel的id
+ *
+ * @param channel
+ * @return
+ *//*
 
     private String getChannelId(Channel channel) {
         return channel.id().asLongText();

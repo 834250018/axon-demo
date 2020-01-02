@@ -57,3 +57,7 @@ querydsl {
     springDataMongo = true
     querydslSourcesDir = "$buildDir/generated/source/apt/main"
 }
+
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
