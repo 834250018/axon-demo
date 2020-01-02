@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author ve
  * @date 2019/1/12 14:47
- *
+ * <p>
  * 增加BigDecimal与Decimal128的转换器
  */
 @Configuration

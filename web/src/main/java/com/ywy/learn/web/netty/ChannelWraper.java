@@ -1,21 +1,28 @@
+/*
 package com.ywy.learn.web.netty;
 
 import com.alibaba.fastjson.JSON;
 import io.netty.channel.Channel;
 
+*/
 /**
  * @author ve
  * @date 2019/4/22 14:07
- */
+ *//*
+
 public class ChannelWraper {
 
-    /**
+    */
+/**
      * tcp协议
-     */
+     *//*
+
     public static final String PROTOCOL_TCP = "TCP";
-    /**
+    */
+/**
      * websocket协议
-     */
+     *//*
+
     public static final String PROTOCOL_WS = "WS";
 
     // 通信管道
@@ -49,3 +56,4 @@ public class ChannelWraper {
         return JSON.toJSONString(this);
     }
 }
+*/

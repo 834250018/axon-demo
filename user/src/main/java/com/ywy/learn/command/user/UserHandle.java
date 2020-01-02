@@ -21,7 +21,7 @@ public class UserHandle {
     Repository<User> repository;
 
     @CommandHandler
-    public void handle(UserCreateCommand command, MetaData metaData) throws Exception{
+    public void handle(UserCreateCommand command, MetaData metaData) throws Exception {
         repository.newInstance(() -> new User(command, metaData));
     }
 

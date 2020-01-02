@@ -11,14 +11,14 @@ import java.util.concurrent.TimeoutException;
 /**
  * 带上Metadata的命令网关
  *
-* @author ve
+ * @author ve
  * @create 2018-02-08 上午11:19
  **/
 public interface MetaDataGateway {
 
     <C, R> void send(C command, CommandCallback<? super C, R> callback, MetaData metaData);
 
-    <R> R  sendAndWait(Object command, MetaData metaData) throws CommandExecutionException, InterruptedException;
+    <R> R sendAndWait(Object command, MetaData metaData) throws CommandExecutionException, InterruptedException;
 
     <R> R sendAndWait(Object command, MetaData metaData, long timeout, TimeUnit unit) throws CommandExecutionException, InterruptedException, TimeoutException;
 

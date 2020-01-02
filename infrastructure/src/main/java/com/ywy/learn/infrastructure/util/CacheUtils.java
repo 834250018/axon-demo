@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * 缓存工具类
  *
-* @author ve
+ * @author ve
  * @create 2018-01-26 下午5:20
  **/
 public class CacheUtils {
@@ -79,7 +79,6 @@ public class CacheUtils {
      * 创建JCache规范的cache实例, 基于ehcache
      *
      * @param cacheName cache名
-     *
      * @return cache实例
      */
     public static Cache<String, AggregateCacheEntry> createCacheInstance(String cacheName) {
@@ -110,7 +109,6 @@ public class CacheUtils {
      * @param offHeadSize
      * @param diskSize
      * @param expirationTime
-     *
      * @return
      */
     public static Cache<String, AggregateCacheEntry> createCacheInstance(String cacheName, long headSize, long offHeadSize, long diskSize, long expirationTime) {

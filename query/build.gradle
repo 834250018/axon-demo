@@ -38,9 +38,9 @@ dependencies {
     compile project(":user-api")
 //    compile 'org.projectlombok:lombok:1.18.2'
 //    annotationProcessor 'org.projectlombok:lombok:1.18.2'
-    implementation group: 'com.querydsl', name: 'querydsl-mongodb', version: '4.1.4'
-    implementation group: 'com.querydsl', name: 'querydsl-collections', version: '4.1.4'
-    implementation group: 'com.querydsl', name: 'querydsl-apt', version: '4.1.4'
+    implementation 'com.querydsl:querydsl-mongodb:4.1.4'
+    implementation 'com.querydsl:querydsl-collections:4.1.4'
+    implementation 'com.querydsl:querydsl-apt:4.1.4'
 
 }
 

@@ -1,3 +1,4 @@
+/*
 package com.ywy.learn.web.netty;
 
 import com.alibaba.fastjson.JSON;
@@ -25,14 +26,33 @@ import static io.netty.handler.codec.http.HttpHeaders.setContentLength;
 import static io.netty.handler.codec.http.HttpResponseStatus.BAD_REQUEST;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
+*/
 /**
  * @author ve
  * @date 2019/4/22 14:11
- */
+ *//*
+
 public class ServerChannelHandler extends SimpleChannelInboundHandler<Object> {
 
     // WebSocket Hand shaker
     private WebSocketServerHandshaker handshaker;
+
+    @SuppressWarnings("deprecation")
+    private static void sendHttpResponse(ChannelHandlerContext ctx, FullHttpRequest req, FullHttpResponse res) {
+        // 返回应答给客户端
+        if (res.getStatus().code() != 200) {
+            ByteBuf buf = Unpooled.copiedBuffer(res.getStatus().toString(), CharsetUtil.UTF_8);
+            res.content().writeBytes(buf);
+            buf.release();
+            setContentLength(res, res.content().readableBytes());
+        }
+
+        // 如果是非Keep-Alive，关闭连接
+        ChannelFuture f = ctx.channel().writeAndFlush(res);
+        if (!isKeepAlive(req) || res.getStatus().code() != 200) {
+            f.addListener(ChannelFutureListener.CLOSE);
+        }
+    }
 
     // 接收到消息
     @Override
@@ -51,24 +71,28 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<Object> {
         }
     }
 
-    /**
+    */
+/**
      * 处理MessagePack解码后的Value
      *
      * @param value
      * @throws IOException
-     */
+     *//*
+
     private void handleValue(ChannelHandlerContext ctx, ArrayValue value) throws Exception {
         // 获取EventType,BaseEvent的第一个字段是EventType，这是约定好的
         handleEvent(ctx.channel().id().asLongText(), value, null);
     }
 
-    /**
+    */
+/**
      * 处理HTTP请求，如果是websocket请求，构造握手响应
      *
      * @param ctx
      * @param req
      * @throws Exception
-     */
+     *//*
+
     @SuppressWarnings("deprecation")
     private void handleHttpRequest(ChannelHandlerContext ctx, FullHttpRequest req) throws Exception {
         // 如果HTTP解码失败，返回HHTP异常
@@ -87,13 +111,15 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<Object> {
         }
     }
 
-    /**
+    */
+/**
      * 处理WebSocketFrame
      *
      * @param ctx
      * @param frame
      * @throws IOException
-     */
+     *//*
+
     private void handleWebSocketFrame(ChannelHandlerContext ctx, WebSocketFrame frame) throws IOException {
         // 判断是否是关闭链路的指令
         if (frame instanceof CloseWebSocketFrame) {
@@ -142,30 +168,15 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<Object> {
         }
     }
 
-    @SuppressWarnings("deprecation")
-    private static void sendHttpResponse(ChannelHandlerContext ctx, FullHttpRequest req, FullHttpResponse res) {
-        // 返回应答给客户端
-        if (res.getStatus().code() != 200) {
-            ByteBuf buf = Unpooled.copiedBuffer(res.getStatus().toString(), CharsetUtil.UTF_8);
-            res.content().writeBytes(buf);
-            buf.release();
-            setContentLength(res, res.content().readableBytes());
-        }
-
-        // 如果是非Keep-Alive，关闭连接
-        ChannelFuture f = ctx.channel().writeAndFlush(res);
-        if (!isKeepAlive(req) || res.getStatus().code() != 200) {
-            f.addListener(ChannelFutureListener.CLOSE);
-        }
-    }
-
-    /**
+    */
+/**
      * 统一处理Event，为了让TCP和Websocket的处理逻辑统一，封装了该方法,两种协议的对象采用不同序列化方案
      *
      * @param value
      * @param text
      * @throws IOException
-     */
+     *//*
+
     private void handleEvent(String channelId, Value value, String text) throws IOException {
 
         AuctionDTO auctionDTO = null;
@@ -182,23 +193,25 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<Object> {
 
     }
 
-    /**
+    */
+/**
      * 将指定的event发送给所有在线终端
      *
      * @param testEvent
-     */
+     *//*
+
     private void sendEventToAll(AuctionDTO auctionDTO) {
         // 查出订阅的channel
         List<String> channelIds = new ArrayList<>();
         NettyServer.SUBSCRIBE.forEach((s, s2) -> {
-            if(auctionDTO.getId().equals(s2)) {
+            if (auctionDTO.getId().equals(s2)) {
                 channelIds.add(s);
             }
         });
         // 将消息转发给所有在线的终端
         int count = 0;// 记录一共发送给多少个终端
         for (Map.Entry entry : NettyServer.CLIENTS.entrySet()) {
-            if(!channelIds.contains(String.valueOf(entry.getKey()))) {
+            if (!channelIds.contains(String.valueOf(entry.getKey()))) {
                 continue;
             }
             ChannelWraper channelWraper = (ChannelWraper) entry.getValue();
@@ -254,13 +267,16 @@ public class ServerChannelHandler extends SimpleChannelInboundHandler<Object> {
         NettyServer.CLIENTS.remove(getChannelId(ctx.channel()));
     }
 
-    /**
+    */
+/**
      * 获取channel的id
      *
      * @param channel
      * @return
-     */
+     *//*
+
     private String getChannelId(Channel channel) {
         return channel.id().asLongText();
     }
 }
+*/

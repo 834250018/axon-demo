@@ -1,3 +1,4 @@
+/*
 package com.ywy.learn.web.netty.coder;
 
 
@@ -6,20 +7,22 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import org.msgpack.MessagePack;
 
+*/
 /**
  * MessagePack实现的消息编码器
- * 
- * @author lucher
  *
- */
+ * @author lucher
+ *//*
+
 public class MessagePackEncoder extends MessageToByteEncoder<Object> {
 
-	@Override
-	protected void encode(ChannelHandlerContext ctx, Object obj, ByteBuf buf) throws Exception {
-		MessagePack msgPack = new MessagePack();
-		//序列化操作
-		byte[] bytes = msgPack.write(obj);
-		//netty操作,将对象序列化数组传入ByteBuf
-		buf.writeBytes(bytes);
-	}
+    @Override
+    protected void encode(ChannelHandlerContext ctx, Object obj, ByteBuf buf) throws Exception {
+        MessagePack msgPack = new MessagePack();
+        //序列化操作
+        byte[] bytes = msgPack.write(obj);
+        //netty操作,将对象序列化数组传入ByteBuf
+        buf.writeBytes(bytes);
+    }
 }
+*/

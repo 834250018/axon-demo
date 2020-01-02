@@ -15,6 +15,7 @@ import javax.validation.ConstraintViolationException;
 
 /**
  * 异常切面,restful接口异常不记录,程序内业务异常记录
+ *
  * @author ve
  * @date 2019/7/2 18:10
  */

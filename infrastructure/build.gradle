@@ -36,7 +36,7 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+//    testCompile 'junit:junit:4.12'
     // axon
     // compile group: 'org.axonframework', name: 'axon-distributed-commandbus-springcloud', version: "${axonFrameworkVersion}"
     compile group: 'org.axonframework', name: 'axon-spring-boot-starter', version: "${axonFrameworkVersion}"
@@ -44,17 +44,17 @@ dependencies {
     compile group: 'org.axonframework', name: 'axon-mongo', version: "${axonFrameworkVersion}"
 
     // cache
-    compile group: 'org.ehcache', name: 'ehcache', version: '3.4.0'
-    compile group: 'javax.cache', name: 'cache-api', version: '1.1.0'
+    compile 'org.ehcache:ehcache:3.4.0'
+    compile 'javax.cache:cache-api:1.1.0'
 
     // commons
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
+    compile 'org.apache.commons:commons-lang3:3.7'
 
     // fastjson
     compile group: 'com.alibaba', name: 'fastjson', version: "${ALIBABA_FASTJSON_VERSION}"
 
     // jackson
-    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.9.5'
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.5'
 
 //    compile('org.springframework.cloud:spring-cloud-starter-config')
     compile 'org.projectlombok:lombok:1.18.2'

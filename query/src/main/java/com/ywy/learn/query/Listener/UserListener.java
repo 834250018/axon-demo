@@ -1,10 +1,10 @@
 package com.ywy.learn.query.Listener;
 
+import com.ywy.learn.command.user.api.event.UserCreatedEvent;
 import com.ywy.learn.command.user.api.event.UserRemovedEvent;
 import com.ywy.learn.command.user.api.event.UserUpdatedEvent;
 import com.ywy.learn.query.entry.UserEntry;
 import com.ywy.learn.query.repository.UserEntryRepository;
-import com.ywy.learn.command.user.api.event.UserCreatedEvent;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.messaging.MetaData;
 import org.springframework.beans.BeanUtils;

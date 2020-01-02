@@ -1,12 +1,12 @@
 package com.ywy.learn.web.controller;
 
 import com.querydsl.core.types.Predicate;
+import com.ywy.learn.command.user.api.command.UserCreateCommand;
 import com.ywy.learn.command.user.api.command.UserRemoveCommand;
 import com.ywy.learn.command.user.api.command.UserUpdateCommand;
 import com.ywy.learn.infrastructure.exception.BusinessError;
 import com.ywy.learn.infrastructure.exception.BusinessException;
 import com.ywy.learn.infrastructure.gateway.MetaDataGateway;
-import com.ywy.learn.command.user.api.command.UserCreateCommand;
 import com.ywy.learn.query.entry.UserEntry;
 import com.ywy.learn.query.repository.UserEntryRepository;
 import io.swagger.annotations.Api;
@@ -22,7 +22,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * @author ve
@@ -45,7 +44,7 @@ public class UserController {
     @ApiParam
     @GetMapping(value = "/one")
     public UserEntry one(@NotBlank @RequestParam(value = "userId") String userId) {
-        if(true) {
+        if (true) {
             throw new BusinessException(BusinessError.BU_000000);
         }
         return userEntryRepository.findOne(userId);

@@ -2,11 +2,11 @@
 
 * 前言
 ```
-模仿着旧公司搭建的axon框架,写的demo,不一定是对的.
+基于axon框架的demo.
 ```
 * 启动环境
 ```
-mongodb:localhost:27017 无账号密码,且创建两个库learn_query跟learn_command,具体看文件application-local.yml
+mongodb:localhost:27017 无账号密码,且创建两个库learn_query跟learn_command
 lombok插件:idea安装lombok组件Version: 0.23-2018.1 使用最新版可能会有问题
 ```
 补充
@@ -28,7 +28,7 @@ saga事务中可能会涉及到别的聚合根模块api,正常业务下,Saga文�
 ...
 ```
 
-* 黄历
+* 历程
 ```
 2019/7/2 整理了项目结果,把command跟query拆开
 

@@ -2,7 +2,6 @@ package com.ywy.learn.web.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -29,7 +28,7 @@ public class SwaggerConfig {
 
     @Bean
     public Docket customDocket() {
-        Docket docket=new Docket(DocumentationType.SWAGGER_2);
+        Docket docket = new Docket(DocumentationType.SWAGGER_2);
 
         ParameterBuilder userTokenPar = new ParameterBuilder();
         List<Parameter> pars = new ArrayList<>();
@@ -38,7 +37,7 @@ public class SwaggerConfig {
                 .parameterType("header").defaultValue("86ca3056-38b1-4a7c-a128-951df2261edd")
                 .required(false).build();
         pars.add(userTokenPar.build());
-        docket=docket.apiInfo(apiInfo())
+        docket = docket.apiInfo(apiInfo())
                 .useDefaultResponseMessages(false)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.ywy.learn.web.controller"))

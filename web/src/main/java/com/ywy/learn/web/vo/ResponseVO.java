@@ -4,7 +4,6 @@ import lombok.Data;
 import org.springframework.http.HttpStatus;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author ve

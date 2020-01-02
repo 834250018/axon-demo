@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * Axon框架通用配置
  *
-* @author ve
+ * @author ve
  * @create 2018-01-26 下午5:44
  **/
 @Configuration

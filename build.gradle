@@ -7,7 +7,7 @@ buildscript {
 
     repositories {
         mavenLocal()
-        maven {url "https://plugins.gradle.org/m2/"}
+        maven { url "https://plugins.gradle.org/m2/" }
         mavenCentral()
         jcenter()
     }
@@ -63,7 +63,7 @@ configure(subprojects.findAll {
 }
 
 configure(subprojects.findAll {
-    !it.name.contains('common-api')&&it.name.contains('-api')&&!it.name.contains('infrastructure')
+    !it.name.contains('common-api') && it.name.contains('-api') && !it.name.contains('infrastructure')
 }) {
     apply from: "${rootProject.projectDir}/common-api/build.gradle"
 }
@@ -73,9 +73,9 @@ dependencies {
     compile project(":web")
     compile project(":user")
     // https://mvnrepository.com/artifact/ch.qos.logback/logback-core
-    compile group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
+    compile 'ch.qos.logback:logback-core:1.2.3'
 // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
-    testCompile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+//    testCompile 'ch.qos.logback:logback-classic:1.2.3'
 
 
 }
