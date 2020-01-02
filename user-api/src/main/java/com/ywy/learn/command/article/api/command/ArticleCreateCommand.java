@@ -8,6 +8,7 @@ import org.axonframework.commandhandling.TargetAggregateIdentifier;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
 /**
  * @author ve
@@ -20,13 +21,14 @@ public class ArticleCreateCommand {
 
     @TargetAggregateIdentifier
     @ApiModelProperty(value = "articleId", hidden = true)
+    @Null
     private String id;
 
-    @ApiModelProperty(value = "姓名", required = true)
+    @ApiModelProperty(value = "标题", required = true)
     @NotBlank
-    private String name;
+    private String title;
 
-    @ApiModelProperty(value = "年龄", required = true)
+    @ApiModelProperty(value = "内容", required = true)
     @NotNull
-    private Integer age;
+    private String content;
 }

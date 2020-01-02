@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.axonframework.commandhandling.TargetAggregateIdentifier;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
 * @author ve
@@ -14,5 +15,6 @@ import org.axonframework.commandhandling.TargetAggregateIdentifier;
 @AllArgsConstructor
 public class ${aggregate?cap_first}RemoveCommand {
 @TargetAggregateIdentifier
+@NotBlank
 private String id;
 }

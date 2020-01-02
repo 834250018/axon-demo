@@ -1,5 +1,6 @@
 package com.ywy.learn.infrastructure.callback;
 
+import com.ywy.learn.infrastructure.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandCallback;
 import org.axonframework.commandhandling.CommandMessage;
@@ -29,14 +30,14 @@ public class LogCommandCallback implements CommandCallback {
 
     @Override
     public void onFailure(CommandMessage commandMessage, Throwable cause) {
-        // log.error(commandMessage.toString(), cause);
-        // commandGateway.send(new ErrorLogCreateCommand(null, commandMessage, cause), null);
+//         log.error(commandMessage.toString(), cause);
+//         commandGateway.send(new ErrorLogCreateCommand(null, commandMessage, cause), null);
         log.error(commandMessage.toString(), cause);
-        throw new RuntimeException();
-//        if (cause instanceof BusinessException) {
-//            throw (BusinessException) cause;
-//        } else {
-//            throw new BusinessException(cause.toString());
-//        }
+//        throw new RuntimeException();
+        if (cause instanceof BusinessException) {
+            throw (BusinessException) cause;
+        } else {
+            throw new BusinessException(cause.toString());
+        }
     }
 }

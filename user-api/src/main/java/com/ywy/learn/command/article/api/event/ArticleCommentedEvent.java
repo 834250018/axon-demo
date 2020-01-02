@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * @author ve
  * @date 2019/3/29 20:17
@@ -15,7 +17,6 @@ public class ArticleCommentedEvent {
 
     private String id;
 
-    private String name;
+    private List<String> comments;
 
-    private Integer age;
 }

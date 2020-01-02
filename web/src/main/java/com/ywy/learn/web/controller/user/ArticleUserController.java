@@ -2,13 +2,15 @@ package com.ywy.learn.web.controller.user;
 
 import com.querydsl.core.types.Predicate;
 import com.ywy.learn.command.article.api.command.ArticleCommentCommand;
-import com.ywy.learn.command.article.api.command.ArticleUpdateCommand;
 import com.ywy.learn.query.entry.ArticleEntry;
+import com.ywy.learn.query.entry.CommentEntry;
 import com.ywy.learn.query.repository.ArticleEntryRepository;
+import com.ywy.learn.query.repository.CommentEntryRepository;
 import com.ywy.learn.web.controller.base.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.axonframework.common.IdentifierFactory;
 import org.axonframework.messaging.MetaData;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,9 @@ public class ArticleUserController extends BaseController {
     @Autowired
     ArticleEntryRepository ArticleEntryRepository;
 
+    @Autowired
+    CommentEntryRepository commentEntryRepository;
+
     @ApiOperation(value = "查询单篇文章")
     @ApiParam
     @GetMapping(value = "/one")
@@ -56,6 +61,8 @@ public class ArticleUserController extends BaseController {
     @ApiOperation(value = "评论")
     @PostMapping(value = "/comment")
     public void create(@RequestBody @Valid ArticleCommentCommand command) {
+        command.setCommentId(IdentifierFactory.getInstance().generateIdentifier());
+        commentEntryRepository.save(new CommentEntry(command.getCommentId(), "", command.getArticleId(), command.getContent(), System.currentTimeMillis()));
         sendAndWait(command, MetaData.emptyInstance());
     }
 }

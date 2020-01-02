@@ -49,9 +49,8 @@ apply(event, metaData);
 
 public void update(${aggregate?cap_first}UpdateCommand command, MetaData metaData) {
 ${aggregate?cap_first}UpdatedEvent event = new ${aggregate?cap_first}UpdatedEvent();
-event.setId(id);
-event.setAge(command.getAge() == 0 ? age : command.getAge());
-event.setName(StringUtils.isBlank(command.getName()) ? name : command.getName());
+BeanUtils.copyProperties(this, event);
+BeanUtils.copyProperties(command, event);
 apply(event, metaData);
 }
 

@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.axonframework.commandhandling.TargetAggregateIdentifier;
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @author ve
  * @date 2019/3/29 15:35
@@ -20,9 +22,9 @@ public class ArticleUpdateCommand {
     @NotBlank
     private String id;
 
-    @ApiModelProperty(value = "姓名")
-    private String name;
+    @ApiModelProperty(value = "标题")
+    private String title;
 
-    @ApiModelProperty(value = "年龄")
-    private Integer age;
+    @ApiModelProperty(value = "内容")
+    private String content;
 }

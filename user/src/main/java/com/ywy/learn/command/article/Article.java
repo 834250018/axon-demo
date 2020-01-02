@@ -19,6 +19,8 @@ import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
 import static org.axonframework.commandhandling.model.AggregateLifecycle.markDeleted;
@@ -35,9 +37,11 @@ public class Article implements Serializable {
     @AggregateIdentifier
     private String id;
 
-    private String name;
+    private String title;
 
-    private Integer age;
+    private String content;
+
+    private List<String> comments;
 
     public Article(ArticleCreateCommand command, MetaData metaData) {
         if (StringUtils.isBlank(command.getId())) {
@@ -45,23 +49,24 @@ public class Article implements Serializable {
         }
         ArticleCreatedEvent event = new ArticleCreatedEvent();
         BeanUtils.copyProperties(command, event);
+        event.setComments(new ArrayList<>());
         apply(event, metaData);
     }
 
 
     public void update(ArticleUpdateCommand command, MetaData metaData) {
         ArticleUpdatedEvent event = new ArticleUpdatedEvent();
-        event.setId(id);
-        event.setAge(command.getAge() == 0 ? age : command.getAge());
-        event.setName(StringUtils.isBlank(command.getName()) ? name : command.getName());
+        BeanUtils.copyProperties(this, event);
+        BeanUtils.copyProperties(command, event);
         apply(event, metaData);
     }
 
     public void comment(ArticleCommentCommand command, MetaData metaData) {
         ArticleCommentedEvent event = new ArticleCommentedEvent();
+        BeanUtils.copyProperties(this, event);
         event.setId(id);
-        event.setAge(command.getAge() == 0 ? age : command.getAge());
-        event.setName(StringUtils.isBlank(command.getName()) ? name : command.getName());
+        event.setComments(comments);
+        event.getComments().add(command.getCommentId());
         apply(event, metaData);
     }
 

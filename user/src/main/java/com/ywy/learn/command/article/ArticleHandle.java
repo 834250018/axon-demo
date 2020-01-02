@@ -35,7 +35,7 @@ public class ArticleHandle {
 
     @CommandHandler
     public void handle(ArticleCommentCommand command, MetaData metaData) {
-        Aggregate<Article> target = repository.load(command.getId());
+        Aggregate<Article> target = repository.load(command.getArticleId());
         //        checkAuthorization(target,metaData);
         target.execute(aggregate -> aggregate.comment(command, metaData));
     }

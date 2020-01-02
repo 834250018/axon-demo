@@ -6,11 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldNameConstants;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @author ve
@@ -21,18 +19,24 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldNameConstants
-public class ArticleEntry implements Serializable {
+public class CommentEntry implements Serializable {
+
+    public CommentEntry(String commentId) {
+        this.commentId = commentId;
+    }
 
     @Id
-    private String id;
+    private String commentId;
 
-    @ApiModelProperty(value = "标题")
-    private String title;
+    @ApiModelProperty(value = "用户id")
+    private String userId;
+
+    @ApiModelProperty(value = "文章id")
+    private String articleId;
 
     @ApiModelProperty(value = "内容")
     private String content;
 
-    @ApiModelProperty(value = "评论")
-    @DBRef
-    private List<CommentEntry> comments;
+    @ApiModelProperty(value = "发布时间")
+    private Long publicTime;
 }

@@ -15,7 +15,7 @@ public class ArticleUpdatedEvent {
 
     private String id;
 
-    private String name;
+    private String title;
 
-    private Integer age;
+    private String content;
 }
