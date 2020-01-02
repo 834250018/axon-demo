@@ -10,7 +10,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.axonframework.commandhandling.model.AggregateIdentifier;
-import org.axonframework.commandhandling.model.AggregateLifecycle;
 import org.axonframework.common.IdentifierFactory;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.messaging.MetaData;
@@ -44,7 +43,7 @@ public class User implements Serializable {
         }
         UserCreatedEvent event = new UserCreatedEvent();
         BeanUtils.copyProperties(command, event);
-        AggregateLifecycle.apply(event, metaData);
+        apply(event, metaData);
     }
 
 

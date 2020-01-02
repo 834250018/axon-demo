@@ -1,4 +1,4 @@
-package com.ywy.learn.web.vo;
+package com.ywy.learn.web.pojo;
 
 import lombok.Data;
 import org.springframework.http.HttpStatus;

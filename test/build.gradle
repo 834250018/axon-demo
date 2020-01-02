@@ -1,0 +1,35 @@
+buildscript {
+    ext {
+        springBootVersion = SPRING_BOOT_VERSION
+        springCloudVersion = SPRING_CLOUD_VERSION
+        axonFrameworkVersion = AXON_FRAMEWORK_VERSION
+    }
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+    }
+
+}
+
+group 'com.ywy'
+version '1.0-SNAPSHOT'
+
+//sourceCompatibility = 1.8
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile project(":common")
+    testCompile 'org.freemarker:freemarker:2.3.29'
+    testCompile 'junit:junit:4.12'
+
+}
+

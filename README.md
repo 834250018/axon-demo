@@ -16,7 +16,7 @@ lombok插件:idea安装lombok组件Version: 0.23-2018.1 使用最新版可能会
 2. 生成本地测试用证书
 keytool -genkey -alias tomcat -keypass 123456 -keyalg RSA -keysize 1024 -validity 365 -keystore e:/tomcat.keystore -storepass 123456
 
-3. 关于此项目各模块的依赖关系,我也没太捋清,只能出个大概思路,仅供参考
+3. 关于此项目各模块的依赖关系
 web依赖query,query依赖各个聚合根模块api
 saga事务中可能会涉及到别的聚合根模块api,正常业务下,Saga文件一般放到初始聚合根模块下,如UserRemoveSaga.java放入User.java同目录下,当然这个位置可以根据业务调整
 

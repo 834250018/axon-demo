@@ -1,6 +1,6 @@
 package com.ywy.learn.web.advice;
 
-import com.ywy.learn.web.vo.ResponseVO;
+import com.ywy.learn.web.pojo.ResponseVO;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
