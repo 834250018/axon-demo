@@ -37,4 +37,7 @@ saga事务中可能会涉及到别的聚合根模块api,正常业务下,Saga文�
 2019/7/20 引入logback框架,对日志跟异常切面调整
 
 2019/8/25 增加一个saga事务的例子UserRemovedSaga.java
+
+2020/1/2 整合了FreeMarker生成新模块,在CodeGenerator.java中调整generateArt()的配置运行测试即可
+注意新模块需要在query/build.gradle、build.gradle、settings.gradle添加依赖
 ```

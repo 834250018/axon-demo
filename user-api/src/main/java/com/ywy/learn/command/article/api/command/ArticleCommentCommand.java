@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import org.axonframework.commandhandling.TargetAggregateIdentifier;
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * @author ve
  * @date 2019/3/29 15:35
@@ -16,17 +14,15 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArticleCreateCommand {
-
+public class ArticleCommentCommand {
     @TargetAggregateIdentifier
-    @ApiModelProperty(value = "articleId", hidden = true)
+    @ApiModelProperty(value = "id", required = true)
+    @NotBlank
     private String id;
 
-    @ApiModelProperty(value = "姓名", required = true)
-    @NotBlank
+    @ApiModelProperty(value = "姓名")
     private String name;
 
-    @ApiModelProperty(value = "年龄", required = true)
-    @NotNull
+    @ApiModelProperty(value = "年龄")
     private Integer age;
 }

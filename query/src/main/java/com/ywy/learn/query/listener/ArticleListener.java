@@ -1,5 +1,6 @@
 package com.ywy.learn.query.listener;
 
+import com.ywy.learn.command.article.api.event.ArticleCommentedEvent;
 import com.ywy.learn.command.article.api.event.ArticleCreatedEvent;
 import com.ywy.learn.command.article.api.event.ArticleRemovedEvent;
 import com.ywy.learn.command.article.api.event.ArticleUpdatedEvent;
@@ -31,6 +32,14 @@ public class ArticleListener {
     @EventHandler
 //    @Override
     public void on(ArticleUpdatedEvent event, MetaData metaData) {
+        ArticleEntry entry = repository.findOne(event.getId());
+        BeanUtils.copyProperties(event, entry);
+        repository.save(entry);
+    }
+
+    @EventHandler
+//    @Override
+    public void on(ArticleCommentedEvent event, MetaData metaData) {
         ArticleEntry entry = repository.findOne(event.getId());
         BeanUtils.copyProperties(event, entry);
         repository.save(entry);

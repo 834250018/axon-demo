@@ -1,8 +1,10 @@
 package com.ywy.learn.command.article;
 
+import com.ywy.learn.command.article.api.command.ArticleCommentCommand;
 import com.ywy.learn.command.article.api.command.ArticleCreateCommand;
 import com.ywy.learn.command.article.api.command.ArticleRemoveCommand;
 import com.ywy.learn.command.article.api.command.ArticleUpdateCommand;
+import com.ywy.learn.command.article.api.event.ArticleCommentedEvent;
 import com.ywy.learn.command.article.api.event.ArticleCreatedEvent;
 import com.ywy.learn.command.article.api.event.ArticleRemovedEvent;
 import com.ywy.learn.command.article.api.event.ArticleUpdatedEvent;
@@ -22,62 +24,76 @@ import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
 import static org.axonframework.commandhandling.model.AggregateLifecycle.markDeleted;
 
 /**
-* @author ve
-* @date 2019/3/29 15:32
-*/
+ * @author ve
+ * @date 2019/3/29 15:32
+ */
 @Aggregate
 @NoArgsConstructor
 @Data
 public class Article implements Serializable {
 
-@AggregateIdentifier
-private String id;
+    @AggregateIdentifier
+    private String id;
 
-private String name;
+    private String name;
 
-private Integer age;
+    private Integer age;
 
-public Article(ArticleCreateCommand command, MetaData metaData) {
-if (StringUtils.isBlank(command.getId())) {
-command.setId(IdentifierFactory.getInstance().generateIdentifier());
-}
-ArticleCreatedEvent event = new ArticleCreatedEvent();
-BeanUtils.copyProperties(command, event);
-apply(event, metaData);
-}
+    public Article(ArticleCreateCommand command, MetaData metaData) {
+        if (StringUtils.isBlank(command.getId())) {
+            command.setId(IdentifierFactory.getInstance().generateIdentifier());
+        }
+        ArticleCreatedEvent event = new ArticleCreatedEvent();
+        BeanUtils.copyProperties(command, event);
+        apply(event, metaData);
+    }
 
 
-public void update(ArticleUpdateCommand command, MetaData metaData) {
-ArticleUpdatedEvent event = new ArticleUpdatedEvent();
-event.setId(id);
-event.setAge(command.getAge() == 0 ? age : command.getAge());
-event.setName(StringUtils.isBlank(command.getName()) ? name : command.getName());
-apply(event, metaData);
-}
+    public void update(ArticleUpdateCommand command, MetaData metaData) {
+        ArticleUpdatedEvent event = new ArticleUpdatedEvent();
+        event.setId(id);
+        event.setAge(command.getAge() == 0 ? age : command.getAge());
+        event.setName(StringUtils.isBlank(command.getName()) ? name : command.getName());
+        apply(event, metaData);
+    }
 
-public void remove(ArticleRemoveCommand command, MetaData metaData) {
-ArticleRemovedEvent event = new ArticleRemovedEvent();
-BeanUtils.copyProperties(command, event);
-apply(event, metaData);
-}
+    public void comment(ArticleCommentCommand command, MetaData metaData) {
+        ArticleCommentedEvent event = new ArticleCommentedEvent();
+        event.setId(id);
+        event.setAge(command.getAge() == 0 ? age : command.getAge());
+        event.setName(StringUtils.isBlank(command.getName()) ? name : command.getName());
+        apply(event, metaData);
+    }
+
+    public void remove(ArticleRemoveCommand command, MetaData metaData) {
+        ArticleRemovedEvent event = new ArticleRemovedEvent();
+        BeanUtils.copyProperties(command, event);
+        apply(event, metaData);
+    }
 
 // ----------------------------------------------------
 
-@EventSourcingHandler
-public void on(ArticleCreatedEvent event, MetaData metaData) {
-BeanUtils.copyProperties(event, this);
-}
+    @EventSourcingHandler
+    public void on(ArticleCreatedEvent event, MetaData metaData) {
+        BeanUtils.copyProperties(event, this);
+    }
 
-@EventSourcingHandler
+    @EventSourcingHandler
 //    @Override
-public void on(ArticleUpdatedEvent event, MetaData metaData) {
-BeanUtils.copyProperties(event, this);
-}
+    public void on(ArticleUpdatedEvent event, MetaData metaData) {
+        BeanUtils.copyProperties(event, this);
+    }
 
-
-@EventSourcingHandler
+    @EventSourcingHandler
 //    @Override
-public void on(ArticleRemovedEvent event, MetaData metaData) {
-markDeleted();
-}
+    public void on(ArticleCommentedEvent event, MetaData metaData) {
+        BeanUtils.copyProperties(event, this);
+    }
+
+
+    @EventSourcingHandler
+//    @Override
+    public void on(ArticleRemovedEvent event, MetaData metaData) {
+        markDeleted();
+    }
 }

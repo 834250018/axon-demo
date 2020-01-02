@@ -4,6 +4,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.io.*;
@@ -16,31 +17,10 @@ import java.util.Map;
  * @author ve
  * @date 2020/1/2 14:57
  */
+@Slf4j
 public class CodeGenerator {
 
-    /**
-     * 测试生成article相关
-     */
-    @Test
-    public void generateArt() {
-        // 所属模块
-        String module = "user";
-        // 所需功能,如文章Article
-        List<String> aggregates = new ArrayList<String>() {{
-            add("article");
-        }};
-        // 在user模块下生成aggregates
-        aggregates.forEach(aggregate -> {
-            try {
-                generate(module, aggregate);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
     public static final String ENCODING = "UTF-8";
-
     private static String resourcePath = "src/test/resources/";
     private static String javaPath = "src/main/java/";
     private static String projectPath = "com/ywy/learn/";
@@ -57,13 +37,15 @@ public class CodeGenerator {
     public static void writeJava(String moduleName, String targetPath, Map<String, String> params) throws TemplateException, IOException {
         File target = new File(targetPath, up(params.get("aggregate")) + moduleName.replace(".ftl", ""));
         if (target.exists() && target.isFile()) {
-            throw new RuntimeException("已存在文件,不允许覆盖!!! " + target.getAbsolutePath());
+            log.error("已存在文件,不允许覆盖!!! " + target.getAbsolutePath());
+            return;
         }
         Template temp = getFreeMarkerConfig().getTemplate(moduleName);
         target.getParentFile().mkdirs();
         Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(target), ENCODING));
         temp.process(params, writer);
         writer.close();
+        log.info("生成代码成功: " + target.getAbsolutePath());
     }
 
     /**
@@ -77,13 +59,15 @@ public class CodeGenerator {
      */
     public static void write(String moduleName, File target, Map<String, String> params) throws TemplateException, IOException {
         if (target.exists() && target.isFile()) {
-            throw new RuntimeException("已存在文件!!! " + target.getAbsolutePath());
+            log.error("已存在文件,不允许覆盖!!! " + target.getAbsolutePath());
+            return;
         }
         Template temp = getFreeMarkerConfig().getTemplate(moduleName);
         target.getParentFile().mkdirs();
         Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(target), ENCODING));
         temp.process(params, writer);
         writer.close();
+        log.info("生成代码成功: " + target.getAbsolutePath());
     }
 
     public static Configuration getFreeMarkerConfig() throws IOException {
@@ -110,6 +94,27 @@ public class CodeGenerator {
         return String.valueOf(chars);
     }
 
+    /**
+     * 测试生成article相关
+     */
+    @Test
+    public void generateArt() {
+        // 所属模块
+        String module = "user";
+        // 所需功能,如文章Article
+        List<String> aggregates = new ArrayList<String>() {{
+            add("article");
+        }};
+        // 在user模块下生成aggregates
+        aggregates.forEach(aggregate -> {
+            try {
+                generate(module, aggregate);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
     public void generate(String module, String aggregate) throws IOException, TemplateException {
         Map map = new HashMap() {{
             put("module", module);
@@ -121,10 +126,7 @@ public class CodeGenerator {
         writeJava("Config.java.ftl", aggregateRoot, map);
         writeJava("Handle.java.ftl", aggregateRoot, map);
 
-        File gradle = new File(module, "build.gradle");
-        if (!gradle.exists() && !!gradle.isFile()) {
-            write("build.gradle.ftl", gradle, map);
-        }
+        write("build.gradle.ftl", new File(module, "build.gradle"), map);
 
         // 命令
         String commandRoot = module + "-api/" + javaPath + projectPath + "command/" + aggregate + "/api/command/";
@@ -137,21 +139,18 @@ public class CodeGenerator {
         writeJava("UpdatedEvent.java.ftl", eventRoot, map);
         writeJava("RemovedEvent.java.ftl", eventRoot, map);
 
-        File gradle1 = new File(module + "-api/", "build.gradle");
-        if (!gradle1.exists() && !!gradle1.isFile()) {
-            write("api.build.gradle.ftl", gradle1, map);
-        }
+        write("api.build.gradle.ftl", new File(module + "-api/", "build.gradle"), map);
 
         // 查询侧
-        String entryRoot = "query/" + javaPath + projectPath + "query/" + "/entry/";
+        String entryRoot = "query/" + javaPath + projectPath + "query/entry/";
         writeJava("Entry.java.ftl", entryRoot, map);
-        String listenerRoot = "query/" + javaPath + projectPath + "query/" + "/listener/";
+        String listenerRoot = "query/" + javaPath + projectPath + "query/listener/";
         writeJava("Listener.java.ftl", listenerRoot, map);
-        String repositoryRoot = "query/" + javaPath + projectPath + "query/" + "/repository/";
+        String repositoryRoot = "query/" + javaPath + projectPath + "query/repository/";
         writeJava("EntryRepository.java.ftl", repositoryRoot, map);
 
-
-//        File webRoot = new File(root, module + "-api");
-//        webRoot.mkdirs();
+        // web
+        writeJava("AdminController.java.ftl", "web/" + javaPath + projectPath + "web/controller/admin/", map);
+        writeJava("UserController.java.ftl", "web/" + javaPath + projectPath + "web/controller/user/", map);
     }
 }

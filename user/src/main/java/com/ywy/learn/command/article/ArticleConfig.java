@@ -14,38 +14,38 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
 /**
-* @author ve
-* @date 2019/4/3 14:32
-*/
+ * @author ve
+ * @date 2019/4/3 14:32
+ */
 @Configuration
 public class ArticleConfig {
 
-@Autowired
-private EventStore eventStore;
+    @Autowired
+    private EventStore eventStore;
 
-@Autowired
-private Snapshotter snapshotter;
+    @Autowired
+    private Snapshotter snapshotter;
 
-@Bean
-@Scope("prototype")
-public Article article() {
-return new Article();
-}
+    @Bean
+    @Scope("prototype")
+    public Article article() {
+        return new Article();
+    }
 
-@Bean
-public AggregateFactory<Article> articleAggregateFactory() {
-    SpringPrototypeAggregateFactory<Article> springPrototypeAggregateFactory = new SpringPrototypeAggregateFactory<>();
+    @Bean
+    public AggregateFactory<Article> articleAggregateFactory() {
+        SpringPrototypeAggregateFactory<Article> springPrototypeAggregateFactory = new SpringPrototypeAggregateFactory<>();
         springPrototypeAggregateFactory.setPrototypeBeanName("article");
         return springPrototypeAggregateFactory;
-        }
+    }
 
-        @Bean
-        public Repository<Article> articleRepository(AggregateFactory<Article> factory, JCacheAdapter cacheAdapter) {
-                EventCountSnapshotTriggerDefinition snapshotTriggerDefinition = new EventCountSnapshotTriggerDefinition(snapshotter, 1);
+    @Bean
+    public Repository<Article> articleRepository(AggregateFactory<Article> factory, JCacheAdapter cacheAdapter) {
+        EventCountSnapshotTriggerDefinition snapshotTriggerDefinition = new EventCountSnapshotTriggerDefinition(snapshotter, 1);
 
-                CachingEventSourcingRepository<Article> repository = new CachingEventSourcingRepository<>(factory, eventStore, cacheAdapter, snapshotTriggerDefinition);
+        CachingEventSourcingRepository<Article> repository = new CachingEventSourcingRepository<>(factory, eventStore, cacheAdapter, snapshotTriggerDefinition);
 
-                    return repository;
-                    }
+        return repository;
+    }
 
-                    }
+}

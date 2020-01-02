@@ -19,11 +19,11 @@ import org.springframework.stereotype.Component;
 public class ${aggregate?cap_first}Listener {
 
     @Autowired
-    ${aggregate?cap_first}EntryRepository repository;
+${aggregate?cap_first}EntryRepository repository;
 
     @EventHandler
     public void on(${aggregate?cap_first}CreatedEvent event, MetaData metaData) {
-        ${aggregate?cap_first}Entry ${aggregate?uncap_first}Entry = new ${aggregate?cap_first}Entry();
+${aggregate?cap_first}Entry ${aggregate?uncap_first}Entry = new ${aggregate?cap_first}Entry();
         BeanUtils.copyProperties(event, ${aggregate?uncap_first}Entry);
         repository.save(${aggregate?uncap_first}Entry);
     }
@@ -31,7 +31,7 @@ public class ${aggregate?cap_first}Listener {
     @EventHandler
 //    @Override
     public void on(${aggregate?cap_first}UpdatedEvent event, MetaData metaData) {
-        ${aggregate?cap_first}Entry entry = repository.findOne(event.getId());
+${aggregate?cap_first}Entry entry = repository.findOne(event.getId());
         BeanUtils.copyProperties(event, entry);
         repository.save(entry);
     }

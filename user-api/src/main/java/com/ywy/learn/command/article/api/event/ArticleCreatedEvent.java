@@ -5,17 +5,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
-* @author ve
-* @date 2019/3/29 20:17
-*/
+ * @author ve
+ * @date 2019/3/29 20:17
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArticleCreatedEvent {
 
-private String id;
+    private String id;
 
-private String name;
+    private String name;
 
-private Integer age;
+    private Integer age;
 }

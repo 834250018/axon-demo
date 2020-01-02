@@ -11,6 +11,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArticleRemovedEvent {
+public class ArticleCommentedEvent {
+
     private String id;
+
+    private String name;
+
+    private Integer age;
 }

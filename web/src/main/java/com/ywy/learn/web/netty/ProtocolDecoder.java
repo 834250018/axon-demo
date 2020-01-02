@@ -18,6 +18,12 @@ import java.util.List;
  * <p>
  * 获取buffer中指定长度的信息
  * @param in
+ * @return 请求行信息的长度，ws为：GET /ws HTTP/1.1， Http为：GET / HTTP/1.1
+ * <p>
+ * WebSocket握手协议的前缀， 本例限定为：GET /ws ，在访问ws的时候，请求地址需要为如下格式 ws://ip:port/ws
+ * <p>
+ * 获取buffer中指定长度的信息
+ * @param in
  * @return
  *//*
 

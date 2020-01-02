@@ -9,4 +9,4 @@ import org.springframework.data.querydsl.QueryDslPredicateExecutor;
  * @date 2019/3/29 9:11
  */
 public interface ArticleEntryRepository extends MongoRepository<ArticleEntry, String>, QueryDslPredicateExecutor<ArticleEntry> {
-    }
+}
