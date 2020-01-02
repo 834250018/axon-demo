@@ -11,11 +11,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserUpdatedEvent {
-
-private String userId;
-
-private String name;
-
-private Integer age;
+public class ${aggregate}RemovedEvent {
+private String id;
 }

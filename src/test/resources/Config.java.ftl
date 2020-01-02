@@ -1,4 +1,4 @@
-package com.ywy.learn.command.user;
+package com.ywy.learn.command.${aggregate};
 
 import org.axonframework.commandhandling.model.Repository;
 import org.axonframework.common.caching.JCacheAdapter;
@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Scope;
 * @date 2019/4/3 14:32
 */
 @Configuration
-public class UserConfig {
+public class ${aggregate}Config {
 
 @Autowired
 private EventStore eventStore;
@@ -28,22 +28,22 @@ private Snapshotter snapshotter;
 
 @Bean
 @Scope("prototype")
-public User user() {
-return new User();
+public ${aggregate} ${aggregate?uncap_first}() {
+return new ${aggregate}();
 }
 
 @Bean
-public AggregateFactory<User> userAggregateFactory() {
-    SpringPrototypeAggregateFactory<User> springPrototypeAggregateFactory = new SpringPrototypeAggregateFactory<>();
-        springPrototypeAggregateFactory.setPrototypeBeanName("user");
+public AggregateFactory<${aggregate}> ${aggregate?uncap_first}AggregateFactory() {
+    SpringPrototypeAggregateFactory<${aggregate}> springPrototypeAggregateFactory = new SpringPrototypeAggregateFactory<>();
+        springPrototypeAggregateFactory.setPrototypeBeanName("${aggregate?uncap_first}");
         return springPrototypeAggregateFactory;
         }
 
         @Bean
-        public Repository<User> userRepository(AggregateFactory<User> factory, JCacheAdapter cacheAdapter) {
+        public Repository<${aggregate}> ${aggregate?uncap_first}Repository(AggregateFactory<${aggregate}> factory, JCacheAdapter cacheAdapter) {
                 EventCountSnapshotTriggerDefinition snapshotTriggerDefinition = new EventCountSnapshotTriggerDefinition(snapshotter, 1);
 
-                CachingEventSourcingRepository<User> repository = new CachingEventSourcingRepository<>(factory, eventStore, cacheAdapter, snapshotTriggerDefinition);
+                CachingEventSourcingRepository<${aggregate}> repository = new CachingEventSourcingRepository<>(factory, eventStore, cacheAdapter, snapshotTriggerDefinition);
 
                     return repository;
                     }

@@ -1,4 +1,4 @@
-package com.ywy.learn.command.user.api.command;
+package com.ywy.learn.command.${aggregate?uncap_first}.api.command;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -14,11 +14,11 @@ import org.hibernate.validator.constraints.NotBlank;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserUpdateCommand {
+public class ${aggregate}UpdateCommand {
 @TargetAggregateIdentifier
-@ApiModelProperty(value = "userId", required = true)
+@ApiModelProperty(value = "id", required = true)
 @NotBlank
-private String userId;
+private String id;
 
 @ApiModelProperty(value = "姓名")
 private String name;

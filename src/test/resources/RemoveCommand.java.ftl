@@ -12,7 +12,7 @@ import org.axonframework.commandhandling.TargetAggregateIdentifier;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRemoveCommand {
+public class ${aggregate}RemoveCommand {
 @TargetAggregateIdentifier
-private String userId;
+private String id;
 }

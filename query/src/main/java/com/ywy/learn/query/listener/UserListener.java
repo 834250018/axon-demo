@@ -1,4 +1,4 @@
-package com.ywy.learn.query.Listener;
+package com.ywy.learn.query.listener;
 
 import com.ywy.learn.command.user.api.event.UserCreatedEvent;
 import com.ywy.learn.command.user.api.event.UserRemovedEvent;
