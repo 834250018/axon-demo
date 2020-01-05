@@ -100,10 +100,10 @@ public class CodeGenerator {
     @Test
     public void generateArt() {
         // 所属模块
-        String module = "user";
+        String module = "admin";
         // 所需功能,如文章Article
         List<String> aggregates = new ArrayList<String>() {{
-            add("article");
+            add("admin");
         }};
         // 在user模块下生成aggregates
         aggregates.forEach(aggregate -> {

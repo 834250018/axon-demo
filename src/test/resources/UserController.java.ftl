@@ -35,21 +35,21 @@ public class ${aggregate?cap_first}UserController extends BaseController {
     @Autowired
 ${aggregate?cap_first}EntryRepository ${aggregate?cap_first}EntryRepository;
 
-    @ApiOperation(value = "查询单篇文章")
+    @ApiOperation(value = "${aggregate}-one")
     @ApiParam
     @GetMapping(value = "/one")
     public ${aggregate?cap_first}Entry one(@NotBlank @RequestParam(value = "id") String id) {
         return ${aggregate?cap_first}EntryRepository.findOne(id);
     }
 
-    @ApiOperation(value = "查询文章列表")
+    @ApiOperation(value = "${aggregate}-list")
     @GetMapping(value = "/list")
     public Iterable
 <${aggregate?cap_first}Entry> list(@QuerydslPredicate(root = ${aggregate?cap_first}Entry.class) Predicate predicate) {
     return ${aggregate?cap_first}EntryRepository.findAll(predicate);
     }
 
-    @ApiOperation(value = "查询文章分页")
+    @ApiOperation(value = "${aggregate}-page")
     @GetMapping(value = "/page")
     public Page
     <${aggregate?cap_first}Entry> page(@QuerydslPredicate(root = ${aggregate?cap_first}Entry.class) Predicate predicate,
@@ -57,19 +57,19 @@ ${aggregate?cap_first}EntryRepository ${aggregate?cap_first}EntryRepository;
         return ${aggregate?cap_first}EntryRepository.findAll(predicate, pageable);
         }
 
-        @ApiOperation(value = "新增文章")
+        @ApiOperation(value = "${aggregate}-create")
         @PostMapping(value = "/create")
         public void create(@RequestBody @Valid ${aggregate?cap_first}CreateCommand command) {
         sendAndWait(command, MetaData.emptyInstance());
         }
 
-        @ApiOperation(value = "修改文章")
+        @ApiOperation(value = "${aggregate}-update")
         @PutMapping(value = "/update")
         public void update(@RequestBody @Valid ${aggregate?cap_first}UpdateCommand command) {
         sendAndWait(command, MetaData.emptyInstance());
         }
 
-        @ApiOperation(value = "删除文章")
+        @ApiOperation(value = "${aggregate}-delete")
         @DeleteMapping(value = "/remove")
         public void delete(@RequestBody @Valid ${aggregate?cap_first}RemoveCommand command) {
         sendAndWait(command, MetaData.emptyInstance());

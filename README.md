@@ -38,6 +38,15 @@ saga事务中可能会涉及到别的聚合根模块api,正常业务下,Saga文�
 
 2019/8/25 增加一个saga事务的例子UserRemovedSaga.java
 
-2020/1/2 整合了FreeMarker生成新模块,在CodeGenerator.java中调整generateArt()的配置运行测试即可
-注意新模块需要在query/build.gradle、build.gradle、settings.gradle添加依赖
+2020/1/2 整合FreeMarker
+1.打开CodeGenerator.java 修改generateArt()方法中需要生成的模块跟聚合根,并执行
+2.调整新生成的Aggregate、Entry、Command、Event的字段
+3.若生成了新模块,在query/build.gradle、build.gradle、settings.gradle添加依赖
+
+2020/1/5 生成admin模块并调整
+
 ```
+
+* 异常
+若显示以Q开头的类找不到,如java.lang.ClassNotFoundException: com.ywy.learn.query.entry.QUserEntry
+maven执行->:query->other->compileQuerydsl生成查询类即可

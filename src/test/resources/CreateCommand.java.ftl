@@ -19,7 +19,7 @@ import javax.validation.constraints.NotNull;
 public class ${aggregate?cap_first}CreateCommand {
 
 @TargetAggregateIdentifier
-@ApiModelProperty(value = "${aggregate?uncap_first}Id", hidden = true)
+@ApiModelProperty(value = "id", hidden = true)
 private String id;
 
 @ApiModelProperty(value = "姓名", required = true)

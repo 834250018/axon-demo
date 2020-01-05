@@ -79,6 +79,30 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
  * <p>
  * 获取channel的id
  * @param channel
+ * @return 处理MessagePack解码后的Value
+ * @param value
+ * @throws IOException
+ * <p>
+ * 处理HTTP请求，如果是websocket请求，构造握手响应
+ * @param ctx
+ * @param req
+ * @throws Exception
+ * <p>
+ * 处理WebSocketFrame
+ * @param ctx
+ * @param frame
+ * @throws IOException
+ * <p>
+ * 统一处理Event，为了让TCP和Websocket的处理逻辑统一，封装了该方法,两种协议的对象采用不同序列化方案
+ * @param value
+ * @param text
+ * @throws IOException
+ * <p>
+ * 将指定的event发送给所有在线终端
+ * @param testEvent
+ * <p>
+ * 获取channel的id
+ * @param channel
  * @return
  *//*
 

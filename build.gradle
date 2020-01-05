@@ -72,6 +72,7 @@ dependencies {
     compile project(":query")
     compile project(":web")
     compile project(":user")
+    compile project(":admin")
     // https://mvnrepository.com/artifact/ch.qos.logback/logback-core
     compile 'ch.qos.logback:logback-core:1.2.3'
 // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic

@@ -1,25 +1,24 @@
 package com.ywy.learn.web.controller;
 
-import com.querydsl.core.types.Predicate;
-import com.ywy.learn.command.user.api.command.UserCreateCommand;
-import com.ywy.learn.command.user.api.command.UserRemoveCommand;
-import com.ywy.learn.command.user.api.command.UserUpdateCommand;
-import com.ywy.learn.query.entry.UserEntry;
+import com.ywy.learn.command.admin.api.command.AdminLoginCommand;
+import com.ywy.learn.common.util.MailUtils;
+import com.ywy.learn.common.util.OtherUtils;
+import com.ywy.learn.query.entry.QAdminEntry;
+import com.ywy.learn.query.repository.AdminEntryRepository;
 import com.ywy.learn.query.repository.UserEntryRepository;
 import com.ywy.learn.web.controller.base.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import org.axonframework.messaging.MetaData;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author ve
@@ -35,40 +34,30 @@ public class PublicController extends BaseController {
     @Autowired
     UserEntryRepository userEntryRepository;
 
-    @ApiOperation(value = "查询单个用户")
-    @ApiParam
-    @GetMapping(value = "/one")
-    public UserEntry one(@NotBlank @RequestParam(value = "userId") String userId) {
-        return userEntryRepository.findOne(userId);
-    }
+    @Autowired
+    AdminEntryRepository adminEntryRepository;
 
-    @ApiOperation(value = "用户列表")
-    @GetMapping(value = "/list")
-    public Iterable<UserEntry> list(@QuerydslPredicate(root = UserEntry.class) Predicate predicate) {
-        return userEntryRepository.findAll(predicate);
-    }
+    // todo 临时用map代替redis
+    public final static ConcurrentHashMap<String, Object> redis = new ConcurrentHashMap();
 
-    @ApiOperation(value = "用户分页")
-    @GetMapping(value = "/page")
-    public Page<UserEntry> page(@QuerydslPredicate(root = UserEntry.class) Predicate predicate, Pageable pageable) {
-        return userEntryRepository.findAll(predicate, pageable);
-    }
-
-    @ApiOperation(value = "新增用户")
-    @PostMapping(value = "/create")
-    public void create(@RequestBody @Valid UserCreateCommand command) {
-        sendAndWait(command, MetaData.emptyInstance());
-    }
-
-    @ApiOperation(value = "修改用户")
+    @ApiOperation(value = "admin登录")
     @PutMapping(value = "/update")
-    public void update(@RequestBody @Valid UserUpdateCommand command) {
-        sendAndWait(command, MetaData.emptyInstance());
+    public void update(@RequestBody @Valid AdminLoginCommand command) {
+        if (command.getCode().equals(redis.get(command.getUsername()))) {
+            redis.remove(command.getUsername());
+            redis.put(OtherUtils.getGUID(), adminEntryRepository.findOne(QAdminEntry.adminEntry.username.eq(command.getUsername())));
+        }
     }
 
-    @ApiOperation(value = "删除用户")
-    @DeleteMapping(value = "/remove")
-    public void delete(@RequestBody @Valid UserRemoveCommand command) {
-        sendAndWait(command, MetaData.emptyInstance());
+    @ApiOperation(value = "发送邮箱验证码")
+    @PutMapping(value = "/email")
+    public String sendCode(@NotBlank String email) {
+        // 生成一个验证码
+        String code = OtherUtils.rendomCode(6);
+        // 发送邮件
+        MailUtils.sendMail("验证码", "您的验证码为:<br/>" + code + "感谢您的体验---by ve", email);
+        // 存入redis设置ttl
+        redis.put(email, code);
+        return code;
     }
 }

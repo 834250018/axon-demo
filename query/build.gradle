@@ -35,7 +35,9 @@ repositories {
 
 dependencies {
     compile project(":infrastructure")
+    compile project(":common")
     compile project(":user-api")
+    compile project(":admin-api")
 //    compile 'org.projectlombok:lombok:1.18.2'
 //    annotationProcessor 'org.projectlombok:lombok:1.18.2'
     implementation 'com.querydsl:querydsl-mongodb:4.1.4'

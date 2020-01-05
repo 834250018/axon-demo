@@ -19,20 +19,19 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldNameConstants
-public class CommentEntry implements Serializable {
+public class AdminEntry implements Serializable {
 
     @Id
-    private String commentId;
-    @ApiModelProperty(value = "用户id")
-    private String userId;
-    @ApiModelProperty(value = "文章id")
-    private String articleId;
-    @ApiModelProperty(value = "内容")
-    private String content;
-    @ApiModelProperty(value = "发布时间")
-    private Long publicTime;
+    private String id;
 
-    public CommentEntry(String commentId) {
-        this.commentId = commentId;
-    }
+    @ApiModelProperty(value = "用户名")
+
+    private String username;
+
+    @ApiModelProperty(value = "密码")
+    // sha256(sha256(用户密码), salt)
+    private String password;
+
+    @ApiModelProperty(value = "盐")
+    private String salt;
 }

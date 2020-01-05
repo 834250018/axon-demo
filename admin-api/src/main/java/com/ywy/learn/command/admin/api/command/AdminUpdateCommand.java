@@ -1,4 +1,4 @@
-package com.ywy.learn.command.article.api.command;
+package com.ywy.learn.command.admin.api.command;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -14,15 +14,15 @@ import org.hibernate.validator.constraints.NotBlank;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArticleUpdateCommand {
+public class AdminUpdateCommand {
     @TargetAggregateIdentifier
     @ApiModelProperty(value = "id", required = true)
     @NotBlank
     private String id;
 
-    @ApiModelProperty(value = "标题")
-    private String title;
+    @ApiModelProperty(value = "姓名")
+    private String name;
 
-    @ApiModelProperty(value = "内容")
-    private String content;
+    @ApiModelProperty(value = "年龄")
+    private Integer age;
 }
