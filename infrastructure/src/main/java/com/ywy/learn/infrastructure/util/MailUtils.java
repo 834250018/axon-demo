@@ -45,7 +45,7 @@ public class MailUtils {
             }
             message.addRecipients(Message.RecipientType.TO, list.toArray(new Address[0]));
             message.setSubject(subject);
-            message.setText(content);
+            message.setText(content, "utf-8", "html");
             Transport.send(message);
         } catch (MessagingException e) {
             log.error("邮件发送失败", e);

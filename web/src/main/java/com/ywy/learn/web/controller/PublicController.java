@@ -1,9 +1,9 @@
 package com.ywy.learn.web.controller;
 
 import com.ywy.learn.command.admin.api.command.AdminLoginCommand;
+import com.ywy.learn.infrastructure.exception.BusinessException;
 import com.ywy.learn.infrastructure.util.MailUtils;
 import com.ywy.learn.infrastructure.util.OtherUtils;
-import com.ywy.learn.infrastructure.exception.BusinessException;
 import com.ywy.learn.query.entry.AdminEntry;
 import com.ywy.learn.query.entry.QAdminEntry;
 import com.ywy.learn.query.repository.AdminEntryRepository;
@@ -16,12 +16,10 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author ve
@@ -55,14 +53,24 @@ public class PublicController extends BaseController {
     }
 
     @ApiOperation(value = "发送邮箱验证码")
-    @PutMapping(value = "/email")
-    public String sendCode(@NotBlank String email) {
+    @PutMapping(value = "/validate_code")
+    public String validateCode(@RequestParam("email") @NotBlank String email) {
         // 生成一个验证码
         String code = OtherUtils.rendomCode(6);
         // 发送邮件
-        MailUtils.sendMail("验证码", "您的验证码为:<br/>" + code + "感谢您的体验---by ve", email);
+        MailUtils.sendMail("验证码", "验证码为:<br/><br/><br/>" +
+                "<h1>" + code + "</h1>", email);
         // 存入redis设置ttl
-        redisTemplate.opsForValue().set(email, code);
+        redisTemplate.opsForValue().set("" + email, code, 10L, TimeUnit.MINUTES);
         return code;
+    }
+
+    @ApiOperation(value = "发送邮箱")
+    @PutMapping(value = "/email")
+    public void sendCode(@NotBlank @RequestParam("email") String email,
+                         @NotBlank @RequestParam("title") String title,
+                         @NotBlank @RequestParam("content") String content) {
+        // 发送邮件
+        MailUtils.sendMail(title, content, email);
     }
 }

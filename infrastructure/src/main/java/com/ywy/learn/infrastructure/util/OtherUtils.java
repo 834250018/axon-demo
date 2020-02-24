@@ -28,7 +28,7 @@ public class OtherUtils {
         for (int i = 0; i < count; i++) {
             sb.append(chars[RandomUtils.nextInt(0, chars.length)]);
         }
-        return UUID.randomUUID().toString().replace("-", "");
+        return sb.toString();
     }
 
 }
