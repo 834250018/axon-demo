@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.redis.core.RedisTemplate;
 
 /**
  * @author ve
@@ -30,7 +31,7 @@ public class Application implements CommandLineRunner {
     @Autowired
     MetaDataGateway metaDataGateway;
 
-    public static final String EMAIL = "834250018@qq.com";
+    public static final String ADMIN = "admin";
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class);
@@ -45,11 +46,11 @@ public class Application implements CommandLineRunner {
 
     public void initAdmin() {
         // todo
-        AdminEntry adminEntry = adminEntryRepository.findOne(QAdminEntry.adminEntry.username.eq(EMAIL));
+        AdminEntry adminEntry = adminEntryRepository.findOne(QAdminEntry.adminEntry.username.eq(ADMIN));
         if (adminEntry == null) {
             try {
                 metaDataGateway.sendAndWait(
-                        new AdminCreateCommand(null, EMAIL, "admin"),
+                        new AdminCreateCommand(null, ADMIN, ADMIN + "123"),
                         MetaData.emptyInstance());
             } catch (InterruptedException e) {
                 log.error("初始化admin失败: " + e.getMessage());

@@ -12,5 +12,5 @@ repositories {
 dependencies {
 //    testCompile 'junit:junit:4.12'
     compile project(":admin-api")
-    compile project(":infrastructure")
+//    compile project(":infrastructure")
 }

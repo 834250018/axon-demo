@@ -6,7 +6,6 @@ include 'web'
 include 'user'
 include 'user-api'
 include 'common-api'
-include 'common'
 include 'admin'
 include 'admin-api'
 

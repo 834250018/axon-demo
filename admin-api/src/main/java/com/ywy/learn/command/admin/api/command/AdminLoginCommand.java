@@ -16,14 +16,17 @@ import org.hibernate.validator.constraints.NotBlank;
 @AllArgsConstructor
 public class AdminLoginCommand {
 
+    @TargetAggregateIdentifier
+    @ApiModelProperty(value = "id", hidden = true)
+    private String id;
 
     @ApiModelProperty(value = "用户名", required = true)
     @NotBlank
     private String username;
 
-    @ApiModelProperty(value = "邮箱验证码", required = true)
+    @ApiModelProperty(value = "密码", required = true)
     @NotBlank
-    private String code;
+    private String password;
 
 
 }

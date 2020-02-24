@@ -19,19 +19,20 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldNameConstants
-public class AdminEntry implements Serializable {
+public class AdminEntry extends BaseEntry {
 
     @Id
     private String id;
 
     @ApiModelProperty(value = "用户名")
-
     private String username;
 
-    @ApiModelProperty(value = "密码")
+//    @ApiModelProperty(value = "密码")
     // sha256(sha256(用户密码), salt)
-    private String password;
+//    private String password;
 
-    @ApiModelProperty(value = "盐")
-    private String salt;
+//    @ApiModelProperty(value = "盐")
+//    private String salt;
+
+    private String lastToken;
 }

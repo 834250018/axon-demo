@@ -7,6 +7,7 @@ import com.ywy.learn.command.admin.api.command.AdminUpdateCommand;
 import com.ywy.learn.query.entry.AdminEntry;
 import com.ywy.learn.query.repository.AdminEntryRepository;
 import com.ywy.learn.web.controller.base.BaseController;
+import com.ywy.learn.web.controller.base.UserController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -30,27 +31,27 @@ import javax.validation.Valid;
 @Validated
 @RequestMapping(value = "/user/Admin")
 @RestController
-public class AdminUserController extends BaseController {
+public class AdminUserController extends UserController {
 
     @Autowired
     AdminEntryRepository AdminEntryRepository;
 
     @ApiOperation(value = "查询单篇文章")
     @ApiParam
-    @GetMapping(value = "/one")
+    @GetMapping("/one")
     public AdminEntry one(@NotBlank @RequestParam(value = "id") String id) {
         return AdminEntryRepository.findOne(id);
     }
 
     @ApiOperation(value = "查询文章列表")
-    @GetMapping(value = "/list")
+    @GetMapping("/list")
     public Iterable
             <AdminEntry> list(@QuerydslPredicate(root = AdminEntry.class) Predicate predicate) {
         return AdminEntryRepository.findAll(predicate);
     }
 
     @ApiOperation(value = "查询文章分页")
-    @GetMapping(value = "/page")
+    @GetMapping("/page")
     public Page
             <AdminEntry> page(@QuerydslPredicate(root = AdminEntry.class) Predicate predicate,
                               Pageable pageable) {
@@ -60,18 +61,18 @@ public class AdminUserController extends BaseController {
     @ApiOperation(value = "新增文章")
     @PostMapping(value = "/create")
     public void create(@RequestBody @Valid AdminCreateCommand command) {
-        sendAndWait(command, MetaData.emptyInstance());
+        sendAndWait(command);
     }
 
     @ApiOperation(value = "修改文章")
     @PutMapping(value = "/update")
     public void update(@RequestBody @Valid AdminUpdateCommand command) {
-        sendAndWait(command, MetaData.emptyInstance());
+        sendAndWait(command);
     }
 
     @ApiOperation(value = "删除文章")
     @DeleteMapping(value = "/remove")
     public void delete(@RequestBody @Valid AdminRemoveCommand command) {
-        sendAndWait(command, MetaData.emptyInstance());
+        sendAndWait(command);
     }
 }

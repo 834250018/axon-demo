@@ -3,10 +3,8 @@ package com.ywy.learn.web.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.service.Parameter;
@@ -28,25 +26,22 @@ public class SwaggerConfig {
 
     @Bean
     public Docket customDocket() {
-        Docket docket = new Docket(DocumentationType.SWAGGER_2);
-
-        ParameterBuilder userTokenPar = new ParameterBuilder();
         List<Parameter> pars = new ArrayList<>();
+        /*ParameterBuilder userTokenPar = new ParameterBuilder();
         userTokenPar.name("User-Token").description("user token")
                 .modelRef(new ModelRef("string"))
                 .parameterType("header").defaultValue("86ca3056-38b1-4a7c-a128-951df2261edd")
                 .required(false).build();
-        pars.add(userTokenPar.build());
-        docket = docket.apiInfo(apiInfo())
-                .useDefaultResponseMessages(false)
+        pars.add(userTokenPar.build());*/
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+//                .useDefaultResponseMessages(false)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.ywy.learn.web.controller"))
                 .paths(PathSelectors.any())
                 .build()
                 .globalOperationParameters(pars)
-
-        ;
-        return docket;
+                ;
     }
 
     private ApiInfo apiInfo() {

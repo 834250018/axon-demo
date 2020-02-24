@@ -4,13 +4,12 @@ import com.ywy.learn.infrastructure.exception.BusinessException;
 import com.ywy.learn.web.pojo.ResponseVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 
 /**
@@ -25,28 +24,34 @@ public class ExceptionAdvice {
 
     @ExceptionHandler()
     @ResponseBody
-    public ResponseVO handleRuntimeException(RuntimeException e, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseVO handle(RuntimeException e) {
         log.error(e.getMessage(), e);
-        return new ResponseVO(HttpStatus.BAD_REQUEST.toString(), null);
+        return new ResponseVO(HttpStatus.BAD_REQUEST.value(), null);
     }
 
     @ExceptionHandler(BusinessException.class)
     @ResponseBody
-    public ResponseVO handleYnacErrorException(BusinessException e, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseVO handle(BusinessException e) {
         String str[] = e.getMessage().split("#");
         log.error(str[1], e);
-        return new ResponseVO(str[0], str[1]);
+        return new ResponseVO(Integer.valueOf(str[0]), str[1]);
     }
 
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
     @ResponseBody
-    public ResponseVO handleYnacErrorException(MethodArgumentNotValidException e, HttpServletRequest request, HttpServletResponse response) {
-        return new ResponseVO(HttpStatus.BAD_REQUEST.toString(), "非法参数");
+    public ResponseVO handle(MethodArgumentNotValidException e) {
+        return new ResponseVO(HttpStatus.BAD_REQUEST.value(), "非法参数" + e.getMessage());
     }
 
     @ExceptionHandler(value = {ConstraintViolationException.class})
     @ResponseBody
-    public ResponseVO handleYnacErrorException(ConstraintViolationException e, HttpServletRequest request, HttpServletResponse response) {
-        return new ResponseVO(HttpStatus.BAD_REQUEST.toString(), "非法参数");
+    public ResponseVO handle(ConstraintViolationException e) {
+        return new ResponseVO(HttpStatus.BAD_REQUEST.value(), "非法参数" + e.getMessage());
+    }
+
+    @ExceptionHandler(value = {HttpMessageNotReadableException.class})
+    @ResponseBody
+    public ResponseVO handle(HttpMessageNotReadableException e) {
+        return new ResponseVO(HttpStatus.BAD_REQUEST.value(), "非法参数" + e.getMessage());
     }
 }

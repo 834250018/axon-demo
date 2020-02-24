@@ -49,21 +49,8 @@ repositories {
     jcenter()
 }
 
-/**
- * api
- */
-//configure(subprojects.findAll { it.name.contains('-api') }) {
-//    apply from: "${rootProject.projectDir}/gradle/user-api.gradle"
-//}
-
 configure(subprojects.findAll {
-    !it.name.contains('infrastructure')
-}) {
-    apply from: "${rootProject.projectDir}/infrastructure/build.gradle"
-}
-
-configure(subprojects.findAll {
-    !it.name.contains('common-api') && it.name.contains('-api') && !it.name.contains('infrastructure')
+    !it.name.contains('common-api') && it.name.contains('-api')
 }) {
     apply from: "${rootProject.projectDir}/common-api/build.gradle"
 }

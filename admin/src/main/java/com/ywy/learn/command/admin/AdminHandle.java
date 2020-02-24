@@ -1,6 +1,7 @@
 package com.ywy.learn.command.admin;
 
 import com.ywy.learn.command.admin.api.command.AdminCreateCommand;
+import com.ywy.learn.command.admin.api.command.AdminLoginCommand;
 import com.ywy.learn.command.admin.api.command.AdminRemoveCommand;
 import com.ywy.learn.command.admin.api.command.AdminUpdateCommand;
 import org.axonframework.commandhandling.CommandHandler;
@@ -30,6 +31,13 @@ public class AdminHandle {
         Aggregate<Admin> target = repository.load(command.getId());
         //        checkAuthorization(target,metaData);
         target.execute(aggregate -> aggregate.update(command, metaData));
+    }
+
+    @CommandHandler
+    public String handle(AdminLoginCommand command, MetaData metaData) {
+        Aggregate<Admin> target = repository.load(command.getId());
+        //        checkAuthorization(target,metaData);
+        return target.invoke(aggregate -> aggregate.login(command, metaData));
     }
 
     @CommandHandler

@@ -30,27 +30,27 @@ import javax.validation.Valid;
 @Validated
 @RequestMapping(value = "/admin/${aggregate}")
 @RestController
-public class ${aggregate?cap_first}AdminController extends BaseController {
+public class ${aggregate?cap_first}AdminController extends AdminController {
 
     @Autowired
 ${aggregate?cap_first}EntryRepository ${aggregate}EntryRepository;
 
     @ApiOperation(value = "${aggregate}-one")
     @ApiParam
-    @GetMapping(value = "/one")
+    @GetMapping("/one")
     public ${aggregate?cap_first}Entry one(@NotBlank @RequestParam(value = "id") String id) {
         return ${aggregate}EntryRepository.findOne(id);
     }
 
     @ApiOperation(value = "${aggregate}-list")
-    @GetMapping(value = "/list")
+    @GetMapping("/list")
     public Iterable
 <${aggregate?cap_first}Entry> list(@QuerydslPredicate(root = ${aggregate?cap_first}Entry.class) Predicate predicate) {
     return ${aggregate}EntryRepository.findAll(predicate);
     }
 
     @ApiOperation(value = "${aggregate}-page")
-    @GetMapping(value = "/page")
+    @GetMapping("/page")
     public Page
     <${aggregate?cap_first}Entry> page(@QuerydslPredicate(root = ${aggregate?cap_first}Entry.class) Predicate predicate,
         Pageable pageable) {
@@ -60,18 +60,18 @@ ${aggregate?cap_first}EntryRepository ${aggregate}EntryRepository;
         @ApiOperation(value = "${aggregate}-create")
         @PostMapping(value = "/create")
         public void create(@RequestBody @Valid ${aggregate?cap_first}CreateCommand command) {
-        sendAndWait(command, MetaData.emptyInstance());
+        sendAndWait(command);
         }
 
         @ApiOperation(value = "${aggregate}-update")
         @PutMapping(value = "/update")
         public void update(@RequestBody @Valid ${aggregate?cap_first}UpdateCommand command) {
-        sendAndWait(command, MetaData.emptyInstance());
+        sendAndWait(command);
         }
 
         @ApiOperation(value = "${aggregate}-delete")
         @DeleteMapping(value = "/remove")
         public void delete(@RequestBody @Valid ${aggregate?cap_first}RemoveCommand command) {
-        sendAndWait(command, MetaData.emptyInstance());
+        sendAndWait(command);
         }
         }

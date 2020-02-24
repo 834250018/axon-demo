@@ -1,4 +1,4 @@
-package com.ywy.learn.common.util;
+package com.ywy.learn.infrastructure.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomUtils;

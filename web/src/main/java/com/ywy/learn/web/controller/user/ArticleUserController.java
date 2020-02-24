@@ -7,6 +7,7 @@ import com.ywy.learn.query.entry.CommentEntry;
 import com.ywy.learn.query.repository.ArticleEntryRepository;
 import com.ywy.learn.query.repository.CommentEntryRepository;
 import com.ywy.learn.web.controller.base.BaseController;
+import com.ywy.learn.web.controller.base.UserController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -31,7 +32,7 @@ import javax.validation.Valid;
 @Validated
 @RequestMapping(value = "/user/Article")
 @RestController
-public class ArticleUserController extends BaseController {
+public class ArticleUserController extends UserController {
 
     @Autowired
     ArticleEntryRepository ArticleEntryRepository;
@@ -41,19 +42,19 @@ public class ArticleUserController extends BaseController {
 
     @ApiOperation(value = "查询单篇文章")
     @ApiParam
-    @GetMapping(value = "/one")
+    @GetMapping("/one")
     public ArticleEntry one(@NotBlank @RequestParam(value = "id") String id) {
         return ArticleEntryRepository.findOne(id);
     }
 
     @ApiOperation(value = "查询文章列表")
-    @GetMapping(value = "/list")
+    @GetMapping("/list")
     public Iterable<ArticleEntry> list(@QuerydslPredicate(root = ArticleEntry.class) Predicate predicate) {
         return ArticleEntryRepository.findAll(predicate);
     }
 
     @ApiOperation(value = "查询文章分页")
-    @GetMapping(value = "/page")
+    @GetMapping("/page")
     public Page<ArticleEntry> page(@QuerydslPredicate(root = ArticleEntry.class) Predicate predicate, Pageable pageable) {
         return ArticleEntryRepository.findAll(predicate, pageable);
     }
@@ -63,6 +64,6 @@ public class ArticleUserController extends BaseController {
     public void create(@RequestBody @Valid ArticleCommentCommand command) {
         command.setCommentId(IdentifierFactory.getInstance().generateIdentifier());
         commentEntryRepository.save(new CommentEntry(command.getCommentId(), "", command.getArticleId(), command.getContent(), System.currentTimeMillis()));
-        sendAndWait(command, MetaData.emptyInstance());
+        sendAndWait(command);
     }
 }

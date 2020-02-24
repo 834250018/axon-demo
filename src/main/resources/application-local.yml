@@ -10,11 +10,13 @@ spring:
         database: learn_command
         username:
         password:
+  redis:
+    host: 35.221.140.210
 server:
-  port: 8443
-  ssl:
-    protocol: TLS
-    key-store: classpath:tomcat.keystore
-    key-store-password: 123456
-    key-store-type: JKS
-    key-alias: tomcat
+  port: 8081
+#  ssl:
+#    protocol: TLS
+#    key-store: classpath:tomcat.keystore
+#    key-store-password: 123456
+#    key-store-type: JKS
+#    key-alias: tomcat

@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
  * @author ve
  * @date 2019/7/17 17:58
  */
-@Configuration
+//@Configuration
 public class HttpConfig {
 
     // 临时使用,需要移到配置文件
