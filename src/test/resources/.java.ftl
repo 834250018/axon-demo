@@ -28,7 +28,7 @@ import static org.axonframework.commandhandling.model.AggregateLifecycle.markDel
 @Aggregate
 @NoArgsConstructor
 @Data
-public class ${aggregate?cap_first} implements Serializable {
+public class ${aggregate?cap_first} extends BaseAggregate {
 
 @AggregateIdentifier
 private String id;
@@ -64,6 +64,7 @@ apply(event, metaData);
 
 @EventSourcingHandler
 public void on(${aggregate?cap_first}CreatedEvent event, MetaData metaData) {
+        applyMetaData(metaData);
 BeanUtils.copyProperties(event, this);
 }
 

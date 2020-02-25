@@ -19,14 +19,17 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldNameConstants
-public class UserEntry implements Serializable {
+public class UserEntry extends BaseEntry {
 
     @Id
-    private String userId;
+    private String id;
 
-    @ApiModelProperty(value = "姓名")
-    private String name;
+    @ApiModelProperty(value = "邮箱")
+    private String email;
 
-    @ApiModelProperty(value = "年龄")
-    private Integer age;
+    @ApiModelProperty(value = "证书id")
+    private String certId;
+
+    @ApiModelProperty(value = "最后一次登录token")
+    private String  lastToken;
 }

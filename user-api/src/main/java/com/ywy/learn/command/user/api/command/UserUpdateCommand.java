@@ -16,13 +16,15 @@ import org.hibernate.validator.constraints.NotBlank;
 @AllArgsConstructor
 public class UserUpdateCommand {
     @TargetAggregateIdentifier
-    @ApiModelProperty(value = "userId", required = true)
+    @ApiModelProperty(value = "id", required = true)
     @NotBlank
-    private String userId;
+    private String id;
 
-    @ApiModelProperty(value = "姓名")
-    private String name;
+    private String email;
 
-    @ApiModelProperty(value = "年龄")
-    private Integer age;
+    @ApiModelProperty(value = "证书id")
+    private String certId;
+
+    @ApiModelProperty(value = "最后一次登录token")
+    private String  lastToken;
 }

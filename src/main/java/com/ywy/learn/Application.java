@@ -2,17 +2,21 @@ package com.ywy.learn;
 
 import com.ywy.learn.command.admin.api.command.AdminCreateCommand;
 import com.ywy.learn.infrastructure.gateway.MetaDataGateway;
+import com.ywy.learn.infrastructure.security.SecurityKit;
 import com.ywy.learn.query.entry.AdminEntry;
 import com.ywy.learn.query.entry.QAdminEntry;
 import com.ywy.learn.query.repository.AdminEntryRepository;
 import com.ywy.learn.query.repository.UserEntryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.messaging.MetaData;
+import org.bouncycastle.pqc.jcajce.provider.BouncyCastlePQCProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.redis.core.RedisTemplate;
+import sun.security.x509.X500Name;
+
+import java.security.Security;
 
 /**
  * @author ve
@@ -41,11 +45,26 @@ public class Application implements CommandLineRunner {
     public void run(String... args) throws Exception {
 //        NettyServer nettyServer = new NettyServer();
 //        nettyServer.start();
+        Security.addProvider(new BouncyCastlePQCProvider());
         initAdmin();
+        initRootCert();
     }
 
+    /**
+     * 初始化根证书
+     */
+    public void initRootCert() {
+        try {
+            SecurityKit.genSelfSignedCertificate(new X500Name("ve", "ve", "ve", "ve", "ve", "ve"), 50 * 365 * 24 * 60 * 60L);
+        } catch (Exception e) {
+            log.error("根证书创建失败: " + e.getMessage(), e);
+        }
+    }
+
+    /**
+     * 初始化管理员
+     */
     public void initAdmin() {
-        // todo
         AdminEntry adminEntry = adminEntryRepository.findOne(QAdminEntry.adminEntry.username.eq(ADMIN));
         if (adminEntry == null) {
             try {

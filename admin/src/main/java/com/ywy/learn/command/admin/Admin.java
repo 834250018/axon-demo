@@ -22,9 +22,7 @@ import org.axonframework.messaging.MetaData;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
 
-import java.io.Serializable;
 import java.util.Base64;
-import java.util.UUID;
 
 import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
 import static org.axonframework.commandhandling.model.AggregateLifecycle.markDeleted;
@@ -70,16 +68,15 @@ public class Admin extends BaseAggregate {
     }
 
 
-    public String login(AdminLoginCommand command, MetaData metaData) {
+    public void update(AdminLoginCommand command, MetaData metaData) {
         String pwd = DigestKit.sha256AndSalt(command.getPassword(), salt);
         if (!password.equals(pwd)) {
             throw new BusinessException("用户不存在");
         }
         AdminLoginedEvent event = new AdminLoginedEvent();
         event.setId(id);
-        event.setLastToken(UUID.randomUUID().toString());
+        event.setLastToken(command.getLastToken());
         apply(event, metaData);
-        return event.getLastToken();
     }
 
     public void remove(AdminRemoveCommand command, MetaData metaData) {

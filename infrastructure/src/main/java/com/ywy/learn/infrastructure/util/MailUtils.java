@@ -1,5 +1,6 @@
 package com.ywy.learn.infrastructure.util;
 
+import com.ywy.learn.infrastructure.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.mail.*;
@@ -48,7 +49,8 @@ public class MailUtils {
             message.setText(content, "utf-8", "html");
             Transport.send(message);
         } catch (MessagingException e) {
-            log.error("邮件发送失败", e);
+            log.error("邮件发送失败" + e.getMessage());
+            throw new BusinessException("邮件发送失败: " + e.getMessage());
         }
     }
 

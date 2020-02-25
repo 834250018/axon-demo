@@ -1,11 +1,14 @@
 package com.ywy.learn.command.user;
 
 import com.ywy.learn.command.user.api.command.UserCreateCommand;
+import com.ywy.learn.command.user.api.command.UserLoginCommand;
 import com.ywy.learn.command.user.api.command.UserRemoveCommand;
 import com.ywy.learn.command.user.api.command.UserUpdateCommand;
 import com.ywy.learn.command.user.api.event.UserCreatedEvent;
+import com.ywy.learn.command.user.api.event.UserLoginedEvent;
 import com.ywy.learn.command.user.api.event.UserRemovedEvent;
 import com.ywy.learn.command.user.api.event.UserUpdatedEvent;
+import com.ywy.learn.infrastructure.base.BaseAggregate;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -15,8 +18,6 @@ import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.messaging.MetaData;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
-
-import java.io.Serializable;
 
 import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
 import static org.axonframework.commandhandling.model.AggregateLifecycle.markDeleted;
@@ -28,30 +29,38 @@ import static org.axonframework.commandhandling.model.AggregateLifecycle.markDel
 @Aggregate
 @NoArgsConstructor
 @Data
-public class User implements Serializable {
+public class User extends BaseAggregate {
 
     @AggregateIdentifier
-    private String userId;
+    private String id;
+    private String email;
 
-    private String name;
+    private String certId;
 
-    private Integer age;
+    private String lastToken;
 
     public User(UserCreateCommand command, MetaData metaData) {
-        if (StringUtils.isBlank(command.getUserId())) {
-            command.setUserId(IdentifierFactory.getInstance().generateIdentifier());
+        if (StringUtils.isBlank(command.getId())) {
+            command.setId(IdentifierFactory.getInstance().generateIdentifier());
         }
         UserCreatedEvent event = new UserCreatedEvent();
-        BeanUtils.copyProperties(command, event);
+        event.setId(command.getId());
+        event.setEmail(command.getEmail());
+        apply(event, metaData);
+    }
+
+
+    public void update(UserLoginCommand command, MetaData metaData) {
+        UserLoginedEvent event = new UserLoginedEvent();
+        event.setId(id);
+        event.setLastToken(command.getLastToken());
         apply(event, metaData);
     }
 
 
     public void update(UserUpdateCommand command, MetaData metaData) {
         UserUpdatedEvent event = new UserUpdatedEvent();
-        event.setUserId(userId);
-        event.setAge(command.getAge() == 0 ? age : command.getAge());
-        event.setName(StringUtils.isBlank(command.getName()) ? name : command.getName());
+        event.setId(id);
         apply(event, metaData);
     }
 
@@ -65,12 +74,19 @@ public class User implements Serializable {
 
     @EventSourcingHandler
     public void on(UserCreatedEvent event, MetaData metaData) {
+        applyMetaData(metaData);
         BeanUtils.copyProperties(event, this);
     }
 
     @EventSourcingHandler
 //    @Override
     public void on(UserUpdatedEvent event, MetaData metaData) {
+        BeanUtils.copyProperties(event, this);
+    }
+
+    @EventSourcingHandler
+//    @Override
+    public void on(UserLoginedEvent event, MetaData metaData) {
         BeanUtils.copyProperties(event, this);
     }
 

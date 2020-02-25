@@ -13,9 +13,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserUpdatedEvent {
 
-    private String userId;
+    private String id;
+    private String email;
 
-    private String name;
+    private String certId;
 
-    private Integer age;
+    private String lastToken;
 }

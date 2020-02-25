@@ -34,10 +34,10 @@ public class AdminHandle {
     }
 
     @CommandHandler
-    public String handle(AdminLoginCommand command, MetaData metaData) {
+    public void handle(AdminLoginCommand command, MetaData metaData) {
         Aggregate<Admin> target = repository.load(command.getId());
         //        checkAuthorization(target,metaData);
-        return target.invoke(aggregate -> aggregate.login(command, metaData));
+        target.execute(aggregate -> aggregate.update(command, metaData));
     }
 
     @CommandHandler

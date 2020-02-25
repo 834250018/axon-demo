@@ -11,6 +11,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthRemovedEvent {
+public class UserLoginedEvent {
+
     private String id;
+
+    private String  lastToken;
 }

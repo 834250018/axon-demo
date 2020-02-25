@@ -28,11 +28,11 @@ public class BaseController {
     @Autowired
     StringRedisTemplate redisTemplate;
 
-    protected <T> T send(Object command, MetaData metaData) {
-        return (T) metaDataGateway.send(command, metaData);
+    protected <T> T send(Object command) {
+        return (T) metaDataGateway.send(command, MetaData.emptyInstance());
     }
 
-    protected <R> R sendAndWait(Object command, MetaData metaData) {
+    protected <R> R sendAndWait(Object command) {
         try {
             return metaDataGateway.sendAndWait(command, MetaData.emptyInstance());
         } catch (InterruptedException e) {

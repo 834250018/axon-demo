@@ -19,14 +19,9 @@ import javax.validation.constraints.NotNull;
 public class UserCreateCommand {
 
     @TargetAggregateIdentifier
-    @ApiModelProperty(value = "userId", hidden = true)
-    private String userId;
+    @ApiModelProperty(value = "id", hidden = true)
+    private String id;
 
     @ApiModelProperty(value = "姓名", required = true)
-    @NotBlank
-    private String name;
-
-    @ApiModelProperty(value = "年龄", required = true)
-    @NotNull
-    private Integer age;
+    private String email;
 }

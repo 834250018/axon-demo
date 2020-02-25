@@ -27,6 +27,8 @@ public class AdminLoginCommand {
     @ApiModelProperty(value = "密码", required = true)
     @NotBlank
     private String password;
+    @ApiModelProperty(hidden = true)
+    private String lastToken;
 
 
 }

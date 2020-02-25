@@ -35,14 +35,14 @@ public class UserRemovedSaga {
      * @param metaData
      */
     @StartSaga
-    @SagaEventHandler(associationProperty = "userId")
+    @SagaEventHandler(associationProperty = "id")
     public void handle(UserRemovedEvent event, MetaData metaData) {
 
 //            1.创建授权中心删除指定cert命令
         AuthRemoveCommand command = new AuthRemoveCommand();
 
         // 2.为此saga设置关联,用于匹配第二节点与后续事件
-        SagaLifecycle.associateWith("userId", event.getUserId());
+        SagaLifecycle.associateWith("userId", event.getId());
 
 //            3.发送此命令,进入下一节点
         // todo 后续handle没写
@@ -56,7 +56,7 @@ public class UserRemovedSaga {
      * @param metaData
      */
     @EndSaga
-    @SagaEventHandler(associationProperty = "userId", keyName = "userId")
+    @SagaEventHandler(associationProperty = "id", keyName = "userId")
     // 此处keyName与上面的"userId"相同,associationProperty则是userId(即找到event.getUserId()进行匹配关联saga事务第一节点)
     public void handle(AuthRemovedEvent event, MetaData metaData) {
         // ok, do nothing.

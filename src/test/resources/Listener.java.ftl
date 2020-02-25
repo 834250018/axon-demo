@@ -23,9 +23,10 @@ ${aggregate?cap_first}EntryRepository repository;
 
     @EventHandler
     public void on(${aggregate?cap_first}CreatedEvent event, MetaData metaData) {
-${aggregate?cap_first}Entry ${aggregate?uncap_first}Entry = new ${aggregate?cap_first}Entry();
-        BeanUtils.copyProperties(event, ${aggregate?uncap_first}Entry);
-        repository.save(${aggregate?uncap_first}Entry);
+${aggregate?cap_first}Entry entry = new ${aggregate?cap_first}Entry();
+        BeanUtils.copyProperties(event, entry);
+        entry.applyMetaData(metaData);
+        repository.save(entry);
     }
 
     @EventHandler

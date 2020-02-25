@@ -3,8 +3,10 @@ package com.ywy.learn.web.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.service.Parameter;
@@ -27,12 +29,18 @@ public class SwaggerConfig {
     @Bean
     public Docket customDocket() {
         List<Parameter> pars = new ArrayList<>();
-        /*ParameterBuilder userTokenPar = new ParameterBuilder();
-        userTokenPar.name("User-Token").description("user token")
+        ParameterBuilder adminTokenPar = new ParameterBuilder();
+        adminTokenPar.name("X-Token").description("admin token")
                 .modelRef(new ModelRef("string"))
-                .parameterType("header").defaultValue("86ca3056-38b1-4a7c-a128-951df2261edd")
+                .parameterType("header").defaultValue("1")
                 .required(false).build();
-        pars.add(userTokenPar.build());*/
+        ParameterBuilder userTokenPar = new ParameterBuilder();
+        userTokenPar.name("U-Token").description("user token")
+                .modelRef(new ModelRef("string"))
+                .parameterType("header").defaultValue("1")
+                .required(false).build();
+        pars.add(adminTokenPar.build());
+        pars.add(userTokenPar.build());
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
 //                .useDefaultResponseMessages(false)
