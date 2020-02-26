@@ -54,7 +54,8 @@ lombok插件
 
 2020/2/26 通过一个简单的例子(user签名证书)简单阐述ca部分内容.
 严格来说user没有意义,此系统的user表示除管理员(admin)以外的用户,默认以邮箱及验证码登录
-突然看到无密码的redis被注入脚本了,服务器被黑了.无语,算了睡觉先
+redis无密码被注入脚本了,链接https://p0sec.net/index.php/archives/69/ 
+配置mongodb角色权限https://www.cnblogs.com/mengyu/p/9071371.html
 ```
 
 * 异常

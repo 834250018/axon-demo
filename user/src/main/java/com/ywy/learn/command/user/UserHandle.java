@@ -1,9 +1,6 @@
 package com.ywy.learn.command.user;
 
-import com.ywy.learn.command.user.api.command.UserCreateCommand;
-import com.ywy.learn.command.user.api.command.UserLoginCommand;
-import com.ywy.learn.command.user.api.command.UserRemoveCommand;
-import com.ywy.learn.command.user.api.command.UserUpdateCommand;
+import com.ywy.learn.command.user.api.command.*;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.Aggregate;
 import org.axonframework.commandhandling.model.Repository;
@@ -35,6 +32,13 @@ public class UserHandle {
 
     @CommandHandler
     public void handle(UserLoginCommand command, MetaData metaData) {
+        Aggregate<User> target = repository.load(command.getId());
+//        checkAuthorization(target,metaData);
+        target.execute(aggregate -> aggregate.update(command, metaData));
+    }
+
+    @CommandHandler
+    public void handle(UserApplyCertCommand command, MetaData metaData) {
         Aggregate<User> target = repository.load(command.getId());
 //        checkAuthorization(target,metaData);
         target.execute(aggregate -> aggregate.update(command, metaData));

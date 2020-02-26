@@ -1,13 +1,7 @@
 package com.ywy.learn.command.user;
 
-import com.ywy.learn.command.user.api.command.UserCreateCommand;
-import com.ywy.learn.command.user.api.command.UserLoginCommand;
-import com.ywy.learn.command.user.api.command.UserRemoveCommand;
-import com.ywy.learn.command.user.api.command.UserUpdateCommand;
-import com.ywy.learn.command.user.api.event.UserCreatedEvent;
-import com.ywy.learn.command.user.api.event.UserLoginedEvent;
-import com.ywy.learn.command.user.api.event.UserRemovedEvent;
-import com.ywy.learn.command.user.api.event.UserUpdatedEvent;
+import com.ywy.learn.command.user.api.command.*;
+import com.ywy.learn.command.user.api.event.*;
 import com.ywy.learn.infrastructure.base.BaseAggregate;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -58,6 +52,14 @@ public class User extends BaseAggregate {
     }
 
 
+    public void update(UserApplyCertCommand command, MetaData metaData) {
+        UserCertApplyedEvent event = new UserCertApplyedEvent();
+        event.setId(id);
+        event.setCertId(command.getCertId());
+        apply(event, metaData);
+    }
+
+
     public void update(UserUpdateCommand command, MetaData metaData) {
         UserUpdatedEvent event = new UserUpdatedEvent();
         event.setId(id);
@@ -87,6 +89,12 @@ public class User extends BaseAggregate {
     @EventSourcingHandler
 //    @Override
     public void on(UserLoginedEvent event, MetaData metaData) {
+        BeanUtils.copyProperties(event, this);
+    }
+
+    @EventSourcingHandler
+//    @Override
+    public void on(UserCertApplyedEvent event, MetaData metaData) {
         BeanUtils.copyProperties(event, this);
     }
 

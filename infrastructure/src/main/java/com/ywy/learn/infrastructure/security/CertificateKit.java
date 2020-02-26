@@ -51,10 +51,8 @@ public class CertificateKit {
 
     public static void saveCRT(X509Certificate x509Certificate, String filepath) throws Exception {
         ByteArrayInputStream bis = new ByteArrayInputStream((x509Certificate.getEncoded()));
-//        BASE64Encoder base64Encoder = new BASE64Encoder();
         FileOutputStream fos = new FileOutputStream(filepath);
         IOUtils.copy(bis, fos);
-//        base64Encoder.encodeBuffer(x509Certificate.getEncoded(), fos);
         bis.close();
         fos.close();
     }

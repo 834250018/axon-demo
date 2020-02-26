@@ -1,6 +1,7 @@
 package com.ywy.learn.infrastructure.config;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import org.axonframework.eventhandling.saga.repository.SagaStore;
 import org.axonframework.eventsourcing.eventstore.EventStorageEngine;
@@ -16,6 +17,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 /**
  * @author ve
  * @date 2019/3/29 11:57
@@ -30,10 +34,9 @@ public class AxonCommonStoreConfig {
     private static final String DATABASE_PLACEHOLDER = "${spring.data.mongodb.command.database}";
 
     public MongoClient mongoClient(String host, int port, String username, String psw, String database) {
-        // 暂时没有使用密码
-//        MongoCredential credential = MongoCredential.createCredential(username, database, psw.toCharArray());
+        MongoCredential credential = MongoCredential.createCredential(username, database, psw.toCharArray());
         ServerAddress serverAddress = new ServerAddress(host, port);
-        MongoClient mongoClient = new MongoClient(serverAddress);
+        MongoClient mongoClient = new MongoClient(serverAddress, Stream.of(credential).collect(Collectors.toList()));
         return mongoClient;
     }
 

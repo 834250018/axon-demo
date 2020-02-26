@@ -6,13 +6,11 @@ import com.ywy.learn.query.entry.ArticleEntry;
 import com.ywy.learn.query.entry.CommentEntry;
 import com.ywy.learn.query.repository.ArticleEntryRepository;
 import com.ywy.learn.query.repository.CommentEntryRepository;
-import com.ywy.learn.web.controller.base.BaseController;
-import com.ywy.learn.web.controller.base.UserController;
+import com.ywy.learn.web.controller.base.BaseUserController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.axonframework.common.IdentifierFactory;
-import org.axonframework.messaging.MetaData;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,11 +26,11 @@ import javax.validation.Valid;
  * @date 2019/3/27 16:51
  */
 
-@Api(value = "ArticleUserController", tags = "前台")
+@Api(value = "ArticleBaseUserController", tags = "前台")
 @Validated
 @RequestMapping(value = "/user/Article")
 @RestController
-public class ArticleUserController extends UserController {
+public class ArticleUserController extends BaseUserController {
 
     @Autowired
     ArticleEntryRepository ArticleEntryRepository;

@@ -41,24 +41,4 @@ public class BaseController {
 //            Thread.currentThread().interrupt();
         }
     }
-
-    protected String getAdminId() {
-        return getAdmin().getId();
-    }
-
-    protected String getToken() {
-        String token = request.getHeader("X-Token");
-        if (StringUtils.isBlank(token)) {
-            throw new BusinessException("登录已过期");
-        }
-        return token;
-    }
-
-    protected AdminEntry getAdmin() {
-        String admin = redisTemplate.opsForValue().get(getToken());
-        if (StringUtils.isBlank(admin)) {
-            throw new BusinessException("登录已过期");
-        }
-        return JSON.parseObject(admin, AdminEntry.class);
-    }
 }

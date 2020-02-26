@@ -37,7 +37,7 @@ public class SwaggerConfig {
         ParameterBuilder userTokenPar = new ParameterBuilder();
         userTokenPar.name("U-Token").description("user token")
                 .modelRef(new ModelRef("string"))
-                .parameterType("header").defaultValue("1")
+                .parameterType("header").defaultValue("cf1c2892-fd13-4690-880e-c28d35045529")
                 .required(false).build();
         pars.add(adminTokenPar.build());
         pars.add(userTokenPar.build());

@@ -6,7 +6,7 @@ import com.ywy.learn.command.article.api.command.ArticleRemoveCommand;
 import com.ywy.learn.command.article.api.command.ArticleUpdateCommand;
 import com.ywy.learn.query.entry.ArticleEntry;
 import com.ywy.learn.query.repository.ArticleEntryRepository;
-import com.ywy.learn.web.controller.base.AdminController;
+import com.ywy.learn.web.controller.base.BaseAdminController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -25,11 +25,11 @@ import javax.validation.Valid;
  * @date 2019/3/27 16:51
  */
 
-@Api(value = "ArticleAdminController", tags = "后台")
+@Api(value = "ArticleBaseAdminController", tags = "后台")
 @Validated
 @RequestMapping(value = "/admin/article")
 @RestController
-public class ArticleAdminController extends AdminController {
+public class ArticleAdminController extends BaseAdminController {
 
     @Autowired
     ArticleEntryRepository articleEntryRepository;

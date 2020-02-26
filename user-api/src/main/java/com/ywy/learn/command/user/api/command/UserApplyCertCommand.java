@@ -13,12 +13,12 @@ import org.axonframework.commandhandling.TargetAggregateIdentifier;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserLoginCommand {
+public class UserApplyCertCommand {
 
     @TargetAggregateIdentifier
     @ApiModelProperty(value = "id", hidden = true)
     private String id;
 
-    @ApiModelProperty(value = "最后一次登录token", hidden = true)
-    private String lastToken;
+    @ApiModelProperty(value = "证书标识符")
+    private String  certId;
 }
