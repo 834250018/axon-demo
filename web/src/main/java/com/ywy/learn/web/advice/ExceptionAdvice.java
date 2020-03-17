@@ -22,9 +22,9 @@ import javax.validation.ConstraintViolationException;
 @Slf4j
 public class ExceptionAdvice {
 
-    @ExceptionHandler()
+    @ExceptionHandler(Exception.class)
     @ResponseBody
-    public ResponseVO handle(RuntimeException e) {
+    public ResponseVO handle(Exception e) {
         log.error(e.getMessage(), e);
         return new ResponseVO(HttpStatus.BAD_REQUEST.value(), null);
     }

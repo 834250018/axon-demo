@@ -1,5 +1,6 @@
 package com.ywy.learn.web.config;
 
+import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.data.web.SortHandlerMethodArgumentResolver;
@@ -59,8 +60,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                         .simpleDateFormat("yyyy-MM-dd HH:mm:ss")
                         .timeZone("GMT+8")
                         .build()));
-        converters.add(new StringHttpMessageConverter(Charset.forName("UTF-8")));
-        super.configureMessageConverters(converters);
+        converters.add(new FastJsonHttpMessageConverter()); // 这个要放在前面
+        converters.add(new StringHttpMessageConverter(Charset.forName("UTF-8"))); // 这个要放在后面
+        super.configureMessageConverters(converters); // 这个放在最后面
     }
 
     @Override
@@ -69,4 +71,5 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         argumentResolvers.add(new SortHandlerMethodArgumentResolver());
         super.addArgumentResolvers(argumentResolvers);
     }
+
 }

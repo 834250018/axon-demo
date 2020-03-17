@@ -13,12 +13,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  * @author ve
  * @date 2019/7/2 18:04
  */
-@ControllerAdvice(basePackages = "com.ywy.learn.web.controller")
+@ControllerAdvice
 public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-        return true;
+        return !ResponseVO.class.equals(returnType.getParameterType());
     }
 
     @Override
