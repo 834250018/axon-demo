@@ -60,7 +60,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                         .simpleDateFormat("yyyy-MM-dd HH:mm:ss")
                         .timeZone("GMT+8")
                         .build()));
-        converters.add(new FastJsonHttpMessageConverter()); // 这个要放在前面
+        FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
+        fastJsonHttpMessageConverter.setDefaultCharset(Charset.forName("UTF-8"));
+        converters.add(fastJsonHttpMessageConverter); // 这个要放在前面
         converters.add(new StringHttpMessageConverter(Charset.forName("UTF-8"))); // 这个要放在后面
         super.configureMessageConverters(converters); // 这个放在最后面
     }
