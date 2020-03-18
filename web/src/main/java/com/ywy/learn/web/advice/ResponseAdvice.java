@@ -1,5 +1,6 @@
 package com.ywy.learn.web.advice;
 
+import com.ywy.learn.web.controller.base.BaseController;
 import com.ywy.learn.web.pojo.ResponseVO;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
@@ -13,7 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  * @author ve
  * @date 2019/7/2 18:04
  */
-@ControllerAdvice
+@ControllerAdvice(assignableTypes = BaseController.class)
 public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
