@@ -45,6 +45,13 @@ public class UserListener implements UserEventListener {
     }
 
     @Override
+    public void on(AuthRemovedEvent event, MetaData metaData) {
+        UserEntry entry = repository.findOne(event.getId());
+        BeanUtils.copyProperties(event, entry);
+        repository.save(entry);
+    }
+
+    @Override
     @EventHandler
     public void on(UserLoginedEvent event, MetaData metaData) {
         UserEntry entry = repository.findOne(event.getId());

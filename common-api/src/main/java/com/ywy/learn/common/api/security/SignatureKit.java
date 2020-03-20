@@ -37,7 +37,7 @@ public enum SignatureKit {
      * @return
      * @throws Exception
      */
-    public static byte[] sign(byte[] bytes, PrivateKey privateKey) throws Exception {
+    public static byte[] sign(byte[] bytes, PrivateKey privateKey) {
         // 签名1:摘要
         byte[] digestBytes = DigestKit.sha(256, bytes);
         // 签名2:私钥签名
@@ -53,7 +53,7 @@ public enum SignatureKit {
      * @return
      * @throws Exception
      */
-    public static boolean checkSign(byte[] bytes, byte[] signature, PublicKey publicKey) throws Exception {
+    public static boolean checkSign(byte[] bytes, byte[] signature, PublicKey publicKey) {
         // 验签1:摘要1,对待签名数据进行摘要,直接拿digestBytes
         byte[] digestBytes = DigestKit.sha(256, bytes);
         // 验名2:摘要2,对电子签名进行公钥解密

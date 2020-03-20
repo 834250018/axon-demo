@@ -1,5 +1,6 @@
 package com.ywy.learn.common.api.util;
 
+import com.ywy.learn.common.api.exception.BusinessException;
 import org.axonframework.eventsourcing.AggregateCacheEntry;
 import org.ehcache.config.CacheConfiguration;
 import org.ehcache.config.builders.CacheConfigurationBuilder;
@@ -26,14 +27,13 @@ import java.util.concurrent.TimeUnit;
  * @author ve
  * @create 2018-01-26 下午5:20
  **/
-public class CacheUtils {
+public enum CacheUtils {
+    ;
     /**
      * cache的存储目录.
      * 若使用docker, 考虑是否需要做挂载配置
      */
-    // private static final String CACHE_STORAGE_PATH = "/volume/cache";
-    // private static final String CACHE_STORAGE_PATH = "/cache";
-    private static final String CACHE_STORAGE_PATH = "/learn/tmp/cache";
+    private static final String CACHE_STORAGE_PATH = "/tmp/cache";
 
     /**
      * 缓存可用的堆内存size, 以 对象 为单位
@@ -70,7 +70,7 @@ public class CacheUtils {
         // JCache缓存管理器
         cacheManager = ehcacheProvider.getCacheManager(ehcacheProvider.getDefaultURI(), defaultConfiguration);
         if (cacheManager == null) {
-            throw new RuntimeException("CacheUtils创建cacheManager异常");
+            throw new BusinessException("CacheUtils创建cacheManager异常");
         }
     }
 

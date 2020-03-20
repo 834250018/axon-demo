@@ -1,6 +1,5 @@
 package com.ywy.learn.web.config;
 
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
@@ -16,7 +15,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 public class DynamicServerConfig extends PropertySourcesPlaceholderConfigurer {
 
     @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
         setIgnoreUnresolvablePlaceholders(true);
         super.postProcessBeanFactory(beanFactory);
     }

@@ -25,6 +25,13 @@ public class UserHandle extends BaseHandle implements UserCommandListener {
     }
 
     @Override
+    public void handle(AuthRemoveCommand command, MetaData metaData) {
+        Aggregate<User> target = repository.load(command.getUserId());
+        checkAuthorization(target, metaData);
+        target.execute(aggregate -> aggregate.handle(command, metaData));
+    }
+
+    @Override
     @CommandHandler
     public void handle(UserUpdateCommand command, MetaData metaData) {
         Aggregate<User> target = repository.load(command.getId());

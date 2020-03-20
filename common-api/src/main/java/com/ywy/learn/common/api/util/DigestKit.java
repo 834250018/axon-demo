@@ -10,13 +10,14 @@ import java.security.MessageDigest;
  * @author ve
  * @date 2020/2/23 22:40
  */
-public class DigestKit {
+public enum DigestKit {
+    ;
 
     public static String sha256(String string) {
         try {
             return Base64Utils.encodeToString((sha(256, string.getBytes())));
         } catch (Exception e) {
-            throw new RuntimeException("算法不支持");
+            throw new BusinessException("算法不支持");
         }
     }
 
@@ -24,7 +25,7 @@ public class DigestKit {
         try {
             return Base64Utils.encodeToString((sha(256, (sha256(string) + salt).getBytes())));
         } catch (Exception e) {
-            throw new RuntimeException("算法不支持");
+            throw new BusinessException("算法不支持");
         }
     }
 

@@ -160,8 +160,7 @@ public enum SecurityKit {
              ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
             IOUtils.copy(fis, bos);
             byte[] bytes = bos.toByteArray();
-            X509Certificate x509Certificate = new X509CertImpl(bytes);
-            return x509Certificate;
+            return new X509CertImpl(bytes);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessException(BusinessError.BU_5000);

@@ -62,6 +62,13 @@ public class User extends BaseAggregate implements UserCommandListener, UserEven
 
 
     @Override
+    public void handle(AuthRemoveCommand command, MetaData metaData) {
+        AuthRemovedEvent event = new AuthRemovedEvent();
+        event.setId(command.getUserId());
+        apply(event, metaData);
+    }
+
+    @Override
     public void handle(UserUpdateCommand command, MetaData metaData) {
         UserUpdatedEvent event = new UserUpdatedEvent();
         event.setId(id);
@@ -87,6 +94,11 @@ public class User extends BaseAggregate implements UserCommandListener, UserEven
     @Override
     @EventSourcingHandler
     public void on(UserUpdatedEvent event, MetaData metaData) {
+        BeanUtils.copyProperties(event, this);
+    }
+
+    @Override
+    public void on(AuthRemovedEvent event, MetaData metaData) {
         BeanUtils.copyProperties(event, this);
     }
 

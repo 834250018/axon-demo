@@ -12,7 +12,7 @@ public interface UserEventListener {
 
     void on(UserUpdatedEvent event, MetaData metaData);
 
-//    void on(AuthRemovedEvent event, MetaData metaData);
+    void on(AuthRemovedEvent event, MetaData metaData);
 
     void on(UserCertApplyedEvent event, MetaData metaData);
 

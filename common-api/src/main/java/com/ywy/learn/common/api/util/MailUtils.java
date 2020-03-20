@@ -17,12 +17,12 @@ import java.util.Properties;
  * @date 2020/1/5 14:36
  */
 @Slf4j
-public class MailUtils {
+public enum MailUtils {
+    ;
 
-
-    static String EMAIL = "v834250018@163.com";
-    static String AUTH_CODE = "JyY4i9HG7hRkB5fT";
-    static String EMAIL_HOST = "smtp.163.com";
+    private static final String EMAIL = "v834250018@163.com";
+    private static final String AUTH_CODE = "JyY4i9HG7hRkB5fT";
+    private static final String EMAIL_HOST = "smtp.163.com";
 
     public static void sendMail(String subject, String content, String... addressees) {
 

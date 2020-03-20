@@ -1,14 +1,18 @@
 package com.ywy.learn.command.user;
 
+import com.ywy.learn.command.user.api.command.AuthRemoveCommand;
 import com.ywy.learn.command.user.api.event.AuthRemovedEvent;
 import com.ywy.learn.command.user.api.event.UserRemovedEvent;
 import com.ywy.learn.common.api.gateway.MetaDataGateway;
 import org.axonframework.eventhandling.saga.EndSaga;
 import org.axonframework.eventhandling.saga.SagaEventHandler;
+import org.axonframework.eventhandling.saga.SagaLifecycle;
 import org.axonframework.eventhandling.saga.StartSaga;
 import org.axonframework.messaging.MetaData;
 import org.axonframework.spring.stereotype.Saga;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.Serializable;
 
 /**
  * 用户被删除saga,实现用户删除后的其他业务,比如用户注销之后,需要删除授权中心(另一个聚合根)相关授权
@@ -17,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @date 2019/8/25 2:46
  */
 @Saga
-public class UserRemovedSaga {
+public class UserRemovedSaga implements Serializable {
 
     static {
         // todo 项目重启时应当检查saga是否完成
@@ -35,16 +39,13 @@ public class UserRemovedSaga {
     @StartSaga
     @SagaEventHandler(associationProperty = "id")
     public void handle(UserRemovedEvent event, MetaData metaData) {
-/*
-//            1.创建授权中心删除指定cert命令
+//      1.创建授权中心删除指定cert命令
         AuthRemoveCommand command = new AuthRemoveCommand();
-
-        // 2.为此saga设置关联,用于匹配第二节点与后续事件
+        command.setUserId(event.getId());
+//      2.为此saga设置关联,用于匹配第二节点与后续事件
         SagaLifecycle.associateWith("userId", event.getId());
-
-//            3.发送此命令,进入下一节点
-        // todo 后续handle没写
-//        metaDataGateway.send(command, metaData);*/
+//      3.发送此命令,进入下一节点
+        metaDataGateway.send(command, metaData);
     }
 
     /**
@@ -58,5 +59,7 @@ public class UserRemovedSaga {
     // 此处keyName与上面的"userId"相同,associationProperty则是userId(即找到event.getUserId()进行匹配关联saga事务第一节点)
     public void handle(AuthRemovedEvent event, MetaData metaData) {
         // ok, do nothing.
+        event.getId();
+        metaData.get("aa");
     }
 }

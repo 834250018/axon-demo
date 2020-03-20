@@ -8,7 +8,7 @@ import org.axonframework.messaging.MetaData;
  */
 public interface UserCommandListener {
 
-//    void handle(AuthRemoveCommand command, MetaData metaData);
+    void handle(AuthRemoveCommand command, MetaData metaData);
 
     void handle(UserUpdateCommand command, MetaData metaData);
 
