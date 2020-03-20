@@ -3,11 +3,12 @@ package com.ywy.learn.web.controller;
 import com.ywy.learn.command.admin.api.command.AdminLoginCommand;
 import com.ywy.learn.command.user.api.command.UserCreateCommand;
 import com.ywy.learn.command.user.api.command.UserLoginCommand;
-import com.ywy.learn.infrastructure.exception.BusinessException;
-import com.ywy.learn.infrastructure.security.AsymmetricEncryptionKit;
-import com.ywy.learn.infrastructure.security.SecurityKit;
-import com.ywy.learn.infrastructure.util.MailUtils;
-import com.ywy.learn.infrastructure.util.OtherUtils;
+import com.ywy.learn.common.api.exception.BusinessError;
+import com.ywy.learn.common.api.exception.BusinessException;
+import com.ywy.learn.common.api.security.AsymmetricEncryptionKit;
+import com.ywy.learn.common.api.security.SecurityKit;
+import com.ywy.learn.common.api.util.MailUtils;
+import com.ywy.learn.common.api.util.OtherUtils;
 import com.ywy.learn.query.entry.AdminEntry;
 import com.ywy.learn.query.entry.QAdminEntry;
 import com.ywy.learn.query.entry.QUserEntry;
@@ -56,11 +57,12 @@ public class PublicController extends BaseController {
     public String adminLogin(@RequestBody @Valid AdminLoginCommand command) {
         AdminEntry adminEntry = adminEntryRepository.findOne(QAdminEntry.adminEntry.username.eq(command.getUsername()));
         if (adminEntry == null) {
-            throw new BusinessException("用户不存在");
+            throw new BusinessException(BusinessError.BU_9600);
         }
         command.setId(adminEntry.getId());
         command.setLastToken(UUID.randomUUID().toString());
-        return sendAndWait(command);
+        sendAndWait(command);
+        return command.getLastToken();
     }
 
     @ApiOperation(value = "邮箱用户登录", notes = "不传参数vCode为获取邮箱验证码,传了vCode为登录")
@@ -76,7 +78,7 @@ public class PublicController extends BaseController {
             return null;
         } else {
             if (!vCode.equals(redisTemplate.opsForValue().get("login_vcode_" + email))) {
-                throw new BusinessException("验证码不存在");
+                throw new BusinessException(BusinessError.BU_9201);
             }
             redisTemplate.delete("login_vcode_" + email);
             // 查看用户是否存在
@@ -111,29 +113,29 @@ public class PublicController extends BaseController {
     @PostMapping(value = "/cent_login")
     public String userLogin(@RequestBody @Valid CertLoginDTO certLoginDTO) {
         if (!redisTemplate.hasKey(certLoginDTO.getPlaintext())) {
-            throw new BusinessException("验证失败");
+            throw new BusinessException(BusinessError.BU_9202);
         }
         UserEntry userEntry = userEntryRepository.findOne(QUserEntry.userEntry.email.eq(certLoginDTO.getEmail()));
         if (userEntry == null) {
-            throw new BusinessException("验证失败");
+            throw new BusinessException(BusinessError.BU_9202);
         }
         if (StringUtils.isBlank(userEntry.getCertId())) {
-            throw new BusinessException("验证失败");
+            throw new BusinessException(BusinessError.BU_9202);
         }
         X509Certificate x509Certificate;
         try {
             x509Certificate = SecurityKit.getCert(userEntry.getCertId());
         } catch (Exception e) {
-            throw new BusinessException("验证失败");
+            throw new BusinessException(BusinessError.BU_9202);
         }
         String result;
         try {
             result = Base64.toBase64String(AsymmetricEncryptionKit.decrypt(Base64.decode(certLoginDTO.getCiphertext()), x509Certificate.getPublicKey()));
         } catch (Exception e) {
-            throw new BusinessException("验证失败");
+            throw new BusinessException(BusinessError.BU_9202);
         }
         if (!certLoginDTO.getPlaintext().equals(result)) {
-            throw new BusinessException("验证失败");
+            throw new BusinessException(BusinessError.BU_9202);
         }
         UserLoginCommand command = new UserLoginCommand();
         command.setId(userEntry.getId());

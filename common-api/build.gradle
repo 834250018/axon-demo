@@ -36,10 +36,8 @@ repositories {
 }
 
 dependencies {
-    compile project(":infrastructure")
-//    compile group: 'io.springfox', name: 'springfox-swagger2', version: "${SPRINGFOX_VERSION}"
-//    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: "${SPRINGFOX_VERSION}"
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: "${SPRINGFOX_VERSION}"
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: "${SPRINGFOX_VERSION}"
 // https://mvnrepository.com/artifact/com.github.xiaoymin/knife4j-spring-boot-starter
-    compile group: 'com.github.xiaoymin', name: 'knife4j-spring-boot-starter', version: '2.0.1'
 
 }

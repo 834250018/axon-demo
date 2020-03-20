@@ -8,8 +8,6 @@ import lombok.experimental.FieldNameConstants;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.io.Serializable;
-
 /**
  * @author ve
  * @date 2019/3/29 9:11
@@ -31,5 +29,5 @@ public class UserEntry extends BaseEntry {
     private String certId;
 
     @ApiModelProperty(value = "最后一次登录token")
-    private String  lastToken;
+    private String lastToken;
 }

@@ -8,7 +8,6 @@ import org.axonframework.eventsourcing.EventCountSnapshotTriggerDefinition;
 import org.axonframework.eventsourcing.Snapshotter;
 import org.axonframework.eventsourcing.eventstore.EventStore;
 import org.axonframework.spring.eventsourcing.SpringPrototypeAggregateFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -20,11 +19,11 @@ import org.springframework.context.annotation.Scope;
 @Configuration
 public class UserConfig {
 
-    @Autowired
-    private EventStore eventStore;
+//    @Autowired
+//    private;
 
-    @Autowired
-    private Snapshotter snapshotter;
+//    @Autowired
+//    private;
 
     @Bean
     @Scope("prototype")
@@ -40,12 +39,12 @@ public class UserConfig {
     }
 
     @Bean
-    public Repository<User> userRepository(AggregateFactory<User> factory, JCacheAdapter cacheAdapter) {
+    public Repository<User> userRepository(AggregateFactory<User> factory, JCacheAdapter cacheAdapter, EventStore eventStore, Snapshotter snapshotter) {
         EventCountSnapshotTriggerDefinition snapshotTriggerDefinition = new EventCountSnapshotTriggerDefinition(snapshotter, 1);
 
-        CachingEventSourcingRepository<User> repository = new CachingEventSourcingRepository<>(factory, eventStore, cacheAdapter, snapshotTriggerDefinition);
+        return new CachingEventSourcingRepository<>(factory, eventStore, cacheAdapter, snapshotTriggerDefinition);
 
-        return repository;
+//         repository;
     }
 
 }

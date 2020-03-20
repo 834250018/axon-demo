@@ -86,6 +86,78 @@ import java.util.Map;
  * @param jobName  任务名
  * @param jobGroup 任务组
  * @throws SchedulerException
+ * <p>
+ * 设置定时器
+ * @param jobDetailName  任务名
+ * @param jobDetailGroup 任务组
+ * @param triggerTime    触发器触发时间
+ * <p>
+ * 设置定时器
+ * @param dataMap        数据map
+ * @param jobDetailName  任务配置name
+ * @param jobDetailGroup 任务配置group
+ * @param triggerName    触发器name
+ * @param triggerGroup   触发器group
+ * @param triggerTime    触发器触发时间
+ * <p>
+ * 调整任务执行时间
+ * @param jobName  任务名
+ * @param jobGroup 任务组
+ * @param newTime  新任务执行时间
+ * @throws SchedulerException
+ * <p>
+ * 删除任务
+ * @param jobName  任务名
+ * @param jobGroup 任务组
+ * @throws SchedulerException
+ * <p>
+ * 设置定时器
+ * @param jobDetailName  任务名
+ * @param jobDetailGroup 任务组
+ * @param triggerTime    触发器触发时间
+ * <p>
+ * 设置定时器
+ * @param dataMap        数据map
+ * @param jobDetailName  任务配置name
+ * @param jobDetailGroup 任务配置group
+ * @param triggerName    触发器name
+ * @param triggerGroup   触发器group
+ * @param triggerTime    触发器触发时间
+ * <p>
+ * 调整任务执行时间
+ * @param jobName  任务名
+ * @param jobGroup 任务组
+ * @param newTime  新任务执行时间
+ * @throws SchedulerException
+ * <p>
+ * 删除任务
+ * @param jobName  任务名
+ * @param jobGroup 任务组
+ * @throws SchedulerException
+ * <p>
+ * 设置定时器
+ * @param jobDetailName  任务名
+ * @param jobDetailGroup 任务组
+ * @param triggerTime    触发器触发时间
+ * <p>
+ * 设置定时器
+ * @param dataMap        数据map
+ * @param jobDetailName  任务配置name
+ * @param jobDetailGroup 任务配置group
+ * @param triggerName    触发器name
+ * @param triggerGroup   触发器group
+ * @param triggerTime    触发器触发时间
+ * <p>
+ * 调整任务执行时间
+ * @param jobName  任务名
+ * @param jobGroup 任务组
+ * @param newTime  新任务执行时间
+ * @throws SchedulerException
+ * <p>
+ * 删除任务
+ * @param jobName  任务名
+ * @param jobGroup 任务组
+ * @throws SchedulerException
  *//*
 
 public class SchedulerUtils {

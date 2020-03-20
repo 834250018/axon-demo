@@ -31,12 +31,12 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenLocal()
+    maven { url 'https://maven.aliyun.com/repository/google/' }
     mavenCentral()
     jcenter()
 }
 
 dependencies {
-//    testCompile 'junit:junit:4.12'
     // axon
     // compile group: 'org.axonframework', name: 'axon-distributed-commandbus-springcloud', version: "${axonFrameworkVersion}"
     compile group: 'org.axonframework', name: 'axon-spring-boot-starter', version: "${axonFrameworkVersion}"
@@ -69,4 +69,6 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-amqp')
     compile 'javax.mail:javax.mail-api:1.5.6'
     compile 'javax.mail:mail:1.4.6'
+
+//    compile group: 'com.github.xiaoymin', name: 'knife4j-spring-boot-starter', version: '2.0.1'
 }

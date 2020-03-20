@@ -26,5 +26,5 @@ public class UserUpdateCommand {
     private String certId;
 
     @ApiModelProperty(value = "最后一次登录token")
-    private String  lastToken;
+    private String lastToken;
 }

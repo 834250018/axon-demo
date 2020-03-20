@@ -1,13 +1,8 @@
 package com.ywy.learn.command.article;
 
-import com.ywy.learn.command.article.api.command.ArticleCommentCommand;
-import com.ywy.learn.command.article.api.command.ArticleCreateCommand;
-import com.ywy.learn.command.article.api.command.ArticleRemoveCommand;
-import com.ywy.learn.command.article.api.command.ArticleUpdateCommand;
-import com.ywy.learn.command.article.api.event.ArticleCommentedEvent;
-import com.ywy.learn.command.article.api.event.ArticleCreatedEvent;
-import com.ywy.learn.command.article.api.event.ArticleRemovedEvent;
-import com.ywy.learn.command.article.api.event.ArticleUpdatedEvent;
+import com.ywy.learn.command.article.api.command.*;
+import com.ywy.learn.command.article.api.event.*;
+import com.ywy.learn.common.api.base.BaseAggregate;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -18,7 +13,6 @@ import org.axonframework.messaging.MetaData;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +26,7 @@ import static org.axonframework.commandhandling.model.AggregateLifecycle.markDel
 @Aggregate
 @NoArgsConstructor
 @Data
-public class Article implements Serializable {
+public class Article extends BaseAggregate implements ArticleCommandListener, ArticleEventListener {
 
     @AggregateIdentifier
     private String id;
@@ -53,15 +47,16 @@ public class Article implements Serializable {
         apply(event, metaData);
     }
 
-
-    public void update(ArticleUpdateCommand command, MetaData metaData) {
+    @Override
+    public void handle(ArticleUpdateCommand command, MetaData metaData) {
         ArticleUpdatedEvent event = new ArticleUpdatedEvent();
         BeanUtils.copyProperties(this, event);
         BeanUtils.copyProperties(command, event);
         apply(event, metaData);
     }
 
-    public void comment(ArticleCommentCommand command, MetaData metaData) {
+    @Override
+    public void handle(ArticleCommentCommand command, MetaData metaData) {
         ArticleCommentedEvent event = new ArticleCommentedEvent();
         BeanUtils.copyProperties(this, event);
         event.setId(id);
@@ -70,6 +65,7 @@ public class Article implements Serializable {
         apply(event, metaData);
     }
 
+    @Override
     public void remove(ArticleRemoveCommand command, MetaData metaData) {
         ArticleRemovedEvent event = new ArticleRemovedEvent();
         BeanUtils.copyProperties(command, event);
@@ -78,26 +74,27 @@ public class Article implements Serializable {
 
 // ----------------------------------------------------
 
+    @Override
     @EventSourcingHandler
     public void on(ArticleCreatedEvent event, MetaData metaData) {
         BeanUtils.copyProperties(event, this);
     }
 
+    @Override
     @EventSourcingHandler
-//    @Override
     public void on(ArticleUpdatedEvent event, MetaData metaData) {
         BeanUtils.copyProperties(event, this);
     }
 
+    @Override
     @EventSourcingHandler
-//    @Override
     public void on(ArticleCommentedEvent event, MetaData metaData) {
         BeanUtils.copyProperties(event, this);
     }
 
 
+    @Override
     @EventSourcingHandler
-//    @Override
     public void on(ArticleRemovedEvent event, MetaData metaData) {
         markDeleted();
     }

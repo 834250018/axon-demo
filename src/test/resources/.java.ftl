@@ -28,7 +28,7 @@ import static org.axonframework.commandhandling.model.AggregateLifecycle.markDel
 @Aggregate
 @NoArgsConstructor
 @Data
-public class ${aggregate?cap_first} extends BaseAggregate {
+public class ${aggregate?cap_first} extends BaseAggregate implements IAdminEvent, IAdminCommand {
 
 @AggregateIdentifier
 private String id;
@@ -47,13 +47,15 @@ apply(event, metaData);
 }
 
 
-public void update(${aggregate?cap_first}UpdateCommand command, MetaData metaData) {
+    @Override
+public void handle(${aggregate?cap_first}UpdateCommand command, MetaData metaData) {
 ${aggregate?cap_first}UpdatedEvent event = new ${aggregate?cap_first}UpdatedEvent();
 BeanUtils.copyProperties(this, event);
 BeanUtils.copyProperties(command, event);
 apply(event, metaData);
 }
 
+    @Override
 public void remove(${aggregate?cap_first}RemoveCommand command, MetaData metaData) {
 ${aggregate?cap_first}RemovedEvent event = new ${aggregate?cap_first}RemovedEvent();
 BeanUtils.copyProperties(command, event);
@@ -62,21 +64,22 @@ apply(event, metaData);
 
 // ----------------------------------------------------
 
+    @Override
 @EventSourcingHandler
 public void on(${aggregate?cap_first}CreatedEvent event, MetaData metaData) {
         applyMetaData(metaData);
 BeanUtils.copyProperties(event, this);
 }
 
+    @Override
 @EventSourcingHandler
-//    @Override
 public void on(${aggregate?cap_first}UpdatedEvent event, MetaData metaData) {
 BeanUtils.copyProperties(event, this);
 }
 
 
+    @Override
 @EventSourcingHandler
-//    @Override
 public void on(${aggregate?cap_first}RemovedEvent event, MetaData metaData) {
 markDeleted();
 }

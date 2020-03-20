@@ -1,9 +1,6 @@
 package com.ywy.learn.query.listener;
 
-import com.ywy.learn.command.article.api.event.ArticleCommentedEvent;
-import com.ywy.learn.command.article.api.event.ArticleCreatedEvent;
-import com.ywy.learn.command.article.api.event.ArticleRemovedEvent;
-import com.ywy.learn.command.article.api.event.ArticleUpdatedEvent;
+import com.ywy.learn.command.article.api.event.*;
 import com.ywy.learn.query.entry.ArticleEntry;
 import com.ywy.learn.query.entry.CommentEntry;
 import com.ywy.learn.query.repository.ArticleEntryRepository;
@@ -20,11 +17,12 @@ import java.util.stream.Collectors;
  * @date 2019/3/29 20:38
  */
 @Component
-public class ArticleListener {
+public class ArticleListener implements ArticleEventListener {
 
     @Autowired
     ArticleEntryRepository repository;
 
+    @Override
     @EventHandler
     public void on(ArticleCreatedEvent event, MetaData metaData) {
         ArticleEntry articleEntry = new ArticleEntry();
@@ -32,16 +30,16 @@ public class ArticleListener {
         repository.save(articleEntry);
     }
 
+    @Override
     @EventHandler
-//    @Override
     public void on(ArticleUpdatedEvent event, MetaData metaData) {
         ArticleEntry entry = repository.findOne(event.getId());
         BeanUtils.copyProperties(event, entry);
         repository.save(entry);
     }
 
+    @Override
     @EventHandler
-//    @Override
     public void on(ArticleCommentedEvent event, MetaData metaData) {
         ArticleEntry entry = repository.findOne(event.getId());
         BeanUtils.copyProperties(event, entry);
@@ -49,8 +47,8 @@ public class ArticleListener {
         repository.save(entry);
     }
 
+    @Override
     @EventHandler
-//    @Override
     public void on(ArticleRemovedEvent event, MetaData metaData) {
         repository.delete(event.getId());
     }

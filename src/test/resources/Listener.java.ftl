@@ -16,11 +16,12 @@ import org.springframework.stereotype.Component;
  * @date 2019/3/29 20:38
  */
 @Component
-public class ${aggregate?cap_first}Listener {
+public class ${aggregate?cap_first}Listener implements IAdminEvent {
 
     @Autowired
 ${aggregate?cap_first}EntryRepository repository;
 
+    @Override
     @EventHandler
     public void on(${aggregate?cap_first}CreatedEvent event, MetaData metaData) {
 ${aggregate?cap_first}Entry entry = new ${aggregate?cap_first}Entry();
@@ -29,16 +30,16 @@ ${aggregate?cap_first}Entry entry = new ${aggregate?cap_first}Entry();
         repository.save(entry);
     }
 
+    @Override
     @EventHandler
-//    @Override
     public void on(${aggregate?cap_first}UpdatedEvent event, MetaData metaData) {
 ${aggregate?cap_first}Entry entry = repository.findOne(event.getId());
         BeanUtils.copyProperties(event, entry);
         repository.save(entry);
     }
 
+    @Override
     @EventHandler
-//    @Override
     public void on(${aggregate?cap_first}RemovedEvent event, MetaData metaData) {
         repository.delete(event.getId());
     }

@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2019/3/29 20:38
  */
 @Component
-public class UserListener {
+public class UserListener implements UserEventListener {
 
     @Autowired
     UserEntryRepository repository;
@@ -26,6 +26,7 @@ public class UserListener {
     @Autowired
     StringRedisTemplate redisTemplate;
 
+    @Override
     @EventHandler
     public void on(UserCreatedEvent event, MetaData metaData) {
         UserEntry userEntry = new UserEntry();
@@ -35,16 +36,16 @@ public class UserListener {
         repository.save(userEntry);
     }
 
+    @Override
     @EventHandler
-//    @Override
     public void on(UserUpdatedEvent event, MetaData metaData) {
         UserEntry entry = repository.findOne(event.getId());
         BeanUtils.copyProperties(event, entry);
         repository.save(entry);
     }
 
+    @Override
     @EventHandler
-//    @Override
     public void on(UserLoginedEvent event, MetaData metaData) {
         UserEntry entry = repository.findOne(event.getId());
         entry.setLastToken(event.getLastToken());
@@ -52,8 +53,8 @@ public class UserListener {
         redisTemplate.opsForValue().set(entry.getLastToken(), JSON.toJSONString(entry), 1L, TimeUnit.HOURS);
     }
 
+    @Override
     @EventHandler
-//    @Override
     public void on(UserCertApplyedEvent event, MetaData metaData) {
         UserEntry entry = repository.findOne(event.getId());
         entry.setCertId(event.getCertId());
@@ -61,8 +62,8 @@ public class UserListener {
         redisTemplate.opsForValue().set(entry.getLastToken(), JSON.toJSONString(entry), 1L, TimeUnit.HOURS);
     }
 
+    @Override
     @EventHandler
-//    @Override
     public void on(UserRemovedEvent event, MetaData metaData) {
         repository.delete(event.getId());
     }

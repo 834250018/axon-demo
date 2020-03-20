@@ -1,11 +1,9 @@
 package com.ywy.learn.web.controller.base;
 
-import com.alibaba.fastjson.JSON;
-import com.ywy.learn.infrastructure.exception.BusinessException;
-import com.ywy.learn.infrastructure.gateway.MetaDataGateway;
-import com.ywy.learn.query.entry.AdminEntry;
+import com.ywy.learn.common.api.exception.BusinessError;
+import com.ywy.learn.common.api.exception.BusinessException;
+import com.ywy.learn.common.api.gateway.MetaDataGateway;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.axonframework.messaging.MetaData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -37,8 +35,8 @@ public class BaseController {
             return metaDataGateway.sendAndWait(command, MetaData.emptyInstance());
         } catch (InterruptedException e) {
             log.error("command fail", e);
-            throw new BusinessException("线程堵塞");
-//            Thread.currentThread().interrupt();
+            Thread.currentThread().interrupt();
+            throw new BusinessException(BusinessError.BU_5001);
         }
     }
 }

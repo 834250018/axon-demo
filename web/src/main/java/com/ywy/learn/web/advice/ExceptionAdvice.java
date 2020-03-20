@@ -1,6 +1,6 @@
 package com.ywy.learn.web.advice;
 
-import com.ywy.learn.infrastructure.exception.BusinessException;
+import com.ywy.learn.common.api.exception.BusinessException;
 import com.ywy.learn.web.pojo.ResponseVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

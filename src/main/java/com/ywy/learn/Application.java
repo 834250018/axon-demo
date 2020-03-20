@@ -1,8 +1,10 @@
 package com.ywy.learn;
 
 import com.ywy.learn.command.admin.api.command.AdminCreateCommand;
-import com.ywy.learn.infrastructure.gateway.MetaDataGateway;
-import com.ywy.learn.infrastructure.security.SecurityKit;
+import com.ywy.learn.common.api.exception.BusinessError;
+import com.ywy.learn.common.api.exception.BusinessException;
+import com.ywy.learn.common.api.gateway.MetaDataGateway;
+import com.ywy.learn.common.api.security.SecurityKit;
 import com.ywy.learn.query.entry.AdminEntry;
 import com.ywy.learn.query.entry.QAdminEntry;
 import com.ywy.learn.query.repository.AdminEntryRepository;
@@ -26,16 +28,13 @@ import java.security.Security;
 @Slf4j
 public class Application implements CommandLineRunner {
 
+    public static final String ADMIN = "admin";
     @Autowired
     UserEntryRepository userEntryRepository;
-
     @Autowired
     AdminEntryRepository adminEntryRepository;
-
     @Autowired
     MetaDataGateway metaDataGateway;
-
-    public static final String ADMIN = "admin";
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class);
@@ -73,6 +72,8 @@ public class Application implements CommandLineRunner {
                         MetaData.emptyInstance());
             } catch (InterruptedException e) {
                 log.error("初始化admin失败: " + e.getMessage());
+                Thread.currentThread().interrupt();
+                throw new BusinessException(BusinessError.BU_5001);
             }
         }
     }

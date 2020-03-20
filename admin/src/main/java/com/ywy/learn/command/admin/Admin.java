@@ -1,16 +1,11 @@
 package com.ywy.learn.command.admin;
 
-import com.ywy.learn.command.admin.api.command.AdminCreateCommand;
-import com.ywy.learn.command.admin.api.command.AdminLoginCommand;
-import com.ywy.learn.command.admin.api.command.AdminRemoveCommand;
-import com.ywy.learn.command.admin.api.command.AdminUpdateCommand;
-import com.ywy.learn.command.admin.api.event.AdminCreatedEvent;
-import com.ywy.learn.command.admin.api.event.AdminLoginedEvent;
-import com.ywy.learn.command.admin.api.event.AdminRemovedEvent;
-import com.ywy.learn.command.admin.api.event.AdminUpdatedEvent;
-import com.ywy.learn.infrastructure.base.BaseAggregate;
-import com.ywy.learn.infrastructure.exception.BusinessException;
-import com.ywy.learn.infrastructure.util.DigestKit;
+import com.ywy.learn.command.admin.api.command.*;
+import com.ywy.learn.command.admin.api.event.*;
+import com.ywy.learn.common.api.base.BaseAggregate;
+import com.ywy.learn.common.api.exception.BusinessError;
+import com.ywy.learn.common.api.exception.BusinessException;
+import com.ywy.learn.common.api.util.DigestKit;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.RandomUtils;
@@ -34,7 +29,7 @@ import static org.axonframework.commandhandling.model.AggregateLifecycle.markDel
 @Aggregate
 @NoArgsConstructor
 @Data
-public class Admin extends BaseAggregate {
+public class Admin extends BaseAggregate implements AdminEventListener, AdminCommandListener {
 
     @AggregateIdentifier
     private String id;
@@ -60,7 +55,8 @@ public class Admin extends BaseAggregate {
     }
 
 
-    public void update(AdminUpdateCommand command, MetaData metaData) {
+    @Override
+    public void handle(AdminUpdateCommand command, MetaData metaData) {
         AdminUpdatedEvent event = new AdminUpdatedEvent();
         BeanUtils.copyProperties(this, event);
         BeanUtils.copyProperties(command, event);
@@ -68,10 +64,11 @@ public class Admin extends BaseAggregate {
     }
 
 
-    public void update(AdminLoginCommand command, MetaData metaData) {
+    @Override
+    public void handle(AdminLoginCommand command, MetaData metaData) {
         String pwd = DigestKit.sha256AndSalt(command.getPassword(), salt);
         if (!password.equals(pwd)) {
-            throw new BusinessException("用户不存在");
+            throw new BusinessException(BusinessError.BU_9600);
         }
         AdminLoginedEvent event = new AdminLoginedEvent();
         event.setId(id);
@@ -79,6 +76,7 @@ public class Admin extends BaseAggregate {
         apply(event, metaData);
     }
 
+    @Override
     public void remove(AdminRemoveCommand command, MetaData metaData) {
         AdminRemovedEvent event = new AdminRemovedEvent();
         BeanUtils.copyProperties(command, event);
@@ -88,26 +86,27 @@ public class Admin extends BaseAggregate {
 // ----------------------------------------------------
 
     @EventSourcingHandler
+    @Override
     public void on(AdminCreatedEvent event, MetaData metaData) {
         applyMetaData(metaData);
         BeanUtils.copyProperties(event, this);
     }
 
     @EventSourcingHandler
-//    @Override
+    @Override
     public void on(AdminUpdatedEvent event, MetaData metaData) {
         BeanUtils.copyProperties(event, this);
     }
 
     @EventSourcingHandler
-//    @Override
+    @Override
     public void on(AdminLoginedEvent event, MetaData metaData) {
         BeanUtils.copyProperties(event, this);
     }
 
 
     @EventSourcingHandler
-//    @Override
+    @Override
     public void on(AdminRemovedEvent event, MetaData metaData) {
         markDeleted();
     }

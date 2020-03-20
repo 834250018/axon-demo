@@ -1,8 +1,9 @@
 package com.ywy.learn.web.controller.base;
 
 import com.alibaba.fastjson.JSON;
-import com.ywy.learn.infrastructure.exception.BusinessException;
-import com.ywy.learn.infrastructure.gateway.MetaDataGateway;
+import com.ywy.learn.common.api.exception.BusinessError;
+import com.ywy.learn.common.api.exception.BusinessException;
+import com.ywy.learn.common.api.gateway.MetaDataGateway;
 import com.ywy.learn.query.entry.AdminEntry;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -35,7 +36,7 @@ public class BaseAdminController extends BaseController {
     protected AdminEntry getAdmin() {
         String admin = redisTemplate.opsForValue().get(getToken());
         if (StringUtils.isBlank(admin)) {
-            throw new BusinessException("登录已过期");
+            throw new BusinessException(BusinessError.BU_9001);
         }
         return JSON.parseObject(admin, AdminEntry.class);
     }
@@ -52,7 +53,7 @@ public class BaseAdminController extends BaseController {
     protected String getToken() {
         String token = request.getHeader("X-Token");
         if (StringUtils.isBlank(token)) {
-            throw new BusinessException("登录已过期");
+            throw new BusinessException(BusinessError.BU_9001);
         }
         return token;
     }
@@ -62,8 +63,8 @@ public class BaseAdminController extends BaseController {
             return metaDataGateway.sendAndWait(command, genMetaData());
         } catch (InterruptedException e) {
             log.error("command fail", e);
-            throw new BusinessException("线程堵塞");
-//            Thread.currentThread().interrupt();
+            Thread.currentThread().interrupt();
+            throw new BusinessException(BusinessError.BU_5001);
         }
     }
 

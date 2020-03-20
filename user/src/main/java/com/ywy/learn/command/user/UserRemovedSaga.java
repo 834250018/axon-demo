@@ -3,7 +3,7 @@ package com.ywy.learn.command.user;
 import com.ywy.learn.command.user.api.command.AuthRemoveCommand;
 import com.ywy.learn.command.user.api.event.AuthRemovedEvent;
 import com.ywy.learn.command.user.api.event.UserRemovedEvent;
-import com.ywy.learn.infrastructure.gateway.MetaDataGateway;
+import com.ywy.learn.common.api.gateway.MetaDataGateway;
 import org.axonframework.eventhandling.saga.EndSaga;
 import org.axonframework.eventhandling.saga.SagaEventHandler;
 import org.axonframework.eventhandling.saga.SagaLifecycle;

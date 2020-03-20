@@ -1,9 +1,6 @@
 package com.ywy.learn.command.article;
 
-import com.ywy.learn.command.article.api.command.ArticleCommentCommand;
-import com.ywy.learn.command.article.api.command.ArticleCreateCommand;
-import com.ywy.learn.command.article.api.command.ArticleRemoveCommand;
-import com.ywy.learn.command.article.api.command.ArticleUpdateCommand;
+import com.ywy.learn.command.article.api.command.*;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.Aggregate;
 import org.axonframework.commandhandling.model.Repository;
@@ -16,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @date 2019/3/29 15:30
  */
 @Component
-public class ArticleHandle {
+public class ArticleHandle implements ArticleCommandListener {
 
     @Autowired
     Repository<Article> repository;
@@ -26,22 +23,25 @@ public class ArticleHandle {
         repository.newInstance(() -> new Article(command, metaData));
     }
 
+    @Override
     @CommandHandler
     public void handle(ArticleUpdateCommand command, MetaData metaData) {
         Aggregate<Article> target = repository.load(command.getId());
         //        checkAuthorization(target,metaData);
-        target.execute(aggregate -> aggregate.update(command, metaData));
+        target.execute(aggregate -> aggregate.handle(command, metaData));
     }
 
+    @Override
     @CommandHandler
     public void handle(ArticleCommentCommand command, MetaData metaData) {
         Aggregate<Article> target = repository.load(command.getArticleId());
         //        checkAuthorization(target,metaData);
-        target.execute(aggregate -> aggregate.comment(command, metaData));
+        target.execute(aggregate -> aggregate.handle(command, metaData));
     }
 
+    @Override
     @CommandHandler
-    public void handle(ArticleRemoveCommand command, MetaData metaData) {
+    public void remove(ArticleRemoveCommand command, MetaData metaData) {
         Aggregate<Article> target = repository.load(command.getId());
         //        checkAuthorization(target,metaData);
         target.execute(aggregate -> aggregate.remove(command, metaData));

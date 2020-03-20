@@ -63,6 +63,54 @@ import java.util.Map;
  * @param pushType 推送消息类型,告知app跳转目标
  * @param dataMap  数据map
  * @throws Exception
+ * <p>
+ * 安卓自定义播
+ * @param token    用户id
+ * @param title    消息标题
+ * @param content  消息内容
+ * @param pushType 推送消息类型,告知app跳转目标
+ * @param dataMap  数据map
+ * @throws Exception
+ * <p>
+ * iOS自定义播(正式环境)
+ * @param token    用户id
+ * @param title    消息标题
+ * @param content  消息内容
+ * @param pushType 推送消息类型,告知app跳转目标
+ * @param dataMap  数据map
+ * @throws Exception
+ * <p>
+ * 安卓自定义播
+ * @param token    用户id
+ * @param title    消息标题
+ * @param content  消息内容
+ * @param pushType 推送消息类型,告知app跳转目标
+ * @param dataMap  数据map
+ * @throws Exception
+ * <p>
+ * iOS自定义播(正式环境)
+ * @param token    用户id
+ * @param title    消息标题
+ * @param content  消息内容
+ * @param pushType 推送消息类型,告知app跳转目标
+ * @param dataMap  数据map
+ * @throws Exception
+ * <p>
+ * 安卓自定义播
+ * @param token    用户id
+ * @param title    消息标题
+ * @param content  消息内容
+ * @param pushType 推送消息类型,告知app跳转目标
+ * @param dataMap  数据map
+ * @throws Exception
+ * <p>
+ * iOS自定义播(正式环境)
+ * @param token    用户id
+ * @param title    消息标题
+ * @param content  消息内容
+ * @param pushType 推送消息类型,告知app跳转目标
+ * @param dataMap  数据map
+ * @throws Exception
  *//*
 
 @Component

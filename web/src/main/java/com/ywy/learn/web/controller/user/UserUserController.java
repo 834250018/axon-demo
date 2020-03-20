@@ -1,9 +1,7 @@
 package com.ywy.learn.web.controller.user;
 
 import com.ywy.learn.command.user.api.command.UserApplyCertCommand;
-import com.ywy.learn.command.user.api.command.UserLoginCommand;
-import com.ywy.learn.command.user.api.event.UserLoginedEvent;
-import com.ywy.learn.infrastructure.security.SecurityKit;
+import com.ywy.learn.common.api.security.SecurityKit;
 import com.ywy.learn.query.entry.UserEntry;
 import com.ywy.learn.query.repository.UserEntryRepository;
 import com.ywy.learn.web.controller.base.BaseUserController;
@@ -42,7 +40,7 @@ public class UserUserController extends BaseUserController {
     public String applyCert(@RequestParam("publicKeyBase64") String publicKeyBase64) throws Exception {
         String email = getUser().getEmail();
         String oldCert = getUser().getCertId();
-        if(!StringUtils.isBlank(oldCert)) {
+        if (!StringUtils.isBlank(oldCert)) {
             // todo 若旧证书不为空且没过期,则不允许申请
         }
         PublicKey publicKey = SecurityKit.getPublicKey(publicKeyBase64);

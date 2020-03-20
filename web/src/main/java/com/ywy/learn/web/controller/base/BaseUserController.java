@@ -1,8 +1,9 @@
 package com.ywy.learn.web.controller.base;
 
 import com.alibaba.fastjson.JSON;
-import com.ywy.learn.infrastructure.exception.BusinessException;
-import com.ywy.learn.infrastructure.gateway.MetaDataGateway;
+import com.ywy.learn.common.api.exception.BusinessError;
+import com.ywy.learn.common.api.exception.BusinessException;
+import com.ywy.learn.common.api.gateway.MetaDataGateway;
 import com.ywy.learn.query.entry.UserEntry;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -36,14 +37,15 @@ public class BaseUserController extends BaseController {
     protected String getToken() {
         String token = request.getHeader("U-Token");
         if (StringUtils.isBlank(token)) {
-            throw new BusinessException("登录已过期");
+            throw new BusinessException(BusinessError.BU_9001);
         }
         return token;
     }
+
     protected UserEntry getUser() {
         String user = redisTemplate.opsForValue().get(getToken());
         if (StringUtils.isBlank(user)) {
-            throw new BusinessException("登录已过期");
+            throw new BusinessException(BusinessError.BU_9001);
         }
         return JSON.parseObject(user, UserEntry.class);
     }
@@ -62,8 +64,8 @@ public class BaseUserController extends BaseController {
             return metaDataGateway.sendAndWait(command, genMetaData());
         } catch (InterruptedException e) {
             log.error("command fail", e);
-            throw new BusinessException("线程堵塞");
-//            Thread.currentThread().interrupt();
+            Thread.currentThread().interrupt();
+            throw new BusinessException(BusinessError.BU_5001);
         }
     }
 

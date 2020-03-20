@@ -20,11 +20,11 @@ import org.springframework.context.annotation.Scope;
 @Configuration
 public class ${aggregate?cap_first}Config {
 
-@Autowired
-private EventStore eventStore;
+// @Autowired
+// private ;
 
-@Autowired
-private Snapshotter snapshotter;
+// @Autowired
+// private ;
 
 @Bean
 @Scope("prototype")
@@ -40,12 +40,13 @@ public AggregateFactory<${aggregate?cap_first}> ${aggregate?uncap_first}Aggregat
         }
 
         @Bean
-        public Repository<${aggregate?cap_first}> ${aggregate?uncap_first}Repository(AggregateFactory<${aggregate?cap_first}> factory, JCacheAdapter cacheAdapter) {
+        public Repository<${aggregate?cap_first}> ${aggregate?uncap_first}Repository(AggregateFactory<${aggregate?cap_first}> factory, JCacheAdapter cacheAdapter, EventStore eventStore, Snapshotter snapshotter) {
                 EventCountSnapshotTriggerDefinition snapshotTriggerDefinition = new EventCountSnapshotTriggerDefinition(snapshotter, 1);
 
-                CachingEventSourcingRepository<${aggregate?cap_first}> repository = new CachingEventSourcingRepository<>(factory, eventStore, cacheAdapter, snapshotTriggerDefinition);
+                // CachingEventSourcingRepository<${aggregate?cap_first}> repository = new CachingEventSourcingRepository<>(factory, eventStore, cacheAdapter, snapshotTriggerDefinition);
+                return new CachingEventSourcingRepository<>(factory, eventStore, cacheAdapter, snapshotTriggerDefinition);
 
-                    return repository;
+                    // repository;
                     }
 
                     }

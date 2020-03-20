@@ -2,7 +2,7 @@ package com.ywy.learn.command.user;
 
 import com.ywy.learn.command.user.api.command.*;
 import com.ywy.learn.command.user.api.event.*;
-import com.ywy.learn.infrastructure.base.BaseAggregate;
+import com.ywy.learn.common.api.base.BaseAggregate;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -23,7 +23,7 @@ import static org.axonframework.commandhandling.model.AggregateLifecycle.markDel
 @Aggregate
 @NoArgsConstructor
 @Data
-public class User extends BaseAggregate {
+public class User extends BaseAggregate implements UserCommandListener, UserEventListener {
 
     @AggregateIdentifier
     private String id;
@@ -43,8 +43,8 @@ public class User extends BaseAggregate {
         apply(event, metaData);
     }
 
-
-    public void update(UserLoginCommand command, MetaData metaData) {
+    @Override
+    public void handle(UserLoginCommand command, MetaData metaData) {
         UserLoginedEvent event = new UserLoginedEvent();
         event.setId(id);
         event.setLastToken(command.getLastToken());
@@ -52,7 +52,8 @@ public class User extends BaseAggregate {
     }
 
 
-    public void update(UserApplyCertCommand command, MetaData metaData) {
+    @Override
+    public void handle(UserApplyCertCommand command, MetaData metaData) {
         UserCertApplyedEvent event = new UserCertApplyedEvent();
         event.setId(id);
         event.setCertId(command.getCertId());
@@ -60,12 +61,14 @@ public class User extends BaseAggregate {
     }
 
 
-    public void update(UserUpdateCommand command, MetaData metaData) {
+    @Override
+    public void handle(UserUpdateCommand command, MetaData metaData) {
         UserUpdatedEvent event = new UserUpdatedEvent();
         event.setId(id);
         apply(event, metaData);
     }
 
+    @Override
     public void remove(UserRemoveCommand command, MetaData metaData) {
         UserRemovedEvent event = new UserRemovedEvent();
         BeanUtils.copyProperties(command, event);
@@ -74,33 +77,34 @@ public class User extends BaseAggregate {
 
     // ----------------------------------------------------
 
+    @Override
     @EventSourcingHandler
     public void on(UserCreatedEvent event, MetaData metaData) {
         applyMetaData(metaData);
         BeanUtils.copyProperties(event, this);
     }
 
+    @Override
     @EventSourcingHandler
-//    @Override
     public void on(UserUpdatedEvent event, MetaData metaData) {
         BeanUtils.copyProperties(event, this);
     }
 
+    @Override
     @EventSourcingHandler
-//    @Override
     public void on(UserLoginedEvent event, MetaData metaData) {
         BeanUtils.copyProperties(event, this);
     }
 
+    @Override
     @EventSourcingHandler
-//    @Override
     public void on(UserCertApplyedEvent event, MetaData metaData) {
         BeanUtils.copyProperties(event, this);
     }
 
 
+    @Override
     @EventSourcingHandler
-//    @Override
     public void on(UserRemovedEvent event, MetaData metaData) {
         markDeleted();
     }

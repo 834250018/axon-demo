@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 * @date 2019/3/29 15:30
 */
 @Component
-public class ${aggregate?cap_first}Handle {
+public class ${aggregate?cap_first}Handle implements IAdminCommand {
 
 @Autowired
 Repository<${aggregate?cap_first}> repository;
@@ -25,15 +25,17 @@ Repository<${aggregate?cap_first}> repository;
     repository.newInstance(() -> new ${aggregate?cap_first}(command, metaData));
     }
 
+    @Override
     @CommandHandler
     public void handle(${aggregate?cap_first}UpdateCommand command, MetaData metaData) {
     Aggregate<${aggregate?cap_first}> target = repository.load(command.getId());
         //        checkAuthorization(target,metaData);
-        target.execute(aggregate -> aggregate.update(command, metaData));
+        target.execute(aggregate -> aggregate.handle(command, metaData));
         }
 
+    @Override
         @CommandHandler
-        public void handle(${aggregate?cap_first}RemoveCommand command, MetaData metaData) {
+        public void remove(${aggregate?cap_first}RemoveCommand command, MetaData metaData) {
         Aggregate<${aggregate?cap_first}> target = repository.load(command.getId());
             //        checkAuthorization(target,metaData);
             target.execute(aggregate -> aggregate.remove(command, metaData));

@@ -50,21 +50,25 @@ repositories {
 }
 
 configure(subprojects.findAll {
+    !it.name.contains('infrastructure')
+}) {
+    apply from: "${rootProject.projectDir}/infrastructure/build.gradle"
+}
+
+
+configure(subprojects.findAll {
     !it.name.contains('common-api') && it.name.contains('-api')
 }) {
-    apply from: "${rootProject.projectDir}/common-api/build.gradle"
+    apply from: "${rootProject.projectDir}/common/build.gradle"
 }
 
 dependencies {
+    compile project(":common")
     compile project(":query")
     compile project(":web")
     compile project(":user")
     compile project(":admin")
-    // https://mvnrepository.com/artifact/ch.qos.logback/logback-core
     compile 'ch.qos.logback:logback-core:1.2.3'
-// https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
-//    testCompile 'ch.qos.logback:logback-classic:1.2.3'
-
     testCompile 'org.freemarker:freemarker:2.3.29'
     testCompile 'junit:junit:4.12'
 

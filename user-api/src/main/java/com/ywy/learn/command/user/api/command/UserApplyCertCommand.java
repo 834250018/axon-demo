@@ -20,5 +20,5 @@ public class UserApplyCertCommand {
     private String id;
 
     @ApiModelProperty(value = "证书标识符")
-    private String  certId;
+    private String certId;
 }

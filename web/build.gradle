@@ -26,7 +26,6 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 dependencies {
-//    testCompile 'junit:junit:4.12'
     // 组内
     compile project(":query")
     compile 'org.springframework.boot:spring-boot-starter-aop'

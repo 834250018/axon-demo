@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @date 2019/3/29 15:30
  */
 @Component
-public class UserHandle {
+public class UserHandle implements UserCommandListener {
 
     @Autowired
     Repository<User> repository;
@@ -23,29 +23,33 @@ public class UserHandle {
         repository.newInstance(() -> new User(command, metaData));
     }
 
+    @Override
     @CommandHandler
     public void handle(UserUpdateCommand command, MetaData metaData) {
         Aggregate<User> target = repository.load(command.getId());
 //        checkAuthorization(target,metaData);
-        target.execute(aggregate -> aggregate.update(command, metaData));
+        target.execute(aggregate -> aggregate.handle(command, metaData));
     }
 
+    @Override
     @CommandHandler
     public void handle(UserLoginCommand command, MetaData metaData) {
         Aggregate<User> target = repository.load(command.getId());
 //        checkAuthorization(target,metaData);
-        target.execute(aggregate -> aggregate.update(command, metaData));
+        target.execute(aggregate -> aggregate.handle(command, metaData));
     }
 
+    @Override
     @CommandHandler
     public void handle(UserApplyCertCommand command, MetaData metaData) {
         Aggregate<User> target = repository.load(command.getId());
 //        checkAuthorization(target,metaData);
-        target.execute(aggregate -> aggregate.update(command, metaData));
+        target.execute(aggregate -> aggregate.handle(command, metaData));
     }
 
+    @Override
     @CommandHandler
-    public void handle(UserRemoveCommand command, MetaData metaData) {
+    public void remove(UserRemoveCommand command, MetaData metaData) {
         Aggregate<User> target = repository.load(command.getId());
 //        checkAuthorization(target,metaData);
         target.execute(aggregate -> aggregate.remove(command, metaData));

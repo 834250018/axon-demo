@@ -110,7 +110,7 @@ public class CodeGenerator {
             try {
                 generate(module, aggregate);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error(e.getMessage(), e);
             }
         });
     }
@@ -133,11 +133,13 @@ public class CodeGenerator {
         writeJava("CreateCommand.java.ftl", commandRoot, map);
         writeJava("UpdateCommand.java.ftl", commandRoot, map);
         writeJava("RemoveCommand.java.ftl", commandRoot, map);
+        writeJava("CommandListener.java.ftl", commandRoot, map);
         // 事件
         String eventRoot = module + "-api/" + javaPath + projectPath + "command/" + aggregate + "/api/event/";
         writeJava("CreatedEvent.java.ftl", eventRoot, map);
         writeJava("UpdatedEvent.java.ftl", eventRoot, map);
         writeJava("RemovedEvent.java.ftl", eventRoot, map);
+        writeJava("EventListener.java.ftl", eventRoot, map);
 
         write("api.build.gradle.ftl", new File(module + "-api/", "build.gradle"), map);
 

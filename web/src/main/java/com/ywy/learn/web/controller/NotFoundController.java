@@ -1,9 +1,10 @@
 package com.ywy.learn.web.controller;
 
-import com.ywy.learn.infrastructure.exception.BusinessException;
+import com.ywy.learn.common.api.exception.BusinessError;
+import com.ywy.learn.common.api.exception.BusinessException;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,9 +22,9 @@ public class NotFoundController implements ErrorController {
         return "error";
     }
 
-    @RequestMapping("error")
+    @GetMapping("error")
     public String handleError(HttpServletRequest request) {
-        throw new BusinessException("uri不存在");
+        throw new BusinessException(BusinessError.BU_4004);
     }
 
 }

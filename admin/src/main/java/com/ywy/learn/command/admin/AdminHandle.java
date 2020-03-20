@@ -1,9 +1,6 @@
 package com.ywy.learn.command.admin;
 
-import com.ywy.learn.command.admin.api.command.AdminCreateCommand;
-import com.ywy.learn.command.admin.api.command.AdminLoginCommand;
-import com.ywy.learn.command.admin.api.command.AdminRemoveCommand;
-import com.ywy.learn.command.admin.api.command.AdminUpdateCommand;
+import com.ywy.learn.command.admin.api.command.*;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.Aggregate;
 import org.axonframework.commandhandling.model.Repository;
@@ -16,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @date 2019/3/29 15:30
  */
 @Component
-public class AdminHandle {
+public class AdminHandle implements AdminCommandListener {
 
     @Autowired
     Repository<Admin> repository;
@@ -27,21 +24,23 @@ public class AdminHandle {
     }
 
     @CommandHandler
+    @Override
     public void handle(AdminUpdateCommand command, MetaData metaData) {
         Aggregate<Admin> target = repository.load(command.getId());
         //        checkAuthorization(target,metaData);
-        target.execute(aggregate -> aggregate.update(command, metaData));
+        target.execute(aggregate -> aggregate.handle(command, metaData));
     }
 
     @CommandHandler
+    @Override
     public void handle(AdminLoginCommand command, MetaData metaData) {
         Aggregate<Admin> target = repository.load(command.getId());
         //        checkAuthorization(target,metaData);
-        target.execute(aggregate -> aggregate.update(command, metaData));
+        target.execute(aggregate -> aggregate.handle(command, metaData));
     }
 
     @CommandHandler
-    public void handle(AdminRemoveCommand command, MetaData metaData) {
+    public void remove(AdminRemoveCommand command, MetaData metaData) {
         Aggregate<Admin> target = repository.load(command.getId());
         //        checkAuthorization(target,metaData);
         target.execute(aggregate -> aggregate.remove(command, metaData));

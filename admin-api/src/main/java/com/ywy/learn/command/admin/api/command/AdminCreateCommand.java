@@ -1,13 +1,12 @@
 package com.ywy.learn.command.admin.api.command;
 
+import com.ywy.learn.common.api.base.BaseCommand;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.axonframework.commandhandling.TargetAggregateIdentifier;
 import org.hibernate.validator.constraints.NotBlank;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * @author ve
@@ -16,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdminCreateCommand {
+public class AdminCreateCommand implements BaseCommand {
 
     @TargetAggregateIdentifier
     @ApiModelProperty(value = "id", hidden = true)

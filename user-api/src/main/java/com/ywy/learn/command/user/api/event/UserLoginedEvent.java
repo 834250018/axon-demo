@@ -15,5 +15,5 @@ public class UserLoginedEvent {
 
     private String id;
 
-    private String  lastToken;
+    private String lastToken;
 }
