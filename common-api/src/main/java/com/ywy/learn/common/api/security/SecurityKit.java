@@ -156,14 +156,10 @@ public enum SecurityKit {
     }
 
     public static X509Certificate getCert(String certId) {
-        try {
-            FileInputStream fis = new FileInputStream(SecurityConsts.CERT_PATH + File.separator + certId + ".cer");
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        try (FileInputStream fis = new FileInputStream(SecurityConsts.CERT_PATH + File.separator + certId + ".cer");
+             ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
             IOUtils.copy(fis, bos);
             byte[] bytes = bos.toByteArray();
-
-            fis.close();
-            bos.close();
             X509Certificate x509Certificate = new X509CertImpl(bytes);
             return x509Certificate;
         } catch (Exception e) {
