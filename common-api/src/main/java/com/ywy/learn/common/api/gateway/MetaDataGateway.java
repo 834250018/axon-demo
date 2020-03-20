@@ -1,7 +1,6 @@
 package com.ywy.learn.common.api.gateway;
 
 import org.axonframework.commandhandling.CommandCallback;
-import org.axonframework.commandhandling.CommandExecutionException;
 import org.axonframework.messaging.MetaData;
 
 import java.util.concurrent.CompletableFuture;
@@ -18,9 +17,9 @@ public interface MetaDataGateway {
 
     <C, R> void send(C command, CommandCallback<? super C, R> callback, MetaData metaData);
 
-    <R> R sendAndWait(Object command, MetaData metaData) throws CommandExecutionException, InterruptedException;
+    <R> R sendAndWait(Object command, MetaData metaData) throws InterruptedException;
 
-    <R> R sendAndWait(Object command, MetaData metaData, long timeout, TimeUnit unit) throws CommandExecutionException, InterruptedException, TimeoutException;
+    <R> R sendAndWait(Object command, MetaData metaData, long timeout, TimeUnit unit) throws InterruptedException, TimeoutException;
 
     <R> CompletableFuture<R> send(Object command, MetaData metaData);
 }

@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Bean;
 public class HttpConfig {
 
     // 临时使用,需要移到配置文件
-    public final static int HTTP_PORT = 8080;
+    public static final int HTTP_PORT = 8080;
 
     @Bean
     public EmbeddedServletContainerCustomizer containerCustomizer() {

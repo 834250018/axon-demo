@@ -19,12 +19,6 @@ import org.springframework.context.annotation.Scope;
 @Configuration
 public class AdminConfig {
 
-//    @Autowired
-//    private ;
-
-//    @Autowired
-//    private ;
-
     @Bean
     @Scope("prototype")
     public Admin admin() {
@@ -41,10 +35,7 @@ public class AdminConfig {
     @Bean
     public Repository<Admin> adminRepository(AggregateFactory<Admin> factory, JCacheAdapter cacheAdapter, EventStore eventStore, Snapshotter snapshotter) {
         EventCountSnapshotTriggerDefinition snapshotTriggerDefinition = new EventCountSnapshotTriggerDefinition(snapshotter, 1);
-
         return new CachingEventSourcingRepository<>(factory, eventStore, cacheAdapter, snapshotTriggerDefinition);
-
-//         repository;
     }
 
 }

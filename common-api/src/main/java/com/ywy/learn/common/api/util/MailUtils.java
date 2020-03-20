@@ -1,5 +1,6 @@
 package com.ywy.learn.common.api.util;
 
+import com.ywy.learn.common.api.config.SysConfig;
 import com.ywy.learn.common.api.exception.BusinessError;
 import com.ywy.learn.common.api.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +48,7 @@ public class MailUtils {
             }
             message.addRecipients(Message.RecipientType.TO, list.toArray(new Address[0]));
             message.setSubject(subject);
-            message.setText(content, "utf-8", "html");
+            message.setText(content, SysConfig.ENCODING, "html");
             Transport.send(message);
         } catch (MessagingException e) {
             log.error(BusinessError.BU_9200.getMsg() + e.getMessage());

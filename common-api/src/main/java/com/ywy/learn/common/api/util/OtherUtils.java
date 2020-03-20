@@ -12,8 +12,8 @@ import java.util.UUID;
  * @date 2020/1/5 14:36
  */
 @Slf4j
-public class OtherUtils {
-    final static char[] chars = new char[]{'1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+public abstract class OtherUtils {
+    static final char[] chars = new char[]{'1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
             'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd',
             'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm',
             'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D',
@@ -24,7 +24,7 @@ public class OtherUtils {
     }
 
     public static String rendomCode(int count) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < count; i++) {
             sb.append(chars[RandomUtils.nextInt(0, chars.length)]);
         }

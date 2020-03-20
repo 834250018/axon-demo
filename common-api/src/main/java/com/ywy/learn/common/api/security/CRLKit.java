@@ -1,5 +1,8 @@
 package com.ywy.learn.common.api.security;
 
+import com.ywy.learn.common.api.exception.BusinessError;
+import com.ywy.learn.common.api.exception.BusinessException;
+import lombok.extern.slf4j.Slf4j;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x509.CRLReason;
 import org.bouncycastle.asn1.x509.CertificateList;
@@ -26,11 +29,14 @@ import java.util.Date;
  * @author ve
  * @date 2020/2/19 10:56
  */
-public class CRLKit {
+@Slf4j
+public enum CRLKit {
+    ;
+
     public static void main(String[] args) throws Exception {
         String dirName = new sun.security.x509.X500Name("aa", "bb", "cc", "dd", "ee", "ff").getName();
         genV2CRL(
-                new BigInteger[]{new BigInteger("1994359749")},
+                new BigInteger[]{BigInteger.valueOf(1994359749)},
                 new Date[]{new Date()},
                 new int[]{CRLReason.affiliationChanged},
                 dirName, AsymmetricEncryptionKit.generateKeyPair().getPrivate(),
@@ -48,7 +54,7 @@ public class CRLKit {
      * @throws Exception
      */
     public static CertificateList genV2CRL(BigInteger[] revokedCerts, Date[] revokedDates, int[] crlReasons,
-                                           String dirName, PrivateKey privateKey, String outputPath) throws Exception {
+                                           String dirName, PrivateKey privateKey, String outputPath) {
         Security.addProvider(new BouncyCastleProvider());
         X509v2CRLBuilder builder = new X509v2CRLBuilder(new X500Name(dirName), new Date());
 
@@ -60,21 +66,17 @@ public class CRLKit {
                 new DefaultSignatureAlgorithmIdentifierFinder().find(SecurityConsts.SHA256_WITH_RSA),
                 new DefaultDigestAlgorithmIdentifierFinder().find(SecurityConsts.SHA256));
         bcRSAContentSignerBuilder.setSecureRandom(new SecureRandom());
-        // 此处使用的私钥必须是ca的私钥
-        AsymmetricKeyParameter foo = PrivateKeyFactory.createKey(privateKey.getEncoded());
-
-        ContentSigner signer = bcRSAContentSignerBuilder.build(foo);
-        X509CRLHolder x509CRLHolder = builder.build(
-                signer
-        );
-        byte[] bytes = x509CRLHolder.getEncoded();
         try (FileOutputStream fos = new FileOutputStream(outputPath)) {
+            // 此处使用的私钥必须是ca的私钥
+            AsymmetricKeyParameter foo = PrivateKeyFactory.createKey(privateKey.getEncoded());
+            ContentSigner signer = bcRSAContentSignerBuilder.build(foo);
+            X509CRLHolder x509CRLHolder = builder.build(signer);
+            byte[] bytes = x509CRLHolder.getEncoded();
             fos.write(bytes);
+            return x509CRLHolder.toASN1Structure();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessException(BusinessError.BU_5000);
         }
-
-
-//        return (X509CRL) crl;
-
-        return x509CRLHolder.toASN1Structure();
     }
 }

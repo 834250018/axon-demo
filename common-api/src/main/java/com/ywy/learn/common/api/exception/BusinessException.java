@@ -22,7 +22,7 @@ public class BusinessException extends RuntimeException implements Serializable 
     }
 
     public BusinessException(String message) {
-        super(400 + "#" + message);
+        super(500 + "#" + message);
     }
 
     // 重写此方法返回this,业务异常不打印堆栈信息提高速度

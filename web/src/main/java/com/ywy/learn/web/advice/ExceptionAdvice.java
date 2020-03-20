@@ -32,7 +32,7 @@ public class ExceptionAdvice {
     @ExceptionHandler(BusinessException.class)
     @ResponseBody
     public ResponseVO handle(BusinessException e) {
-        String str[] = e.getMessage().split("#");
+        String[] str = e.getMessage().split("#");
         log.error(str[1], e);
         return new ResponseVO(Integer.valueOf(str[0]), str[1]);
     }

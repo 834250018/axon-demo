@@ -29,7 +29,7 @@ Repository<${aggregate?cap_first}> repository;
     @CommandHandler
     public void handle(${aggregate?cap_first}UpdateCommand command, MetaData metaData) {
     Aggregate<${aggregate?cap_first}> target = repository.load(command.getId());
-        //        checkAuthorization(target,metaData);
+        checkAuthorization(target,metaData);
         target.execute(aggregate -> aggregate.handle(command, metaData));
         }
 
@@ -37,7 +37,7 @@ Repository<${aggregate?cap_first}> repository;
         @CommandHandler
         public void remove(${aggregate?cap_first}RemoveCommand command, MetaData metaData) {
         Aggregate<${aggregate?cap_first}> target = repository.load(command.getId());
-            //        checkAuthorization(target,metaData);
+            checkAuthorization(target,metaData);
             target.execute(aggregate -> aggregate.remove(command, metaData));
             }
             }

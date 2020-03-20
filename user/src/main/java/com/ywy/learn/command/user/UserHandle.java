@@ -1,6 +1,7 @@
 package com.ywy.learn.command.user;
 
 import com.ywy.learn.command.user.api.command.*;
+import com.ywy.learn.common.api.base.BaseHandle;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.Aggregate;
 import org.axonframework.commandhandling.model.Repository;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Component;
  * @date 2019/3/29 15:30
  */
 @Component
-public class UserHandle implements UserCommandListener {
+public class UserHandle extends BaseHandle implements UserCommandListener {
 
     @Autowired
     Repository<User> repository;
@@ -27,7 +28,7 @@ public class UserHandle implements UserCommandListener {
     @CommandHandler
     public void handle(UserUpdateCommand command, MetaData metaData) {
         Aggregate<User> target = repository.load(command.getId());
-//        checkAuthorization(target,metaData);
+        checkAuthorization(target, metaData);
         target.execute(aggregate -> aggregate.handle(command, metaData));
     }
 
@@ -35,7 +36,7 @@ public class UserHandle implements UserCommandListener {
     @CommandHandler
     public void handle(UserLoginCommand command, MetaData metaData) {
         Aggregate<User> target = repository.load(command.getId());
-//        checkAuthorization(target,metaData);
+        checkAuthorization(target, metaData);
         target.execute(aggregate -> aggregate.handle(command, metaData));
     }
 
@@ -43,7 +44,7 @@ public class UserHandle implements UserCommandListener {
     @CommandHandler
     public void handle(UserApplyCertCommand command, MetaData metaData) {
         Aggregate<User> target = repository.load(command.getId());
-//        checkAuthorization(target,metaData);
+        checkAuthorization(target, metaData);
         target.execute(aggregate -> aggregate.handle(command, metaData));
     }
 
@@ -51,7 +52,7 @@ public class UserHandle implements UserCommandListener {
     @CommandHandler
     public void remove(UserRemoveCommand command, MetaData metaData) {
         Aggregate<User> target = repository.load(command.getId());
-//        checkAuthorization(target,metaData);
+        checkAuthorization(target, metaData);
         target.execute(aggregate -> aggregate.remove(command, metaData));
     }
 }

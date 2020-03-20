@@ -42,8 +42,6 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-//        NettyServer nettyServer = new NettyServer();
-//        nettyServer.start();
         Security.addProvider(new BouncyCastlePQCProvider());
         initAdmin();
         initRootCert();

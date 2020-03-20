@@ -21,19 +21,12 @@ public class LogCommandCallback implements CommandCallback {
 
     @Override
     public void onSuccess(CommandMessage commandMessage, Object result) {
-        /*
-        System.out.println("==========");
-        System.out.println(commandMessage.getCommandName());
-        System.out.println(commandMessage.getPayloadType().getSimpleName());
-        */
+        log.info("请求成功");
     }
 
     @Override
     public void onFailure(CommandMessage commandMessage, Throwable cause) {
-//         log.error(commandMessage.toString(), cause);
-//         commandGateway.send(new ErrorLogCreateCommand(null, commandMessage, cause), null);
         log.error(commandMessage.toString(), cause);
-//        throw new RuntimeException();
         if (cause instanceof BusinessException) {
             throw (BusinessException) cause;
         } else {

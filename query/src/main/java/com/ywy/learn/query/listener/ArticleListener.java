@@ -43,7 +43,7 @@ public class ArticleListener implements ArticleEventListener {
     public void on(ArticleCommentedEvent event, MetaData metaData) {
         ArticleEntry entry = repository.findOne(event.getId());
         BeanUtils.copyProperties(event, entry);
-        entry.setComments(event.getComments().stream().map(commentId -> new CommentEntry(commentId)).collect(Collectors.toList()));
+        entry.setComments(event.getComments().stream().map(CommentEntry::new).collect(Collectors.toList()));
         repository.save(entry);
     }
 

@@ -36,13 +36,11 @@ public class AxonCommonStoreConfig {
     public MongoClient mongoClient(String host, int port, String username, String psw, String database) {
         MongoCredential credential = MongoCredential.createCredential(username, database, psw.toCharArray());
         ServerAddress serverAddress = new ServerAddress(host, port);
-        MongoClient mongoClient = new MongoClient(serverAddress, Stream.of(credential).collect(Collectors.toList()));
-        return mongoClient;
+        return new MongoClient(serverAddress, Stream.of(credential).collect(Collectors.toList()));
     }
 
     public MongoTemplate axonMongoTemplate(String host, int port, String username, String psw, String database) {
-        DefaultMongoTemplate template = new DefaultMongoTemplate(mongoClient(host, port, username, psw, database), database);
-        return template;
+        return new DefaultMongoTemplate(mongoClient(host, port, username, psw, database), database);
     }
 
     @Bean

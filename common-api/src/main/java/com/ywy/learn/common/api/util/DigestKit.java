@@ -1,5 +1,7 @@
 package com.ywy.learn.common.api.util;
 
+import com.ywy.learn.common.api.exception.BusinessError;
+import com.ywy.learn.common.api.exception.BusinessException;
 import org.springframework.util.Base64Utils;
 
 import java.security.MessageDigest;
@@ -33,8 +35,12 @@ public class DigestKit {
      * @param bytes
      * @return
      */
-    public static byte[] sha(int digestLenth, byte[] bytes) throws Exception {
-        MessageDigest messageDigest = MessageDigest.getInstance("sha-" + digestLenth);
-        return messageDigest.digest(bytes);
+    public static byte[] sha(int digestLenth, byte[] bytes) {
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("sha-" + digestLenth);
+            return messageDigest.digest(bytes);
+        } catch (Exception e) {
+            throw new BusinessException(BusinessError.BU_5000);
+        }
     }
 }

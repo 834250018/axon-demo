@@ -25,9 +25,6 @@ public class AdminAdminController extends BaseAdminController {
     @Autowired
     AdminEntryRepository adminEntryRepository;
 
-    @Autowired
-    StringRedisTemplate redisTemplate;
-
     @GetMapping("info")
     public AdminEntry info() {
         return getAdmin();

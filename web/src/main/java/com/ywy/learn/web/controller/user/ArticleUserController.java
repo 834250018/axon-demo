@@ -33,7 +33,7 @@ import javax.validation.Valid;
 public class ArticleUserController extends BaseUserController {
 
     @Autowired
-    ArticleEntryRepository ArticleEntryRepository;
+    ArticleEntryRepository articleEntryRepository;
 
     @Autowired
     CommentEntryRepository commentEntryRepository;
@@ -42,19 +42,19 @@ public class ArticleUserController extends BaseUserController {
     @ApiParam
     @GetMapping("/one")
     public ArticleEntry one(@NotBlank @RequestParam(value = "id") String id) {
-        return ArticleEntryRepository.findOne(id);
+        return articleEntryRepository.findOne(id);
     }
 
     @ApiOperation(value = "查询文章列表")
     @GetMapping("/list")
     public Iterable<ArticleEntry> list(@QuerydslPredicate(root = ArticleEntry.class) Predicate predicate) {
-        return ArticleEntryRepository.findAll(predicate);
+        return articleEntryRepository.findAll(predicate);
     }
 
     @ApiOperation(value = "查询文章分页")
     @GetMapping("/page")
     public Page<ArticleEntry> page(@QuerydslPredicate(root = ArticleEntry.class) Predicate predicate, Pageable pageable) {
-        return ArticleEntryRepository.findAll(predicate, pageable);
+        return articleEntryRepository.findAll(predicate, pageable);
     }
 
     @ApiOperation(value = "评论")

@@ -19,12 +19,6 @@ import org.springframework.context.annotation.Scope;
 @Configuration
 public class UserConfig {
 
-//    @Autowired
-//    private;
-
-//    @Autowired
-//    private;
-
     @Bean
     @Scope("prototype")
     public User user() {
@@ -41,10 +35,6 @@ public class UserConfig {
     @Bean
     public Repository<User> userRepository(AggregateFactory<User> factory, JCacheAdapter cacheAdapter, EventStore eventStore, Snapshotter snapshotter) {
         EventCountSnapshotTriggerDefinition snapshotTriggerDefinition = new EventCountSnapshotTriggerDefinition(snapshotter, 1);
-
         return new CachingEventSourcingRepository<>(factory, eventStore, cacheAdapter, snapshotTriggerDefinition);
-
-//         repository;
     }
-
 }

@@ -1,6 +1,7 @@
 package com.ywy.learn.web.config;
 
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import com.ywy.learn.common.api.config.SysConfig;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.data.web.SortHandlerMethodArgumentResolver;
@@ -25,15 +26,6 @@ import java.util.List;
  **/
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
-
-//    @Autowired
-//    AdminInterceptor adminInterceptor;
-
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(adminInterceptor).addPathPatterns("/supplier/admin/**");
-//        super.addInterceptors(registry);
-//    }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -61,9 +53,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                         .timeZone("GMT+8")
                         .build()));
         FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
-        fastJsonHttpMessageConverter.setDefaultCharset(Charset.forName("UTF-8"));
+        fastJsonHttpMessageConverter.setDefaultCharset(Charset.forName(SysConfig.ENCODING));
         converters.add(fastJsonHttpMessageConverter); // 这个要放在前面
-        converters.add(new StringHttpMessageConverter(Charset.forName("UTF-8"))); // 这个要放在后面
+        converters.add(new StringHttpMessageConverter(Charset.forName(SysConfig.ENCODING))); // 这个要放在后面
         super.configureMessageConverters(converters); // 这个放在最后面
     }
 

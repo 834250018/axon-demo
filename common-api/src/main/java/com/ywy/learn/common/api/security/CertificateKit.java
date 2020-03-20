@@ -1,11 +1,11 @@
 package com.ywy.learn.common.api.security;
 
+import com.ywy.learn.common.api.exception.BusinessError;
+import com.ywy.learn.common.api.exception.BusinessException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 
-import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.PrivateKey;
@@ -15,84 +15,51 @@ import java.security.cert.X509Certificate;
 import java.util.Base64;
 import java.util.Enumeration;
 
-//import sun.security.tools.keytool.CertAndKeyGen;
-
 /**
  * 生成自签名证书
  *
  * @author ve
  * @date 2020/2/17 16:04
  */
-public class CertificateKit {
-
+@Slf4j
+public enum CertificateKit {
+    ;
     public static final String BEGIN_CERT = "-----BEGIN CERTIFICATE-----";
     public static final String END_CERT = "-----END CERTIFICATE-----";
-    public final static String LINE_SEPARATOR = System.getProperty("line.separator");
 
-
-    private static void saveCER(X509Certificate x509Certificate, String filepath) throws Exception {
+    static void saveCER(X509Certificate x509Certificate, String filepath) {
         try (FileOutputStream fos = new FileOutputStream(filepath)) {
             fos.write(x509Certificate.getEncoded());
             fos.flush();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessException(BusinessError.BU_5000);
         }
     }
 
-    private static void savePEM(X509Certificate x509Certificate, String filepath) throws Exception {
-        Base64.Encoder encoder = Base64.getMimeEncoder(64, LINE_SEPARATOR.getBytes());
-        byte[] rawCrtText = x509Certificate.getEncoded();
-        String encodedCertText = new String(encoder.encode(rawCrtText));
-        String prettified_cert = BEGIN_CERT + LINE_SEPARATOR + encodedCertText + LINE_SEPARATOR + END_CERT;
-        FileOutputStream fos = new FileOutputStream(filepath);
-        PrintStream printStream = new PrintStream(fos);
-        printStream.print(prettified_cert);
-        printStream.close();
-        fos.close();
+    static void savePEM(X509Certificate x509Certificate, String filepath) {
+        try (FileOutputStream fos = new FileOutputStream(filepath);
+             PrintStream printStream = new PrintStream(fos)) {
+            Base64.Encoder encoder = Base64.getMimeEncoder(64, File.separator.getBytes());
+            byte[] rawCrtText = x509Certificate.getEncoded();
+            String encodedCertText = new String(encoder.encode(rawCrtText));
+            String prettifiedCert = BEGIN_CERT + File.separator + encodedCertText + File.separator + END_CERT;
+            printStream.print(prettifiedCert);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessException(BusinessError.BU_5000);
+        }
     }
 
-    public static void saveCRT(X509Certificate x509Certificate, String filepath) throws Exception {
-        ByteArrayInputStream bis = new ByteArrayInputStream((x509Certificate.getEncoded()));
-        FileOutputStream fos = new FileOutputStream(filepath);
-        IOUtils.copy(bis, fos);
-        bis.close();
-        fos.close();
+    static void saveCRT(X509Certificate x509Certificate, String filepath) {
+        try (ByteArrayInputStream bis = new ByteArrayInputStream((x509Certificate.getEncoded()));
+             FileOutputStream fos = new FileOutputStream(filepath)) {
+            IOUtils.copy(bis, fos);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessException(BusinessError.BU_5000);
+        }
     }
-
-    /**
-     * 自实现自签名证书
-     *
-     * @throws Exception
-     */
-   /* private static void genSelfSignedCertificate1() throws Exception {
-        // 自签名证书:1.生成密钥对
-        KeyPair keyPair = AsymmetricEncryptionKit.generateKeyPair();
-        // 自签名证书:2.生成证书请求文件
-        byte[] csr = generatePKCS10Bytes("aa", "bb", "cc", "dd", "ee", "ff", keyPair.getPublic(), keyPair.getPrivate());
-        System.out.println("csr:  " + new String(csr));
-
-        X500Name x500Name = new X500Name("aa", "bb", "cc", "dd", "ee", "ff");
-        // 自签名证书:3.颁发证书
-
-        // 设置有效期
-        CertificateValidity certificateValidity = new CertificateValidity(new Date(), new Date(new Date().getTime() + 100 * 365 * 24 * 60 * 60 * 1000L));
-        // 设置证书信息
-        X509CertInfo x509CertInfo = new X509CertInfo();
-        x509CertInfo.set(X509CertInfo.VERSION, new CertificateVersion(CertificateVersion.V3));
-        x509CertInfo.set(X509CertInfo.SERIAL_NUMBER, new CertificateSerialNumber((new Random()).nextInt() & 2147483647));
-        AlgorithmId algorithmId = AlgorithmId.get(SecurityConsts.SHA256_WITH_RSA);
-        x509CertInfo.set(X509CertInfo.ALGORITHM_ID, new CertificateAlgorithmId(algorithmId));
-        x509CertInfo.set(X509CertInfo.SUBJECT, x500Name);
-        x509CertInfo.set(X509CertInfo.KEY, new CertificateX509Key(keyPair.getPublic()));
-        x509CertInfo.set(X509CertInfo.VALIDITY, certificateValidity);
-        x509CertInfo.set(X509CertInfo.ISSUER, x500Name);
-
-        X509CertImpl x509Cert = new X509CertImpl(x509CertInfo);
-        // 使用私钥对证书信息进行签名(包含摘要跟加密)
-        x509Cert.sign(keyPair.getPrivate(), SecurityConsts.SHA256_WITH_RSA);
-        X509Certificate[] certChain = {x509Cert};
-
-        // 自签名证书:4.keyStore存储证书及密钥
-        saveKeyStore("JKS", "CA", keyPair.getPrivate(), null, null, certChain, "d://a.JKS");
-    }*/
 
     /**
      * 保存证书,含密钥
@@ -106,7 +73,7 @@ public class CertificateKit {
      * @param filepath   输出文件
      * @throws Exception
      */
-    static void saveKeyStore(String type, String alias, PrivateKey privateKey, String certPass, String storePwd, X509Certificate[] certChain, String filepath) throws Exception {
+    static void saveKeyStore(String type, String alias, PrivateKey privateKey, String certPass, String storePwd, X509Certificate[] certChain, String filepath) {
         if (storePwd == null) {
             storePwd = "";
         }
@@ -114,13 +81,16 @@ public class CertificateKit {
             certPass = "";
         }
         // 实例化密钥库,指定类型
-        KeyStore keyStore = KeyStore.getInstance(type);
-        // 第一个参数为null,为创建秘钥库
-        keyStore.load(null, storePwd.toCharArray());
-        keyStore.setKeyEntry(alias, privateKey, certPass.toCharArray(), certChain);
-        FileOutputStream fos = new FileOutputStream(filepath);
-        keyStore.store(fos, storePwd.toCharArray());
-        fos.close();
+        try (FileOutputStream fos = new FileOutputStream(filepath)) {
+            KeyStore keyStore = KeyStore.getInstance(type);
+            // 第一个参数为null,为创建秘钥库
+            keyStore.load(null, storePwd.toCharArray());
+            keyStore.setKeyEntry(alias, privateKey, certPass.toCharArray(), certChain);
+            keyStore.store(fos, storePwd.toCharArray());
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessException(BusinessError.BU_5000);
+        }
     }
 
     /**
@@ -132,17 +102,20 @@ public class CertificateKit {
      * @return
      * @throws Exception
      */
-    public static KeyStore getKeyStore(String type, String storePwd, String filepath) throws Exception {
+    static KeyStore getKeyStore(String type, String storePwd, String filepath) {
         if (storePwd == null) {
             storePwd = "";
         }
-        // 实例化密钥库,指定类型
-        KeyStore keyStore = KeyStore.getInstance(type);
-        FileInputStream fis = new FileInputStream(filepath);
-        // 加载密钥库
-        keyStore.load(fis, storePwd.toCharArray());
-        fis.close();
-        return keyStore;
+        try (FileInputStream fis = new FileInputStream(filepath)) {
+            // 实例化密钥库,指定类型
+            KeyStore keyStore = KeyStore.getInstance(type);
+            // 加载密钥库
+            keyStore.load(fis, storePwd.toCharArray());
+            return keyStore;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessException(BusinessError.BU_5000);
+        }
     }
 
     /**
@@ -152,14 +125,17 @@ public class CertificateKit {
      * @return
      * @throws Exception
      */
-    public static PrivateKey getCertPrivateKeyByFirstAlias(KeyStore keyStore, String certPass) throws Exception {
+    static PrivateKey getCertPrivateKeyByFirstAlias(KeyStore keyStore, String certPass) {
         if (certPass == null) {
             certPass = "";
         }
         String alias = getFirstAlias(keyStore);
-
-        PrivateKey privateKey = (PrivateKey) keyStore.getKey(alias, certPass.toCharArray());
-        return privateKey;
+        try {
+            return (PrivateKey) keyStore.getKey(alias, certPass.toCharArray());
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessException(BusinessError.BU_9205);
+        }
     }
 
     /**
@@ -168,27 +144,38 @@ public class CertificateKit {
      * @return
      * @throws Exception
      */
-    public static Certificate getCertByFirstAlias(KeyStore keyStore) throws Exception {
-        String alias = getFirstAlias(keyStore);
-        return keyStore.getCertificate(alias);
-    }
-
-    private static String getFirstAlias(KeyStore keyStore) throws KeyStoreException {
-        Enumeration aliases = keyStore.aliases();
-        String alias = null;
-        if (aliases.hasMoreElements()) {
-            alias = (String) aliases.nextElement();
+    public static Certificate getCertByFirstAlias(KeyStore keyStore) {
+        try {
+            String alias = getFirstAlias(keyStore);
+            return keyStore.getCertificate(alias);
+        } catch (KeyStoreException e) {
+            log.error(BusinessError.BU_9204 + "_" + e.getMessage(), e);
+            throw new BusinessException(BusinessError.BU_9203);
         }
-        return alias;
     }
 
-    public static X509Certificate getCert(String filepath) throws Exception {
-        CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
-        X509Certificate cert = (X509Certificate) certificateFactory.generateCertificate(new FileInputStream(filepath));
-//      获取公钥
-//        PublicKey publicKey = cert.getPublicKey();
-        return cert;
+    private static String getFirstAlias(KeyStore keyStore) {
+        try {
+            Enumeration aliases = keyStore.aliases();
+            String alias = null;
+            if (aliases.hasMoreElements()) {
+                alias = (String) aliases.nextElement();
+            }
+            return alias;
+        } catch (KeyStoreException e) {
+            log.error(BusinessError.BU_9204 + "_" + e.getMessage(), e);
+            throw new BusinessException(BusinessError.BU_9203);
+        }
+    }
 
+    public static X509Certificate getCert(String filepath) {
+        try {
+            CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
+            return (X509Certificate) certificateFactory.generateCertificate(new FileInputStream(filepath));
+        } catch (Exception e) {
+            log.error(BusinessError.BU_9203 + "_" + e.getMessage(), e);
+            throw new BusinessException(BusinessError.BU_9203);
+        }
 
     }
 

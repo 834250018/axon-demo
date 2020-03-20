@@ -1,5 +1,6 @@
 package com.ywy.learn.test;
 
+import com.ywy.learn.common.api.config.SysConfig;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -20,7 +21,6 @@ import java.util.Map;
 @Slf4j
 public class CodeGenerator {
 
-    public static final String ENCODING = "UTF-8";
     private static String resourcePath = "src/test/resources/";
     private static String javaPath = "src/main/java/";
     private static String projectPath = "com/ywy/learn/";
@@ -42,7 +42,7 @@ public class CodeGenerator {
         }
         Template temp = getFreeMarkerConfig().getTemplate(moduleName);
         target.getParentFile().mkdirs();
-        Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(target), ENCODING));
+        Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(target), SysConfig.ENCODING));
         temp.process(params, writer);
         writer.close();
         log.info("生成代码成功: " + target.getAbsolutePath());
@@ -64,7 +64,7 @@ public class CodeGenerator {
         }
         Template temp = getFreeMarkerConfig().getTemplate(moduleName);
         target.getParentFile().mkdirs();
-        Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(target), ENCODING));
+        Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(target), SysConfig.ENCODING));
         temp.process(params, writer);
         writer.close();
         log.info("生成代码成功: " + target.getAbsolutePath());
@@ -72,7 +72,7 @@ public class CodeGenerator {
 
     public static Configuration getFreeMarkerConfig() throws IOException {
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_19);
-        cfg.setDefaultEncoding(ENCODING);
+        cfg.setDefaultEncoding(SysConfig.ENCODING);
         cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
         cfg.setDirectoryForTemplateLoading(new File(resourcePath));
         return cfg;
@@ -111,6 +111,7 @@ public class CodeGenerator {
                 generate(module, aggregate);
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
+                assert(true);
             }
         });
     }

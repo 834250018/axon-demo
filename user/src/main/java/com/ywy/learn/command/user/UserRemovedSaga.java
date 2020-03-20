@@ -1,12 +1,10 @@
 package com.ywy.learn.command.user;
 
-import com.ywy.learn.command.user.api.command.AuthRemoveCommand;
 import com.ywy.learn.command.user.api.event.AuthRemovedEvent;
 import com.ywy.learn.command.user.api.event.UserRemovedEvent;
 import com.ywy.learn.common.api.gateway.MetaDataGateway;
 import org.axonframework.eventhandling.saga.EndSaga;
 import org.axonframework.eventhandling.saga.SagaEventHandler;
-import org.axonframework.eventhandling.saga.SagaLifecycle;
 import org.axonframework.eventhandling.saga.StartSaga;
 import org.axonframework.messaging.MetaData;
 import org.axonframework.spring.stereotype.Saga;
@@ -37,7 +35,7 @@ public class UserRemovedSaga {
     @StartSaga
     @SagaEventHandler(associationProperty = "id")
     public void handle(UserRemovedEvent event, MetaData metaData) {
-
+/*
 //            1.创建授权中心删除指定cert命令
         AuthRemoveCommand command = new AuthRemoveCommand();
 
@@ -46,7 +44,7 @@ public class UserRemovedSaga {
 
 //            3.发送此命令,进入下一节点
         // todo 后续handle没写
-//        metaDataGateway.send(command, metaData);
+//        metaDataGateway.send(command, metaData);*/
     }
 
     /**

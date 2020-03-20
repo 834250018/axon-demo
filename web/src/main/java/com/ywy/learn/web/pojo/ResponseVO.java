@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @date 2019/7/2 18:06
  */
 @Data
-public class ResponseVO implements Serializable {
+public class ResponseVO<T> implements Serializable {
 
     /**
      * 编码
@@ -20,7 +20,7 @@ public class ResponseVO implements Serializable {
     /**
      * 返回数据
      */
-    private Object data;
+    private T data;
 
     /**
      * 服务器时间
@@ -32,7 +32,7 @@ public class ResponseVO implements Serializable {
      */
     private String msg;
 
-    public ResponseVO(Object data) {
+    public ResponseVO(T data) {
         this.code = HttpStatus.OK.value();
         this.data = data;
         this.msg = null;

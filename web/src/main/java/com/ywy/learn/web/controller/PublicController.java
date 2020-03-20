@@ -49,9 +49,6 @@ public class PublicController extends BaseController {
     @Autowired
     AdminEntryRepository adminEntryRepository;
 
-    @Autowired
-    StringRedisTemplate redisTemplate;
-
     @ApiOperation(value = "管理员登录")
     @PutMapping(value = "/login_admin")
     public String adminLogin(@RequestBody @Valid AdminLoginCommand command) {
@@ -64,6 +61,7 @@ public class PublicController extends BaseController {
         sendAndWait(command);
         return command.getLastToken();
     }
+    private final static String LOGIN_CODE = "login_v_code_";
 
     @ApiOperation(value = "邮箱用户登录", notes = "不传参数vCode为获取邮箱验证码,传了vCode为登录")
     @PostMapping(value = "/login_user")
@@ -74,13 +72,13 @@ public class PublicController extends BaseController {
             // 发送邮件
             MailUtils.sendMail("验证码", "验证码为:<h1>" + code + "</h1></br>感谢使用!</br>ve", email);
             // 存入redis设置ttl
-            redisTemplate.opsForValue().set("login_vcode_" + email, code, 10L, TimeUnit.MINUTES);
+            redisTemplate.opsForValue().set(LOGIN_CODE + email, code, 10L, TimeUnit.MINUTES);
             return null;
         } else {
-            if (!vCode.equals(redisTemplate.opsForValue().get("login_vcode_" + email))) {
+            if (!vCode.equals(redisTemplate.opsForValue().get(LOGIN_CODE + email))) {
                 throw new BusinessException(BusinessError.BU_9201);
             }
-            redisTemplate.delete("login_vcode_" + email);
+            redisTemplate.delete(LOGIN_CODE + email);
             // 查看用户是否存在
             UserEntry userEntry = userEntryRepository.findOne(QUserEntry.userEntry.email.eq(email));
             UserCreateCommand command = new UserCreateCommand();

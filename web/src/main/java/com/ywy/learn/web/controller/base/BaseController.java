@@ -18,13 +18,13 @@ import javax.servlet.http.HttpServletRequest;
 public class BaseController {
 
     @Autowired
-    MetaDataGateway metaDataGateway;
+    protected MetaDataGateway metaDataGateway;
 
     @Autowired
-    HttpServletRequest request;
+    protected HttpServletRequest request;
 
     @Autowired
-    StringRedisTemplate redisTemplate;
+    protected StringRedisTemplate redisTemplate;
 
     protected <T> T send(Object command) {
         return (T) metaDataGateway.send(command, MetaData.emptyInstance());

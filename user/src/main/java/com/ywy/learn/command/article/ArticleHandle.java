@@ -1,6 +1,7 @@
 package com.ywy.learn.command.article;
 
 import com.ywy.learn.command.article.api.command.*;
+import com.ywy.learn.common.api.base.BaseHandle;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.Aggregate;
 import org.axonframework.commandhandling.model.Repository;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Component;
  * @date 2019/3/29 15:30
  */
 @Component
-public class ArticleHandle implements ArticleCommandListener {
+public class ArticleHandle extends BaseHandle implements ArticleCommandListener {
 
     @Autowired
     Repository<Article> repository;
@@ -27,7 +28,7 @@ public class ArticleHandle implements ArticleCommandListener {
     @CommandHandler
     public void handle(ArticleUpdateCommand command, MetaData metaData) {
         Aggregate<Article> target = repository.load(command.getId());
-        //        checkAuthorization(target,metaData);
+        checkAuthorization(target, metaData);
         target.execute(aggregate -> aggregate.handle(command, metaData));
     }
 
@@ -35,7 +36,7 @@ public class ArticleHandle implements ArticleCommandListener {
     @CommandHandler
     public void handle(ArticleCommentCommand command, MetaData metaData) {
         Aggregate<Article> target = repository.load(command.getArticleId());
-        //        checkAuthorization(target,metaData);
+        checkAuthorization(target, metaData);
         target.execute(aggregate -> aggregate.handle(command, metaData));
     }
 
@@ -43,7 +44,7 @@ public class ArticleHandle implements ArticleCommandListener {
     @CommandHandler
     public void remove(ArticleRemoveCommand command, MetaData metaData) {
         Aggregate<Article> target = repository.load(command.getId());
-        //        checkAuthorization(target,metaData);
+        checkAuthorization(target, metaData);
         target.execute(aggregate -> aggregate.remove(command, metaData));
     }
 }

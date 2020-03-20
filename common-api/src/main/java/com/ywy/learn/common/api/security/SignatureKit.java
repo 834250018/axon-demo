@@ -1,5 +1,7 @@
 package com.ywy.learn.common.api.security;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -11,9 +13,9 @@ import java.util.Arrays;
  * @author ve
  * @date 2020/2/17 15:19
  */
-public class SignatureKit {
-
-    // todo Ed25519, Ed448
+@Slf4j
+public enum SignatureKit {
+    ;
 
     public static void main(String[] args) throws Exception {
         String str = "hello world!";
@@ -24,7 +26,7 @@ public class SignatureKit {
         byte[] signature = sign(str.getBytes(), privateKey);
 
         boolean bool = checkSign(str.getBytes(), signature, publicKey);
-        System.out.println(bool);
+        log.info("", bool);
     }
 
     /**

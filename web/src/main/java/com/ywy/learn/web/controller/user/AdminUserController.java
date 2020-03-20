@@ -32,20 +32,20 @@ import javax.validation.Valid;
 public class AdminUserController extends BaseUserController {
 
     @Autowired
-    AdminEntryRepository AdminEntryRepository;
+    AdminEntryRepository adminEntryRepository;
 
     @ApiOperation(value = "admin-one")
     @ApiParam
     @GetMapping("/one")
     public AdminEntry one(@NotBlank @RequestParam(value = "id") String id) {
-        return AdminEntryRepository.findOne(id);
+        return adminEntryRepository.findOne(id);
     }
 
     @ApiOperation(value = "admin-list")
     @GetMapping("/list")
     public Iterable
             <AdminEntry> list(@QuerydslPredicate(root = AdminEntry.class) Predicate predicate) {
-        return AdminEntryRepository.findAll(predicate);
+        return adminEntryRepository.findAll(predicate);
     }
 
     @ApiOperation(value = "admin-page")
@@ -53,7 +53,7 @@ public class AdminUserController extends BaseUserController {
     public Page
             <AdminEntry> page(@QuerydslPredicate(root = AdminEntry.class) Predicate predicate,
                               Pageable pageable) {
-        return AdminEntryRepository.findAll(predicate, pageable);
+        return adminEntryRepository.findAll(predicate, pageable);
     }
 
     @ApiOperation(value = "admin-create")

@@ -95,9 +95,8 @@ public class CacheUtils {
                 // 超时配置
                 .withExpiry(Expirations.timeToLiveExpiration(Duration.of(CACHE_EXPIRATION_SECONDS, TimeUnit.SECONDS))).build();
         // JCache 缓存对象
-        Cache<String, AggregateCacheEntry> cache = cacheManager.createCache(cacheName,
+        return cacheManager.createCache(cacheName,
                 Eh107Configuration.fromEhcacheCacheConfiguration(cacheConfiguration));
-        return cache;
     }
 
 
@@ -125,8 +124,7 @@ public class CacheUtils {
                 // 超时配置
                 .withExpiry(Expirations.timeToLiveExpiration(Duration.of(expirationTime, TimeUnit.SECONDS))).build();
         // JCache 缓存对象
-        Cache<String, AggregateCacheEntry> cache = cacheManager.createCache(cacheName,
+        return cacheManager.createCache(cacheName,
                 Eh107Configuration.fromEhcacheCacheConfiguration(cacheConfiguration));
-        return cache;
     }
 }

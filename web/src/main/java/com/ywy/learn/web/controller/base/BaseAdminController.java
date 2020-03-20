@@ -3,15 +3,10 @@ package com.ywy.learn.web.controller.base;
 import com.alibaba.fastjson.JSON;
 import com.ywy.learn.common.api.exception.BusinessError;
 import com.ywy.learn.common.api.exception.BusinessException;
-import com.ywy.learn.common.api.gateway.MetaDataGateway;
 import com.ywy.learn.query.entry.AdminEntry;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.axonframework.messaging.MetaData;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author ve
@@ -19,15 +14,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Slf4j
 public class BaseAdminController extends BaseController {
-
-    @Autowired
-    MetaDataGateway metaDataGateway;
-
-    @Autowired
-    HttpServletRequest request;
-
-    @Autowired
-    StringRedisTemplate redisTemplate;
 
     protected String getAdminId() {
         return getAdmin().getId();
@@ -45,6 +31,7 @@ public class BaseAdminController extends BaseController {
         return MetaData.with("adminId", getAdminId()).and("operationTime", System.currentTimeMillis());
     }
 
+    @Override
     protected <T> T send(Object command) {
         return (T) metaDataGateway.send(command, genMetaData());
     }
@@ -58,6 +45,7 @@ public class BaseAdminController extends BaseController {
         return token;
     }
 
+    @Override
     protected <R> R sendAndWait(Object command) {
         try {
             return metaDataGateway.sendAndWait(command, genMetaData());

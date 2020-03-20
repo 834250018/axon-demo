@@ -17,7 +17,7 @@ import java.io.Serializable;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class CertLoginDTO<T> implements Serializable {
+public class CertLoginDTO implements Serializable {
 
     @NotBlank
     @ApiParam("登录临时验证字符串明文")
