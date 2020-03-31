@@ -13,32 +13,8 @@ import javax.crypto.spec.SecretKeySpec;
  * @date 2020/2/20 22:36
  */
 @Slf4j
-public class AESKit {
-
-    public static void main(String[] args) {
-        String str = "Hello World!";
-        String secretKey = "sdfkjelklngnjvj55f4df4sa";
-        String padding = "zxvcbnmasdfghjkl";
-        byte[] bytes = new AESKit().cryption(Cipher.ENCRYPT_MODE, "ecb", str.getBytes(), secretKey, null);
-        byte[] bytes1 = new AESKit().cryption(Cipher.DECRYPT_MODE, "ecb", bytes, secretKey, null);
-        log.info(new String(bytes1));
-
-        byte[] bytes2 = new AESKit().cryption(Cipher.ENCRYPT_MODE, "cbc", str.getBytes(), secretKey, padding);
-        byte[] bytes3 = new AESKit().cryption(Cipher.DECRYPT_MODE, "cbc", bytes2, secretKey, padding);
-        log.info(new String(bytes3));
-
-        byte[] bytes4 = new AESKit().cryption(Cipher.ENCRYPT_MODE, "ctr", str.getBytes(), secretKey, padding);
-        byte[] bytes5 = new AESKit().cryption(Cipher.DECRYPT_MODE, "ctr", bytes4, secretKey, padding);
-        log.info(new String(bytes5));
-
-        byte[] bytes6 = new AESKit().cryption(Cipher.ENCRYPT_MODE, "cfb", str.getBytes(), secretKey, padding);
-        byte[] bytes7 = new AESKit().cryption(Cipher.DECRYPT_MODE, "cfb", bytes6, secretKey, padding);
-        log.info(new String(bytes7));
-
-        byte[] bytes8 = new AESKit().cryption(Cipher.ENCRYPT_MODE, "ofb", str.getBytes(), secretKey, padding);
-        byte[] bytes9 = new AESKit().cryption(Cipher.DECRYPT_MODE, "ofb", bytes8, secretKey, padding);
-        log.info(new String(bytes9));
-    }
+public enum AESKit {
+    ;
 
     /**
      * @param cipherMode ENCRYPT_MODE: 1; DECRYPT_MODE:2
@@ -49,7 +25,7 @@ public class AESKit {
      * @return
      * @throws Exception
      */
-    public byte[] cryption(int cipherMode, String workMode, byte[] data, String secretKey, String padding) {
+    public static byte[] cryption(int cipherMode, String workMode, byte[] data, String secretKey, String padding) {
         try {
             Cipher cipher = Cipher.getInstance(SecurityConsts.AES + "/" + workMode + "/PKCS5Padding");
             byte[] raw = secretKey.getBytes();

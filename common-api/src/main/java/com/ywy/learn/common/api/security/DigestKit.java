@@ -58,24 +58,4 @@ public enum DigestKit {
         digest.doFinal(rsData, 0);
         return rsData;
     }
-
-    public static void main(String[] args) throws Exception {
-
-        MessageDigest md5 = MessageDigest.getInstance("md5");
-
-        String str = "hello world!";
-        log.info("md5已被破解: " + Hex.toHexString(md5.digest(str.getBytes())));
-        log.info("sha1已被破解: " + Hex.toHexString(sha(1, str.getBytes())));
-        log.info("sha224: " + Hex.toHexString(sha(224, str.getBytes())));
-        log.info("sha256: " + Hex.toHexString(sha(256, str.getBytes())));
-        log.info("sha384: " + Hex.toHexString(sha(384, str.getBytes())));
-        log.info("sha512: " + Hex.toHexString(sha(512, str.getBytes())));
-
-        log.info("sha3-224: " + Hex.toHexString(sha3(224, str.getBytes())));
-        log.info("sha3-256: " + Hex.toHexString(sha3(256, str.getBytes())));
-        log.info("sha3-384: " + Hex.toHexString(sha3(384, str.getBytes())));
-        log.info("sha3-512: " + Hex.toHexString(sha3(512, str.getBytes())));
-
-        log.info("sm3: " + Hex.toHexString(sm3(str.getBytes())));
-    }
 }

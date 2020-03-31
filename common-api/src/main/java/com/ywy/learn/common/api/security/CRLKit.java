@@ -33,16 +33,6 @@ import java.util.Date;
 public enum CRLKit {
     ;
 
-    public static void main(String[] args) throws Exception {
-        String dirName = new sun.security.x509.X500Name("aa", "bb", "cc", "dd", "ee", "ff").getName();
-        genV2CRL(
-                new BigInteger[]{BigInteger.valueOf(1994359749)},
-                new Date[]{new Date()},
-                new int[]{CRLReason.affiliationChanged},
-                dirName, AsymmetricEncryptionKit.generateKeyPair().getPrivate(),
-                "d://result.crl");
-    }
-
     /**
      * @param revokedCerts 要吊销的证书序列号数组
      * @param revokedDates 吊销日期数组
